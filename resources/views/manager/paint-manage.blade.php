@@ -123,6 +123,7 @@
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         SL
                                     </th>
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Paint Details
@@ -166,6 +167,9 @@
                                                 <h6 class="mb-0 text-sm">{{$loop->iteration}}</h6>
                                             </div>
                                         </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">{{$paint->created_at->format('d-m-Y')}}</p>
                                     </td>
                                     <td>
                                         <h6 class="mb-0 text-sm">{{$paint->ral_code}}</h6>

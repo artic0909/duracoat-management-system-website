@@ -13,14 +13,6 @@ Route::get('/', function () {
 
 // Test Start
 
-Route::get('/manager-dashboard3', function () {
-    return view('manager.material-manage');
-})->name('manager.client-material-manage');
-
-Route::get('/manager-dashboard7', function () {
-    return view('manager.order-create');
-})->name('manager.orders-and-jobcards');
-
 Route::get('/manager-dashboard8', function () {
     return view('manager.all-jobcards');
 })->name('manager.all-jobcards');

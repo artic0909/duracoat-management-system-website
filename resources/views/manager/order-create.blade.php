@@ -20,11 +20,32 @@
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <div class="input-group">
-                    <span class="input-group-text text-body"><i class="fas fa-search"
-                            aria-hidden="true"></i></span>
-                    <input type="text" class="form-control" placeholder="Type here..." />
-                </div>
+                <form action="{{ route('manager.orders-and-jobcards') }}" method="GET" style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">
+                    <div class="input-group" style="width: 220px;">
+                        <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                        <input type="text" name="order_number" class="form-control" placeholder="Search Order No..."
+                            value="{{ request('order_number') }}">
+                    </div>
+
+                    <div>
+                        <label for="from_date">From:</label>
+                        <input type="date" name="from_date" value="{{ request('from_date') }}"
+                            style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+
+                    <div>
+                        <label for="end_date">To:</label>
+                        <input type="date" name="end_date" value="{{ request('end_date') }}"
+                            style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"
+                        style="padding: 6px 15px; border-radius: 5px;">Search</button>
+
+                    <a href="{{ route('manager.orders-and-jobcards') }}" class="btn btn-secondary"
+                        style="padding: 6px 15px; border-radius: 5px;">Reset</a>
+                </form>
+
             </div>
             <ul class="navbar-nav justify-content-end">
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -44,10 +65,10 @@
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
                         aria-labelledby="dropdownMenuButton">
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                            <a class="dropdown-item border-radius-md" href="{{ route('manager.profile') }}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" />
+                                        <img src="{{ asset('assets/img/team-2.jpg') }}" class="avatar avatar-sm me-3" />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
@@ -58,10 +79,10 @@
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                            <a class="dropdown-item border-radius-md" href="{{ route('manager.logout') }}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="../assets/img/team-2.jpg"
+                                        <img src="{{ asset('assets/img/team-2.jpg') }}"
                                             class="avatar avatar-sm bg-gradient-dark me-3" />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
@@ -69,43 +90,6 @@
                                             <span class="font-weight-bold">Logout</span>&nbsp;<i
                                                 class="fa fa-power-off"></i>
                                         </h6>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                <div class="d-flex py-1">
-                                    <div class="avatar avatar-sm bg-gradient-secondary me-3 my-auto">
-                                        <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <title>credit-card</title>
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <g transform="translate(-2169.000000, -745.000000)"
-                                                    fill="#FFFFFF" fill-rule="nonzero">
-                                                    <g transform="translate(1716.000000, 291.000000)">
-                                                        <g transform="translate(453.000000, 454.000000)">
-                                                            <path class="color-background"
-                                                                d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                                                opacity="0.593633743"></path>
-                                                            <path class="color-background"
-                                                                d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
-                                                            </path>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-1">
-                                            Payment successfully completed
-                                        </h6>
-                                        <p class="text-xs text-secondary mb-0">
-                                            <i class="fa fa-clock me-1"></i>
-                                            2 days
-                                        </p>
                                     </div>
                                 </div>
                             </a>
@@ -129,7 +113,11 @@
                                 <tr>
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Date
+                                        SL
+                                    </th>
+                                    <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Date & Time
                                     </th>
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -162,40 +150,49 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($orders as $order)
                                 <tr>
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">03/11/2025</h6>
+                                                <h6 class="mb-0 text-sm">{{$loop->iteration}}</h6>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0">DC-001</p>
+                                        <div class="d-flex px-2 py-1">
+                                            <div class="d-flex flex-column justify-content-center">
+                                                <h6 class="mb-0 text-sm">{{ $order->created_at->format('d-m-Y h:i A') }}</h6>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">{{ $order->order_number }}</p>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">Client Name</span>
+                                        <span class="text-secondary text-xs font-weight-bold">{{ $order->client->client_name }}</span>
                                     </td>
                                     <td class="align-middle text-center">
                                         <span
-                                            class="text-secondary text-xs font-weight-bold">xyz@gmail.com</span>
+                                            class="text-secondary text-xs font-weight-bold">{{ $order->client->email }}</span>
                                     </td>
                                     <td class="align-middle text-center">
                                         <span
-                                            class="text-secondary text-xs font-weight-bold">+91-9087765477</span>
+                                            class="text-secondary text-xs font-weight-bold">{{ $order->client->mobile }}</span>
                                     </td>
                                     <td class="align-middle text-center">
                                         <span
-                                            class="text-white badge badge-sm bg-gradient-info text-xs font-weight-bold">7</span>
+                                            class="text-white badge badge-sm bg-gradient-info text-xs font-weight-bold">{{ $order->jobcards->count() }}</span>
                                     </td>
                                     <td class="align-middle text-center text-sm">
                                         <div class="d-flex gap-2 justify-content-center">
-                                            <a href="add-jobcard.html"
+                                            <a href="{{ route('manager.add-jobcards', ['order_id' => $order->id] )}}"
                                                 class="btn btn-primary px-3 py-2 rounded m-0">
                                                 <i class="fa fa-plus"></i> Add Jobcard
                                             </a>
 
-                                            <a href="view-jobcard-details.html"
+                                            <a href="{{ route('manager.view-created-jobcards', $order->id) }}"
                                                 class="btn btn-success px-3 py-2 rounded m-0">
                                                 <i class="fa fa-eye"></i> View
                                             </a>
@@ -204,18 +201,42 @@
                                     <td class="align-middle text-center text-sm">
                                         <div class="d-flex gap-2 justify-content-center">
                                             <button type="button" class="btn btn-info px-3 py-2 rounded m-0"
-                                                data-bs-toggle="modal" data-bs-target="#editModal">
+                                                data-bs-toggle="modal" data-bs-target="#editModal{{$order->id}}">
                                                 <i class="fa fa-pencil"></i>
                                             </button>
 
                                             <button type="button" class="btn btn-danger px-3 py-2 rounded m-0"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{$order->id}}">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
+
+                            <!-- pagination -->
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9" class="text-center">
+                                        <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
+                                            @if ($orders->onFirstPage())
+                                            <span class="text-muted">Prev</span>
+                                            @else
+                                            <a href="{{ $orders->previousPageUrl() }}" class="text-primary text-decoration-none">Prev</a>
+                                            @endif
+
+                                            <span>{{ $orders->currentPage() }} / {{ $orders->lastPage() }}</span>
+
+                                            @if ($orders->hasMorePages())
+                                            <a href="{{ $orders->nextPageUrl() }}" class="text-primary text-decoration-none">Next</a>
+                                            @else
+                                            <span class="text-muted">Next</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -224,147 +245,186 @@
     </div>
 </div>
 
-<!-- Create Process Button -->
+<!-- Add Button -->
 <button type="button" class="btn btn-primary addFixedModalButton" data-bs-toggle="modal"
     data-bs-target="#addModal">
     <i class="fa fa-plus"></i>
 </button>
 
-<!-- Create Process Modal -->
+<!-- Add Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content">
+        <form class="modal-content" method="POST" action="{{ route('manager.orders-and-jobcards.store') }}">
+            @csrf
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Create Order Number</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="">Choose Client</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Select Client</option>
-                                <option value="client1">Client 1</option>
-                                <option value="client2">Client 2</option>
-                                <option value="client3">Client 3</option>
-                            </select>
-                        </div>
+                    <!-- Choose Client -->
+                    <div class="col-md-12 mb-3">
+                        <label for="clientSelect" class="form-label">Choose Client</label>
+                        <select name="client_id" id="clientSelect" class="form-control" required>
+                            <option value="" selected disabled>Select Client</option>
+                            @foreach ($clients as $client)
+                            <option value="{{ $client->id }}"
+                                data-name="{{ $client->client_name }}"
+                                data-email="{{ $client->email }}"
+                                data-mobile="{{ $client->mobile }}">
+                                {{ $client->client_name }} | {{ $client->email }} | {{ $client->mobile }} | {{ $client->client_unique_id }}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="">Client Name</label>
-                            <input type="text" name="" class="form-control" id="" readonly />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="">Client Email</label>
-                            <input type="text" name="" class="form-control" id="" readonly />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="">Client Mobile</label>
-                            <input type="text" name="" class="form-control" id="" readonly />
-                        </div>
+                    <!-- Client Details -->
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Client Name</label>
+                        <input type="text" name="client_name_display" id="clientName" class="form-control" readonly>
                     </div>
 
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Client Email</label>
+                        <input type="text" name="client_email_display" id="clientEmail" class="form-control" readonly>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Client Mobile</label>
+                        <input type="text" name="client_mobile_display" id="clientMobile" class="form-control" readonly>
+                    </div>
+
+                    <!-- Order Number -->
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="">Enter Order Number</label>
-                            <input type="text" name="" class="form-control" id="" />
-                        </div>
+                        <label class="form-label">Enter Order Number</label>
+                        <input type="text" name="order_number" class="form-control" required placeholder="Enter Order Number">
                     </div>
                 </div>
             </div>
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
-                </button>
-                <button type="button" class="btn btn-primary">Create Order</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Create Order</button>
             </div>
         </form>
     </div>
 </div>
 
-<!-- Edit Process Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Edit Modal -->
+@foreach ($orders as $order)
+<div class="modal fade" id="editModal{{ $order->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $order->id }}" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content">
+        <form action="{{ route('manager.orders-and-jobcards.update', $order->id) }}" method="POST" class="modal-content">
+            @csrf
+            @method('PUT')
+
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Update Order Number</h5>
+                <h5 class="modal-title" id="editModalLabel{{ $order->id }}">Update Order Number</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="">Choose Client</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Select Client</option>
-                                <option value="client1">Client 1</option>
-                                <option value="client2">Client 2</option>
-                                <option value="client3">Client 3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="">Client Name</label>
-                            <input type="text" name="" class="form-control" id="" readonly />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="">Client Email</label>
-                            <input type="text" name="" class="form-control" id="" readonly />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="">Client Mobile</label>
-                            <input type="text" name="" class="form-control" id="" readonly />
-                        </div>
+                    <!-- Select Client -->
+                    <div class="col-md-12 mb-3">
+                        <label for="clientSelect{{ $order->id }}" class="form-label">Choose Client</label>
+                        <select name="client_id" id="clientSelect{{ $order->id }}" class="form-control client-select" data-target="{{ $order->id }}" required>
+                            <option value="">Select Client</option>
+                            @foreach ($clients as $client)
+                            <option value="{{ $client->id }}"
+                                data-name="{{ $client->client_name }}"
+                                data-email="{{ $client->email }}"
+                                data-mobile="{{ $client->mobile }}"
+                                {{ $order->client_id == $client->id ? 'selected' : '' }}>
+                                {{ $client->client_name }} | {{ $client->email }} | {{ $client->mobile }} | {{ $client->client_unique_id }}
+                            </option>
+                            @endforeach
+                        </select>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="">Enter Order Number</label>
-                            <input type="text" name="" class="form-control" id="" />
-                        </div>
+                    <!-- Client Info -->
+                    <div class="col-md-4">
+                        <label class="form-label">Client Name</label>
+                        <input type="text" class="form-control" id="clientName{{ $order->id }}"
+                            value="{{ $order->client->client_name ?? '' }}" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Client Email</label>
+                        <input type="text" class="form-control" id="clientEmail{{ $order->id }}"
+                            value="{{ $order->client->email ?? '' }}" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Client Mobile</label>
+                        <input type="text" class="form-control" id="clientMobile{{ $order->id }}"
+                            value="{{ $order->client->mobile ?? '' }}" readonly>
+                    </div>
+
+                    <!-- Order Number -->
+                    <div class="col-md-12 mt-3">
+                        <label class="form-label">Enter Order Number</label>
+                        <input type="text" name="order_number" class="form-control"
+                            value="{{ $order->order_number }}" required>
                     </div>
                 </div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
-                <button type="button" class="btn btn-info">Update Order</button>
+                <button type="submit" class="btn btn-info">Update Order</button>
             </div>
         </form>
     </div>
 </div>
+@endforeach
 
-<!-- Delete Process Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+<!-- Delete Modal -->
+@foreach ($orders as $order)
+<div class="modal fade" id="deleteModal{{$order->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form class="modal-content">
+        <form class="modal-content" action="{{ route('manager.orders-and-jobcards.delete', $order->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Process</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Delete Order</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete this Process?</p>
+                <p>Are you sure you want to delete this Order <span class="text-danger">{{ $order->order_number }}</span>?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
             </div>
         </form>
     </div>
 </div>
+@endforeach
+
+
+
+<!-- JS for Auto-Filling Client Details -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const clientSelect = document.getElementById('clientSelect');
+        const clientName = document.getElementById('clientName');
+        const clientEmail = document.getElementById('clientEmail');
+        const clientMobile = document.getElementById('clientMobile');
+
+        clientSelect.addEventListener('change', function() {
+            const selected = this.options[this.selectedIndex];
+            clientName.value = selected.getAttribute('data-name') || '';
+            clientEmail.value = selected.getAttribute('data-email') || '';
+            clientMobile.value = selected.getAttribute('data-mobile') || '';
+        });
+    });
+</script>
+
+
 @endsection

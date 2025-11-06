@@ -21,12 +21,43 @@
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                    <div class="input-group">
-                        <span class="input-group-text text-body"><i class="fas fa-search"
-                                aria-hidden="true"></i></span>
-                        <input type="text" class="form-control" placeholder="Type here..." />
-                    </div>
+                    <form method="GET" action="{{ route('manager.client-material-manage') }}"
+                        style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+
+                        <!-- Search Input + Button -->
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 5px;">
+                            <input type="text" name="search"
+                                placeholder="Search by Email"
+                                value="{{ request('search') }}"
+                                style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; width: 220px;">
+                            <button type="submit"
+                                style="background-color: #17a2b8; color: white; border: none; border-radius: 6px; padding: 8px 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-search" style="margin-right: 5px;"></i>Search
+                            </button>
+                        </div>
+
+                        <!-- Type Dropdown -->
+                        <select name="type" onchange="this.form.submit()"
+                            style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; width: 180px;">
+                            <option value="">Filter by Type</option>
+                            <option value="MS" {{ request('type') == 'MS' ? 'selected' : '' }}>MS</option>
+                            <option value="ALU" {{ request('type') == 'ALU' ? 'selected' : '' }}>ALU</option>
+                        </select>
+
+                        <!-- Reset Button -->
+                        @if(request('search') || request('type'))
+                        <a href="{{ route('manager.client-material-manage') }}"
+                            style="background-color: #6c757d; color: white; border: none; border-radius: 6px; padding: 8px 14px; text-decoration: none;">
+                            Reset
+                        </a>
+                        @endif
+                    </form>
+
+
+
                 </div>
+
+
                 <ul class="navbar-nav justify-content-end">
                     <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                         <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
@@ -45,10 +76,10 @@
                         <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
                             aria-labelledby="dropdownMenuButton">
                             <li class="mb-2">
-                                <a class="dropdown-item border-radius-md" href="javascript:;">
+                                <a class="dropdown-item border-radius-md" href="{{ route('manager.profile') }}">
                                     <div class="d-flex py-1">
                                         <div class="my-auto">
-                                            <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" />
+                                            <img src="{{asset('assets/img/team-2.jpg')}}" class="avatar avatar-sm me-3" />
                                         </div>
                                         <div class="d-flex flex-column justify-content-center">
                                             <h6 class="text-sm font-weight-normal mb-1">
@@ -59,10 +90,10 @@
                                 </a>
                             </li>
                             <li class="mb-2">
-                                <a class="dropdown-item border-radius-md" href="javascript:;">
+                                <a class="dropdown-item border-radius-md" href="{{ route('manager.logout') }}">
                                     <div class="d-flex py-1">
                                         <div class="my-auto">
-                                            <img src="../assets/img/team-2.jpg"
+                                            <img src="{{asset('assets/img/team-2.jpg')}}"
                                                 class="avatar avatar-sm bg-gradient-dark me-3" />
                                         </div>
                                         <div class="d-flex flex-column justify-content-center">
@@ -70,43 +101,6 @@
                                                 <span class="font-weight-bold">Logout</span>&nbsp;<i
                                                     class="fa fa-power-off"></i>
                                             </h6>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item border-radius-md" href="javascript:;">
-                                    <div class="d-flex py-1">
-                                        <div class="avatar avatar-sm bg-gradient-secondary me-3 my-auto">
-                                            <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                xmlns:xlink="http://www.w3.org/1999/xlink">
-                                                <title>credit-card</title>
-                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                    <g transform="translate(-2169.000000, -745.000000)"
-                                                        fill="#FFFFFF" fill-rule="nonzero">
-                                                        <g transform="translate(1716.000000, 291.000000)">
-                                                            <g transform="translate(453.000000, 454.000000)">
-                                                                <path class="color-background"
-                                                                    d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                                                    opacity="0.593633743"></path>
-                                                                <path class="color-background"
-                                                                    d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
-                                                                </path>
-                                                            </g>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </svg>
-                                        </div>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="text-sm font-weight-normal mb-1">
-                                                Payment successfully completed
-                                            </h6>
-                                            <p class="text-xs text-secondary mb-0">
-                                                <i class="fa fa-clock me-1"></i>
-                                                2 days
-                                            </p>
                                         </div>
                                     </div>
                                 </a>
@@ -128,107 +122,133 @@
                             <table class="table table-bordered align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Client's Details
-                                        </th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Mobile
-                                        </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Email
-                                        </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Material Details
-                                        </th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Actions
-                                        </th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">SL</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Client's Details</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mobile</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Material Details</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @forelse ($clients as $client)
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Client Name</h6>
-                                                    <p class="text-xs text-secondary mb-0">
-                                                        Unique ID
-                                                    </p>
+                                                    <h6 class="mb-0 text-sm">{{ $loop->iteration }}</h6>
                                                 </div>
                                             </div>
                                         </td>
+                                        <!-- Client Info -->
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0">
-                                                9685552658
-                                            </p>
+                                            <div class="d-flex px-2 py-1">
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">{{ $client->client_name }}</h6>
+                                                    <p class="text-xs text-secondary mb-0">{{ $client->client_unique_id }}</p>
+                                                </div>
+                                            </div>
                                         </td>
-                                        <td class="align-middle text-center">
-                                            <span
-                                                class="text-secondary text-xs font-weight-bold">client@gmail.com</span>
+
+                                        <!-- Mobile -->
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $client->mobile ?? '-' }}</p>
                                         </td>
+
+                                        <!-- Email -->
                                         <td class="align-middle text-center">
-                                            <!-- Nested table starts here -->
-                                            <table class="table table-responsive table-bordered">
+                                            <span class="text-secondary text-xs font-weight-bold">{{ $client->email ?? '-' }}</span>
+                                        </td>
+
+                                        <!-- Material Details -->
+                                        <td class="align-middle text-center">
+                                            @if (!empty($client->material_details) && is_array($client->material_details))
+                                            <table class="table table-sm table-bordered mb-0">
                                                 <thead class="bg-light">
                                                     <tr>
-                                                        <th class="text-xs text-secondary">
-                                                            Material Name
-                                                        </th>
-                                                        <th class="text-xs text-secondary">
-                                                            Quantity
-                                                        </th>
-                                                        <th class="text-xs text-secondary">
-                                                            Paint Name - Code
-                                                        </th>
-                                                        <th class="text-xs text-secondary">
-                                                            Paint Use (qty)
-                                                        </th>
+                                                        <th class="text-xs text-secondary">Material Name</th>
+                                                        <th class="text-xs text-secondary">Quantity</th>
+                                                        <th class="text-xs text-secondary">Paint Name - Code</th>
+                                                        <!-- <th class="text-xs text-secondary">Paint Use (qty)</th> -->
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach ($client->material_details as $material)
+                                                    @php
+                                                    $paint = $material['paint_id'] ? App\Models\Paint::find($material['paint_id']) : null;
+                                                    @endphp
                                                     <tr>
-                                                        <td class="text-xs">Iron Rod(MS)</td>
-                                                        <td class="text-xs">250 KG</td>
                                                         <td class="text-xs">
-                                                            <p class="m-0 text-xs">Red Oxide</p>
-                                                            <p class="m-0 text-xs fw-bolder">RAL-334</p>
+                                                            {{ $material['material_name'] ?? 'N/A' }}
+                                                            ({{ $material['type'] ?? '-' }})
                                                         </td>
-                                                        <td class="text-xs">32 KG</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-xs">Cement(MS)</td>
-                                                        <td class="text-xs">400 Nos</td>
                                                         <td class="text-xs">
-                                                            <p class="m-0 text-xs">Red Oxide</p>
-                                                            <p class="m-0 text-xs fw-bolder">RAL-334</p>
+                                                            {{ $material['quantity'] ?? '-' }}
+                                                            {{ $material['unit'] ?? '' }}
                                                         </td>
-                                                        <td class="text-xs">32 KG</td>
+                                                        <td class="text-xs">
+                                                            @if ($paint)
+                                                            <p class="m-0 text-xs fw-bolder">{{ $paint->ral_code ?? '-' }}</p>
+                                                            @else
+                                                            <p class="m-0 text-xs text-muted">N/A</p>
+                                                            @endif
+                                                        </td>
                                                     </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
-                                            <!-- Nested table ends here -->
+                                            @else
+                                            <p class="text-xs text-muted mb-0">No materials added</p>
+                                            @endif
                                         </td>
+
+                                        <!-- Actions -->
                                         <td class="align-middle text-center text-sm">
                                             <div class="d-flex gap-2 justify-content-center">
-                                                <button type="button" class="btn btn-info px-3 py-2 rounded m-0"
-                                                    data-bs-toggle="modal" data-bs-target="#editModal">
+                                                <button type="button" class="btn btn-info px-3 py-2 rounded m-0" data-bs-toggle="modal"
+                                                    data-bs-target="#editModal{{ $client->id }}">
                                                     <i class="fa fa-pencil"></i>
                                                 </button>
-
-                                                <button type="button" class="btn btn-danger px-3 py-2 rounded m-0"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <button type="button" class="btn btn-danger px-3 py-2 rounded m-0" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal{{ $client->id }}">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </div>
                                         </td>
                                     </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">No clients found</td>
+                                    </tr>
+                                    @endforelse
                                 </tbody>
+
+                                <!-- pagination -->
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
+                                                @if ($clients->onFirstPage())
+                                                <span class="text-muted">Prev</span>
+                                                @else
+                                                <a href="{{ $clients->previousPageUrl() }}" class="text-primary text-decoration-none">Prev</a>
+                                                @endif
+
+                                                <span>{{ $clients->currentPage() }} / {{ $clients->lastPage() }}</span>
+
+                                                @if ($clients->hasMorePages())
+                                                <a href="{{ $clients->nextPageUrl() }}" class="text-primary text-decoration-none">Next</a>
+                                                @else
+                                                <span class="text-muted">Next</span>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+
+
                             </table>
+
                         </div>
                     </div>
                 </div>
@@ -251,22 +271,17 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addClientModalLabel">Add Client Details</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form id="addClientForm" method="POST" action="">
-
+                <form id="addClientForm" method="POST" action="{{ route('manager.client-material-manage.store') }}">
+                    @csrf
                     <div class="modal-body">
                         <!-- Client Info -->
                         <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Client Name</label>
+                            <div class="col-md-12">
+                                <label class="form-label">Client Full Name</label>
                                 <input type="text" class="form-control" name="client_name" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Unique ID</label>
-                                <input type="text" class="form-control" name="unique_id" required>
                             </div>
                         </div>
 
@@ -288,33 +303,33 @@
                         <div id="material-details-container">
                             <div class="row g-2 material-row mb-2">
                                 <div class="col-md-1">
-                                    <select name="materials[0][type]" class="form-select" required>
+                                    <select name="material_type[]" class="form-select" required>
                                         <option value="">Type</option>
                                         <option value="MS">MS</option>
                                         <option value="ALU">ALU</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="text" name="materials[0][name]" class="form-control"
+                                    <input type="text" name="material_name[]" class="form-control"
                                         placeholder="Material Name" required>
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="number" name="materials[0][quantity]" class="form-control"
+                                    <input type="number" name="quantity[]" class="form-control"
                                         placeholder="Quantity" required>
                                 </div>
                                 <div class="col-md-2">
-                                    <select name="materials[0][units]" class="form-select" required>
+                                    <select name="unit[]" class="form-select" required>
                                         <option value="">Select Unit</option>
                                         <option value="KG">KG</option>
                                         <option value="Nos">Nos</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <select name="materials[0][paint_use]" class="form-select" required>
+                                    <select name="paint_id[]" class="form-select" required>
                                         <option value="">Select Paint</option>
-                                        <option value="Red Oxide">Red Oxide</option>
-                                        <option value="White Paint">White Paint</option>
-                                        <option value="Black Enamel">Black Enamel</option>
+                                        @foreach ($paints as $paint)
+                                        <option value="{{ $paint->id }}">{{ $paint->ral_code }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center">
@@ -324,6 +339,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <!-- /Material Details Section -->
                     </div>
 
@@ -336,73 +352,114 @@
         </div>
     </div>
 
-    <!-- Edit Modal need code again for this-->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
+    <!-- Edit Modal -->
+    @foreach ($clients as $client)
+    <div class="modal fade" id="editModal{{$client->id}}" tabindex="-1" aria-labelledby="editClientModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addClientModalLabel">Update Client Details</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <h5 class="modal-title" id="editClientModalLabel">Update Client Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form id="addClientForm" method="POST" action="">
+                <form method="POST" action="{{ route('manager.client-material-manage.update', $client->id) }}">
+                    @csrf
+                    @method('PUT')
 
                     <div class="modal-body">
                         <!-- Client Info -->
                         <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Client Name</label>
-                                <input type="text" class="form-control" name="client_name" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Unique ID</label>
-                                <input type="text" class="form-control" name="unique_id" required>
+                            <div class="col-md-12">
+                                <label class="form-label">Client Full Name</label>
+                                <input type="text" class="form-control" name="client_name" value="{{ $client->client_name }}" required>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label">Mobile</label>
-                                <input type="text" class="form-control" name="mobile" required>
+                                <input type="text" class="form-control" name="mobile" value="{{ $client->mobile }}" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" name="email" required>
+                                <input type="email" class="form-control" name="email" value="{{ $client->email }}" required>
                             </div>
                         </div>
 
                         <hr>
                         <h6 class="fw-bold text-secondary mb-3">Material Details</h6>
 
-                        <!-- Dynamic Material Details Section -->
-                        <div id="material-details-container">
+                        <!-- Material Details -->
+                        <div id="edit-material-details-container{{ $client->id }}">
+                            @if(!empty($client->material_details))
+                            @foreach ($client->material_details as $index => $material)
                             <div class="row g-2 material-row mb-2">
                                 <div class="col-md-1">
-                                    <select name="materials[0][type]" class="form-select" required>
+                                    <select name="material_type[]" class="form-select" required>
+                                        <option value="">Type</option>
+                                        <option value="MS" {{ $material['type'] == 'MS' ? 'selected' : '' }}>MS</option>
+                                        <option value="ALU" {{ $material['type'] == 'ALU' ? 'selected' : '' }}>ALU</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" name="material_name[]" class="form-control" value="{{ $material['material_name'] ?? '' }}" placeholder="Material Name" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" name="quantity[]" class="form-control" value="{{ $material['quantity'] ?? '' }}" placeholder="Quantity" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <select name="unit[]" class="form-select" required>
+                                        <option value="">Select Unit</option>
+                                        <option value="KG" {{ $material['unit'] == 'KG' ? 'selected' : '' }}>KG</option>
+                                        <option value="Nos" {{ $material['unit'] == 'Nos' ? 'selected' : '' }}>Nos</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select name="paint_id[]" class="form-select" required>
+                                        <option value="">Select Paint</option>
+                                        @foreach ($paints as $paint)
+                                        <option value="{{ $paint->id }}" {{ isset($material['paint_id']) && $material['paint_id'] == $paint->id ? 'selected' : '' }}>
+                                            {{ $paint->ral_code }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-1 d-flex align-items-center">
+                                    <button type="button" class="btn btn-danger btn-sm remove-material-row">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            @endforeach
+                            @else
+                            <!-- Show one empty row if no materials exist -->
+                            <div class="row g-2 material-row mb-2">
+                                <div class="col-md-1">
+                                    <select name="material_type[]" class="form-select" required>
                                         <option value="">Type</option>
                                         <option value="MS">MS</option>
                                         <option value="ALU">ALU</option>
                                     </select>
                                 </div>
-                                <div class="col-md-2">
-                                    <input type="text" name="materials[0][name]" class="form-control"
-                                        placeholder="Material Name" required>
+                                <div class="col-md-3">
+                                    <input type="text" name="material_name[]" class="form-control" placeholder="Material Name" required>
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="text" name="materials[0][units]" class="form-control"
-                                        placeholder="Units" required>
+                                    <input type="number" name="quantity[]" class="form-control" placeholder="Quantity" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <select name="unit[]" class="form-select" required>
+                                        <option value="">Select Unit</option>
+                                        <option value="KG">KG</option>
+                                        <option value="Nos">Nos</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="number" name="materials[0][quantity]" class="form-control"
-                                        placeholder="Quantity (KG)" required>
-                                </div>
-                                <div class="col-md-3">
-                                    <select name="materials[0][paint_use]" class="form-select" required>
+                                    <select name="paint_id[]" class="form-select" required>
                                         <option value="">Select Paint</option>
-                                        <option value="Red Oxide">Red Oxide</option>
-                                        <option value="White Paint">White Paint</option>
-                                        <option value="Black Enamel">Black Enamel</option>
+                                        @foreach ($paints as $paint)
+                                        <option value="{{ $paint->id }}">{{ $paint->ral_code }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center">
@@ -411,8 +468,8 @@
                                     </button>
                                 </div>
                             </div>
+                            @endif
                         </div>
-                        <!-- /Material Details Section -->
                     </div>
 
                     <div class="modal-footer">
@@ -420,93 +477,104 @@
                         <button type="submit" class="btn btn-info">Update Client</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
+    @endforeach
 
     <!-- Delete Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    @foreach ($clients as $client)
+    <div class="modal fade" id="deleteModal{{$client->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form class="modal-content">
+            <form class="modal-content" action="{{ route('manager.client-material-manage.delete', $client->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Delete Client's Details</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete this Client's Details?</p>
+                    <p><span class="text-danger">{{$client->client_name}} - {{$client->client_unique_id}}</span></p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         Close
                     </button>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </div>
             </form>
         </div>
     </div>
+    @endforeach
 
 
     <!-- JS for Dynamic Material Rows -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            let materialIndex = 1;
+
+            function createMaterialRow() {
+                return `
+        <div class="row g-2 material-row mb-2">
+            <div class="col-md-1">
+                <select name="material_type[]" class="form-select" required>
+                    <option value="">Type</option>
+                    <option value="MS">MS</option>
+                    <option value="ALU">ALU</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="material_name[]" class="form-control" placeholder="Material Name" required>
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="quantity[]" class="form-control" placeholder="Quantity" required>
+            </div>
+            <div class="col-md-2">
+                <select name="unit[]" class="form-select" required>
+                    <option value="">Select Unit</option>
+                    <option value="KG">KG</option>
+                    <option value="Nos">Nos</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="paint_id[]" class="form-select" required>
+                    <option value="">Select Paint</option>
+                    @foreach ($paints as $paint)
+                        <option value="{{ $paint->id }}">{{ $paint->ral_code }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-1 d-flex align-items-center">
+                <button type="button" class="btn btn-danger btn-sm remove-material-row">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>`;
+            }
 
             document.addEventListener('click', function(e) {
-                // Add Material Row
-                if (e.target.closest('.add-material-row')) {
+                const addBtn = e.target.closest('.add-material-row');
+                const removeBtn = e.target.closest('.remove-material-row');
+
+                if (addBtn) {
                     e.preventDefault();
-                    const container = document.getElementById('material-details-container');
-                    const newRow = document.createElement('div');
-                    newRow.classList.add('row', 'g-2', 'material-row', 'mb-2');
-
-                    newRow.innerHTML = `
-                    <div class="col-md-1">
-                                        <select name="materials[0][type]" class="form-select" required>
-                                            <option value="">Type</option>
-                                            <option value="MS">MS</option>
-                                            <option value="ALU">ALU</option>
-                                        </select>
-                                    </div>
-          <div class="col-md-3">
-            <input type="text" name="materials[${materialIndex}][name]" class="form-control"
-                   placeholder="Material Name" required>
-          </div>
-          <div class="col-md-2">
-            <input type="number" name="materials[${materialIndex}][quantity]" class="form-control"
-                   placeholder="Quantity" required>
-          </div>
-          <div class="col-md-2">
-            <select name="materials[${materialIndex}][units]" class="form-select" required>
-              <option value="">Select Unit</option>
-              <option value="KG">KG</option>
-              <option value="Nos">Nos</option>
-            </select>
-          </div>
-          <div class="col-md-3">
-            <select name="materials[${materialIndex}][paint_use]" class="form-select" required>
-              <option value="">Select Paint</option>
-              <option value="Red Oxide">Red Oxide</option>
-              <option value="White Paint">White Paint</option>
-              <option value="Black Enamel">Black Enamel</option>
-            </select>
-          </div>
-          <div class="col-md-1 d-flex align-items-center">
-            <button type="button" class="btn btn-danger btn-sm remove-material-row">
-              <i class="fa fa-times"></i>
-            </button>
-          </div>
-        `;
-
-                    container.appendChild(newRow);
-                    materialIndex++;
+                    const parentModal = addBtn.closest('.modal');
+                    const container = parentModal.querySelector('[id^="edit-material-details-container"]') ||
+                        parentModal.querySelector('#material-details-container');
+                    container.insertAdjacentHTML('beforeend', createMaterialRow());
                 }
 
-                // Remove Material Row
-                if (e.target.closest('.remove-material-row')) {
+                if (removeBtn) {
                     e.preventDefault();
-                    e.target.closest('.material-row').remove();
+                    removeBtn.closest('.material-row').remove();
                 }
             });
+
         });
     </script>
+
+
+
     @endsection
