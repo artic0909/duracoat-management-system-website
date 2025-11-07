@@ -11,8 +11,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\DelayAlertMail;
+use App\Models\JobcardTest;
 
 class ManagerController extends Controller
 {
@@ -49,7 +51,18 @@ class ManagerController extends Controller
 
     public function dashboardView()
     {
-        return view('manager.dashboard');
+        $sumofquantity = Paint::sum('quantity');
+        $lowstock = Paint::where('quantity', '>', 0)->where('quantity', '<=', 5)->count();
+        $restock = Paint::where('quantity', '<=', 0)->count();
+
+        $totalClients = ClientMaterial::count();
+        $totalOrders = Order::count();
+        $totalJobcards = Jobcard::count();
+        $totalDeliveries = Jobcard::where('jobcard_status', 'delivered')->count();
+
+        $totalTests = JobcardTest::count();
+
+        return view('manager.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests'));
     }
 
     public function logout(Request $request)
@@ -490,7 +503,12 @@ class ManagerController extends Controller
     public function viewCreatedJobcards($order_id)
     {
         $order = Order::with('client')->findOrFail($order_id);
-        $jobcards = Jobcard::where('order_id', $order_id)->orderBy('id', 'desc')->get();
+        // $jobcards = Jobcard::where('order_id', $order_id)->orderBy('id', 'desc')->get();
+
+        $jobcards = Jobcard::with('tests')
+            ->where('order_id', $order_id)
+            ->orderBy('id', 'desc')
+            ->get();
 
         return view('manager.view-jobcard-details', compact('order', 'jobcards'));
     }
@@ -547,7 +565,259 @@ class ManagerController extends Controller
         return redirect()->back()->with('success', 'Jobcard marked as delivered today!');
     }
 
+    // Tests Management Routes
+    public function jobcardTestsView($id)
+    {
+        $jobcard = Jobcard::with('order', 'client')->findOrFail($id);
+        $existingTest = JobcardTest::where('jobcard_id', $id)->first();
 
+        return view('manager.jobcard-test', compact('jobcard', 'existingTest'));
+    }
 
+    public function jobcardTestStoreAndEdit(Request $request, $id)
+    {
+        $jobcard = Jobcard::with('order', 'client')->findOrFail($id);
+
+        $request->validate([
+            'adhesionInput' => 'nullable|string|max:10',
+            'adhesionResult' => 'nullable|string|max:255',
+            'hardnessInput' => 'nullable|string|max:10',
+            'hardnessResult' => 'nullable|string|max:255',
+            'impactInput' => 'nullable|numeric',
+            'impactResult' => 'nullable|string|max:255',
+            'bendInput' => 'nullable|string|max:255',
+            'bendResult' => 'nullable|string|max:255',
+            'cuppingInput' => 'nullable|numeric',
+            'cuppingResult' => 'nullable|string|max:255',
+            'glossType' => 'nullable|string|max:50',
+            'glossInput' => 'nullable|numeric',
+            'glossResult' => 'nullable|string|max:255',
+        ]);
+
+        $today = Carbon::today()->format('Y-m-d');
+
+        $testing = [
+            [
+                'test_name' => 'Cross Hatch Adhesion Test',
+                'test_value' => $request->adhesionInput,
+                'test_result' => $request->adhesionResult,
+            ],
+            [
+                'test_name' => 'Pencil Hardness Test',
+                'test_value' => $request->hardnessInput,
+                'test_result' => $request->hardnessResult,
+            ],
+            [
+                'test_name' => 'Impact Resistance Test',
+                'test_value' => $request->impactInput,
+                'test_result' => $request->impactResult,
+            ],
+            [
+                'test_name' => 'Conical Mandrel Bend Test',
+                'test_value' => $request->bendInput,
+                'test_result' => $request->bendResult,
+            ],
+            [
+                'test_name' => 'Cupping Test',
+                'test_value' => $request->cuppingInput,
+                'test_result' => $request->cuppingResult,
+            ],
+            [
+                'test_name' => 'Gloss Measurement Test',
+                'test_value' => $request->glossInput,
+                'test_result' => $request->glossResult,
+                'gloss_type' => $request->glossType,
+            ],
+        ];
+
+        //Check if a test already exists for this jobcard
+        $existingTest = JobcardTest::where('jobcard_id', $jobcard->id)->first();
+
+        if ($existingTest) {
+            //Update existing record
+            $existingTest->update([
+                'testing' => $testing,
+                'test_date' => $today,
+            ]);
+        } else {
+            //Create new record
+            JobcardTest::create([
+                'jobcard_id' => $jobcard->id,
+                'order_id' => $jobcard->order_id,
+                'client_id' => $jobcard->client_id,
+                'testing' => $testing,
+                'test_date' => $today,
+            ]);
+        }
+
+        return redirect()->route('manager.view-created-jobcards', $jobcard->order_id)
+            ->with('success', 'QC Test Results Saved Successfully!');
+    }
+
+    public function downloadJobCardInPDF($id)
+    {
+        $jobcard = Jobcard::with('order.client')->findOrFail($id);
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.jobcard', [
+            'jobcard' => $jobcard,
+        ])->setPaper('a4');
+
+        return $pdf->download('JobCard_' . $jobcard->jobcard_number . '.pdf');
+    }
+
+    public function downloadJobcardTestResultsInPDF($id)
+    {
+        // Get jobcard with related test data
+        $jobcard = Jobcard::with(['tests'])->findOrFail($id);
+        $test = $jobcard->tests->first(); // assuming one test record per jobcard
+
+        // If no test record exists
+        if (!$test) {
+            return back()->with('error', 'No test results found for this Jobcard.');
+        }
+
+        // Prepare data for PDF
+        $data = [
+            'jobcard' => $jobcard,
+            'test' => $test,
+            'testing' => $test->testing,
+        ];
+
+        // Load Blade view
+        $pdf = Pdf::loadView('pdf.jobcard-test-result', $data);
+
+        // Download PDF
+        return $pdf->download('QC_Test_Result_Jobcard_' . $jobcard->jobcard_number . '.pdf');
+    }
     // Orders & Jobcards Management Routes (Manager Guard) =============================================================================================================>
+
+
+
+    // All Jobcards Management Routes (Manager Guard) =============================================================================================================>
+    public function allJobcardsView(Request $request)
+    {
+        $query = Jobcard::with('order.client')->orderBy('id', 'desc');
+
+        if ($request->filled('jobcard_number')) {
+            $query->where('jobcard_number', 'like', '%' . $request->jobcard_number . '%');
+        }
+
+        if ($request->filled('from_date') && $request->filled('end_date')) {
+            $query->whereBetween('created_at', [$request->from_date, $request->end_date]);
+        } elseif ($request->filled('from_date')) {
+            $query->whereDate('created_at', '>=', $request->from_date);
+        } elseif ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $jobcards = $query->paginate(5);
+
+        return view('manager.all-jobcards', compact('jobcards'));
+    }
+
+    // Material Out Management Routes (Manager Guard) =============================================================================================================>
+    public function materialOutView(Request $request)
+    {
+        $query = Jobcard::with('order.client')->whereNotNull('delivery_date')->orderBy('id', 'desc');
+
+        if ($request->filled('order_number')) {
+            $search = $request->order_number;
+
+            $query->where(function ($q) use ($search) {
+                $q->where('jobcard_number', 'like', '%' . $search . '%')
+                    ->orWhereHas('order', function ($sub) use ($search) {
+                        $sub->where('order_number', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        if ($request->filled('from_date') && $request->filled('end_date')) {
+            $query->whereBetween('created_at', [$request->from_date, $request->end_date]);
+        } elseif ($request->filled('from_date')) {
+            $query->whereDate('created_at', '>=', $request->from_date);
+        } elseif ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $jobcards = $query->paginate(8);
+
+        return view('manager.material-out', compact('jobcards'));
+    }
+
+    // Manage Stock Routes (Manager Guard) =============================================================================================================>
+    public function stockManageView(Request $request)
+    {
+        $query = Paint::query();
+
+        //Search filter
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('ral_code', 'like', "%{$search}%")
+                    ->orWhere('paint_unique_id', 'like', "%{$search}%");
+            });
+        }
+
+        //Stock status filter
+        if ($request->has('stock_status') && $request->stock_status !== '') {
+            switch ($request->stock_status) {
+                case 'out':
+                    $query->where('quantity', '<=', 0);
+                    break;
+                case 'low':
+                    $query->where('quantity', '>', 0)->where('quantity', '<=', 5);
+                    break;
+                case 'in':
+                    $query->where('quantity', '>', 5);
+                    break;
+            }
+        }
+
+        $paints = $query->orderBy('id', 'desc')->paginate(10)->appends($request->all());
+
+        return view('manager.stock-manage', compact('paints'));
+    }
+
+    public function stockUpdate(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:paints,id',
+            'quantity' => 'required|numeric|min:1',
+        ]);
+
+        $paint = Paint::findOrFail($request->id);
+        $paint->quantity += $request->quantity;
+        $paint->save();
+
+        return redirect()->back()->with('success', 'Stock updated successfully.');
+    }
+
+    // Profile Management Routes (Manager Guard) =============================================================================================================>
+    public function profileView()
+    {
+        return view('manager.profile');
+    }
+
+    public function profileUpdate(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        $user = Auth::guard('manager')->user();
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        // Only update password if provided
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        return back()->with('success', 'Profile updated successfully.');
+    }
 }

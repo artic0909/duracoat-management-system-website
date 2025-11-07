@@ -20,11 +20,38 @@
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <div class="input-group">
-                    <span class="input-group-text text-body"><i class="fas fa-search"
-                            aria-hidden="true"></i></span>
-                    <input type="text" class="form-control" placeholder="Type here..." />
-                </div>
+                <form method="GET" action="{{ route('manager.stocks-manage') }}"
+                    style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+
+                    <!-- Search Input + Button -->
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 5px;">
+                        <input type="text" name="search"
+                            placeholder="Search by RAL or Paint ID"
+                            value="{{ request('search') }}"
+                            style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; width: 220px;">
+                        <button type="submit"
+                            style="background-color: #17a2b8; color: white; border: none; border-radius: 6px; padding: 8px 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-search" style="margin-right: 5px;"></i> Search
+                        </button>
+                    </div>
+
+                    <!-- Dropdown Filter -->
+                    <select name="stock_status" onchange="this.form.submit()"
+                        style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; width: 180px;">
+                        <option value="">Filter by Stock</option>
+                        <option value="out" {{ request('stock_status') == 'out' ? 'selected' : '' }}>Out of Stock</option>
+                        <option value="low" {{ request('stock_status') == 'low' ? 'selected' : '' }}>Low Stock (≤ 5)</option>
+                        <option value="in" {{ request('stock_status') == 'in' ? 'selected' : '' }}>In Stock (> 5)</option>
+                    </select>
+
+                    <!-- Reset Button -->
+                    @if(request('search') || request('stock_status'))
+                    <a href="{{ route('manager.stocks-manage') }}"
+                        style="background-color: #6c757d; color: white; border: none; border-radius: 6px; padding: 8px 14px; text-decoration: none;">
+                        Reset
+                    </a>
+                    @endif
+                </form>
             </div>
             <ul class="navbar-nav justify-content-end">
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -44,10 +71,10 @@
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
                         aria-labelledby="dropdownMenuButton">
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                            <a class="dropdown-item border-radius-md" href="{{ route('manager.profile') }}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" />
+                                        <img src="{{ asset('assets/img/team-2.jpg') }}" class="avatar avatar-sm me-3" />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
@@ -58,10 +85,10 @@
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                            <a class="dropdown-item border-radius-md" href="{{ route('manager.logout') }}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="../assets/img/team-2.jpg"
+                                        <img src="{{ asset('assets/img/team-2.jpg') }}"
                                             class="avatar avatar-sm bg-gradient-dark me-3" />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
@@ -69,43 +96,6 @@
                                             <span class="font-weight-bold">Logout</span>&nbsp;<i
                                                 class="fa fa-power-off"></i>
                                         </h6>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                <div class="d-flex py-1">
-                                    <div class="avatar avatar-sm bg-gradient-secondary me-3 my-auto">
-                                        <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <title>credit-card</title>
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <g transform="translate(-2169.000000, -745.000000)"
-                                                    fill="#FFFFFF" fill-rule="nonzero">
-                                                    <g transform="translate(1716.000000, 291.000000)">
-                                                        <g transform="translate(453.000000, 454.000000)">
-                                                            <path class="color-background"
-                                                                d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                                                opacity="0.593633743"></path>
-                                                            <path class="color-background"
-                                                                d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
-                                                            </path>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-1">
-                                            Payment successfully completed
-                                        </h6>
-                                        <p class="text-xs text-secondary mb-0">
-                                            <i class="fa fa-clock me-1"></i>
-                                            2 days
-                                        </p>
                                     </div>
                                 </div>
                             </a>
@@ -129,7 +119,12 @@
                                 <tr>
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Paint Details
+                                        SL
+                                    </th>
+
+                                    <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Paint Unicode
                                     </th>
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -162,47 +157,76 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($paints as $paint)
                                 <tr>
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">Paint Name</h6>
-                                                <p class="text-xs text-secondary mb-0">
-                                                    Unique ID
-                                                </p>
+                                                <h6 class="mb-0 text-sm">{{$loop->iteration}}</h6>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0">Burger</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{$paint->paint_unique_id}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="text-xs font-weight-bold mb-0">{{$paint->brand_name}}</p>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm bg-gradient-success">Ral Code</span>
+                                        <span class="badge badge-sm bg-gradient-success" style="text-transform: uppercase;">{{$paint->ral_code}}</span>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">Shade Name</span>
+                                        <span class="text-secondary text-xs font-weight-bold" style="text-transform: capitalize;">{{$paint->shade_name}}</span>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">Texture</span>
+                                        <span class="text-secondary text-xs font-weight-bold" style="text-transform: capitalize;">{{$paint->finish}}</span>
                                     </td>
                                     <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">30 KG</span>
+                                        <span class="text-secondary text-xs font-weight-bold">{{$paint->quantity}} KG</span>
                                     </td>
                                     <td class="align-middle text-center text-sm">
+                                        @if ($paint->quantity > 5)
                                         <span class="badge badge-sm bg-success">In stock</span>
-                                        <span class="badge badge-sm bg-warning text-dark">Need attention</span>
-                                        <span class="badge badge-sm bg-danger">Out of stock</span>
+                                        @elseif ($paint->quantity <= 5 && $paint->quantity > 0)
+                                            <span class="badge badge-sm bg-warning text-dark">Low Stock</span>
+                                            @else
+                                            <span class="badge badge-sm bg-danger">Out of stock</span>
+                                            @endif
                                     </td>
                                     <td class="align-middle text-center text-sm">
                                         <div class="d-flex gap-2 justify-content-center">
                                             <button type="button" class="btn btn-primary px-3 py-2 rounded m-0"
-                                                data-bs-toggle="modal" data-bs-target="#addstockModal">
+                                                data-bs-toggle="modal" data-bs-target="#addstockModal{{$paint->id}}">
                                                 <i class="fa fa-plus me-2"></i>Add Stock
                                             </button>
                                         </div>
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
+
+                            <!-- pagination -->
+                            <tfoot>
+                                <tr>
+                                    <td colspan="9" class="text-center">
+                                        <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
+                                            @if ($paints->onFirstPage())
+                                            <span class="text-muted">Prev</span>
+                                            @else
+                                            <a href="{{ $paints->previousPageUrl() }}" class="text-primary text-decoration-none">Prev</a>
+                                            @endif
+
+                                            <span>{{ $paints->currentPage() }} / {{ $paints->lastPage() }}</span>
+
+                                            @if ($paints->hasMorePages())
+                                            <a href="{{ $paints->nextPageUrl() }}" class="text-primary text-decoration-none">Next</a>
+                                            @else
+                                            <span class="text-muted">Next</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -213,56 +237,69 @@
 
 
 <!-- Add Stock Modal -->
-<div class="modal fade" id="addstockModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+@foreach ($paints as $paint)
+<div class="modal fade" id="addstockModal{{$paint->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content">
+        <form class="modal-content" action="{{ route('manager.stocks-manage.update', $paint->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Paint Stock(Qty)</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add Paint Stock (Qty)</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="paintName">Paint Name(RAL Code)</label>
-                            <input type="text" name="" class="form-control" id="paintName" readonly />
+                @if($paint->quantity > 5)
+                <h5 class="fw-bolder text-success m-0 p-0">Current Stock: {{ $paint->quantity }} KG</h5>
+                <small class="text-success">This paint is in stock</small>
+                @elseif($paint->quantity <= 5 && $paint->quantity > 0)
+                    <h5 class="fw-bolder text-warning m-0 p-0">Current Stock: {{ $paint->quantity }} KG</h5>
+                    <small class="text-warning">This paint is low in stock</small>
+                    @else
+                    <h5 class="fw-bolder text-danger m-0 p-0">Current Stock: {{ $paint->quantity }} KG</h5>
+                    <small class="text-danger">This paint is out of stock. Please restock</small>
+                    @endif
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label>Paint Name (RAL Code)</label>
+                            <input type="text" value="{{ $paint->ral_code }}" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Brand Name</label>
+                            <input type="text" value="{{ $paint->brand_name }}" class="form-control" readonly>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="brandName">Brand Name</label>
-                            <input type="text" name="" class="form-control" id="brandName" readonly />
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label>Shade Name</label>
+                            <input type="text" class="form-control" value="{{ $paint->shade_name }}" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Finishing</label>
+                            <input type="text" class="form-control" value="{{ $paint->finish }}" readonly>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="shadeName">Shade Name</label>
-                            <input type="text" class="form-control" id="shadeName" readonly />
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label>Add Paint Quantity (For Restock)</label>
+                            <input type="number" name="quantity" class="form-control" placeholder="Enter quantity in KG" required>
+                            <input type="hidden" name="id" value="{{ $paint->id }}">
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="texture">Finishing</label>
-                            <input type="text" class="form-control" id="texture" readonly />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="weight">Add Paint Quantity</label>
-                            <input type="text" class="form-control" id="weight" />
-                        </div>
-                    </div>
-                </div>
             </div>
+
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Close
-                </button>
-                <button type="button" class="btn btn-primary">Stock Update</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Stock Update</button>
             </div>
         </form>
     </div>
 </div>
+@endforeach
+
+
 @endsection

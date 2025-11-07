@@ -46,4 +46,17 @@ class Jobcard extends Model
     {
         return $this->belongsTo(ClientMaterial::class, 'client_id');
     }
+
+    /**
+     * Relation with Paint
+     */
+    public function paint()
+    {
+        return $this->belongsTo(Paint::class, 'paint_id');
+    }
+
+    public function tests()
+    {
+        return $this->hasMany(JobcardTest::class, 'jobcard_id');
+    }
 }

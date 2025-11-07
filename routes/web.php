@@ -11,37 +11,6 @@ Route::get('/', function () {
 
 
 
-// Test Start
-
-Route::get('/manager-dashboard8', function () {
-    return view('manager.all-jobcards');
-})->name('manager.all-jobcards');
-
-Route::get('/manager-dashboard4', function () {
-    return view('manager.material-out');
-})->name('manager.material-out');
-
-Route::get('/manager-dashboard5', function () {
-    return view('manager.stock-manage');
-})->name('manager.stocks-manage');
-
-Route::get('/manager-dashboard6', function () {
-    return view('manager.dashboard');
-})->name('manager.jobcards');
-
-Route::get('/manager-dashboard9', function () {
-    return view('manager.test-results');
-})->name('manager.test-results');
-
-Route::get('/manager-dashboard10', function () {
-    return view('manager.profile');
-})->name('manager.profile');
-// Test End
-
-
-
-
-
 
 
 

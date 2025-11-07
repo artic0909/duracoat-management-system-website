@@ -179,9 +179,9 @@
                             <tbody>
                                 @forelse($jobcards as $index => $jobcard)
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
+                                    <td class="text-xs font-weight-bold">{{ $index + 1 }}</td>
 
-                                    <td>
+                                    <td class="text-xs font-weight-bold">
                                         @switch($jobcard->jobcard_status)
                                         @case('pending')
                                         <span class="badge bg-warning text-dark">Pending</span>
@@ -200,11 +200,11 @@
                                         @endswitch
                                     </td>
 
-                                    <td>{{ \Carbon\Carbon::parse($jobcard->jobcard_creation_date)->format('d/m/Y') }}</td>
-                                    <td>{{ $jobcard->jobcard_number }}</td>
+                                    <td class="text-xs font-weight-bold">{{ \Carbon\Carbon::parse($jobcard->jobcard_creation_date)->format('d/m/Y') }}</td>
+                                    <td class="text-xs font-weight-bold">{{ $jobcard->jobcard_number }}</td>
 
                                     <!-- Nested Material Table -->
-                                    <td colspan="4" class="p-0">
+                                    <td colspan="4" class="text-xs font-weight-bold p-0">
                                         <table class="table table-bordered table-sm m-0 text-center align-middle">
                                             <thead class="table-light">
                                                 <tr>
@@ -215,19 +215,19 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-xs font-weight-bold">
                                                         {{ $jobcard->material_name }}<br>
                                                         {{ $jobcard->material_quantity }} {{ $jobcard->material_unit }}<br>
                                                         {{ $jobcard->material_type }}
                                                     </td>
                                                     <td><span class="badge bg-gradient-info text-white">{{ $jobcard->ral_code }}</span></td>
-                                                    <td>{{ $jobcard->paint_used ?? '—' }}</td>
+                                                    <td class="text-xs font-weight-bold">{{ $jobcard->paint_used ?? '—' }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="text-center text-xs font-weight-bold">
                                         {{-- PRE-TREATMENT COLUMN --}}
                                         @if ($jobcard->pre_treatment_date)
                                         {{ \Carbon\Carbon::parse($jobcard->pre_treatment_date)->format('d/m/Y') }}
@@ -239,7 +239,7 @@
                                         @endif
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="text-center text-xs font-weight-bold">
                                         {{-- POWDER APPLY COLUMN --}}
                                         @if (!$jobcard->pre_treatment_date)
                                         {{-- Pre-treatment not done yet → show "-" --}}
@@ -255,7 +255,7 @@
                                         @endif
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="text-center text-xs font-weight-bold">
                                         {{-- DELIVERY COLUMN --}}
                                         @if (!$jobcard->pre_treatment_date)
                                         {{-- No pre-treatment → disable everything --}}
@@ -275,23 +275,27 @@
                                     </td>
 
 
-                                    <td class="text-center">
+                                    <td class="text-center text-xs font-weight-bold">
                                         <div class="d-flex gap-2 flex-column">
-                                            <a href="jobcard-test.html"
+                                            @if ($jobcard->tests->isNotEmpty())
+                                            <a href="{{ route('manager.jobcard-test', $jobcard->id) }}"
+                                                class="btn btn-outline-secondary px-3 py-2 rounded m-0">
+                                                Test Again
+                                                <!-- it go same page but with data for edit -->
+                                            </a>
+                                            @else
+                                            <a href="{{ route('manager.jobcard-test', $jobcard->id) }}"
                                                 class="btn btn-primary px-3 py-2 rounded m-0">
                                                 Give Test
                                             </a>
-                                            <a href="jobcard-test.html"
-                                                class="btn btn-outline-secondary px-3 py-2 rounded m-0">
-                                                Test Again
-                                            </a>
+                                            @endif
 
                                             <button type="button" data-bs-toggle="modal"
-                                                data-bs-target="#testresultModal"
+                                                data-bs-target="#testresultModal{{ $jobcard->id }}"
                                                 class="btn btn-outline-primary px-3 py-2 rounded m-0">
                                                 Test Result
                                             </button>
-                                            <a href="test-result.html"
+                                            <a href="{{ route('manager.jobcard.pdf', $jobcard->id) }}"
                                                 class="btn btn-outline-success px-3 py-2 rounded m-0">
                                                 Print Jobcard
                                             </a>
@@ -325,9 +329,9 @@
                                 @endforelse
                             </tbody>
 
-                            @foreach ($jobcards as $jobcard)
                             <!-- Modals -->
                             <!-- Pre-Treatment Modal -->
+                            @foreach ($jobcards as $jobcard)
                             <div class="modal fade" id="pretreatmentModal{{ $jobcard->id }}" tabindex="-1" aria-labelledby="pretreatmentLabel{{ $jobcard->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <form action="{{ route('manager.update.pretreatment', $jobcard->id) }}" method="POST">
@@ -398,8 +402,6 @@
                             </div>
                             @endforeach
 
-
-
                         </table>
                     </div>
                 </div>
@@ -440,14 +442,15 @@
 </div>
 @endforeach
 
-
 <!-- QC Test Result Modal -->
-<div class="modal fade" id="testresultModal" tabindex="-1" aria-labelledby="testResultLabel" aria-hidden="true">
+@foreach($jobcards as $jobcard)
+<div class="modal fade" id="testresultModal{{ $jobcard->id }}" tabindex="-1"
+    aria-labelledby="testResultLabel{{ $jobcard->id }}" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <form class="modal-content shadow-lg border-0 rounded-3">
             <div class="modal-header">
-                <h5 class="modal-title fw-semibold" id="testResultLabel">
-                    <i class="fa fa-flask me-2"></i>QC Test Results
+                <h5 class="modal-title fw-semibold" id="testResultLabel{{ $jobcard->id }}">
+                    <i class="fa fa-flask me-2"></i>QC Test Results — Jobcard #{{ $jobcard->jobcard_number }}
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                     aria-label="Close"></button>
@@ -465,43 +468,38 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @forelse($jobcard->tests as $test)
+                            @foreach($test->testing as $index => $item)
                             <tr>
-                                <td>1</td>
-                                <td>Cross Hatch Adhesion</td>
-                                <td>GT0</td>
-                                <td><span class="badge bg-success">PASS</span> – Excellent adhesion</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Pencil Hardness</td>
-                                <td>2H</td>
-                                <td><span class="badge bg-success">PASS</span> – Meets hardness criteria</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Impact Resistance</td>
-                                <td>45 kg·cm</td>
-                                <td><span class="badge bg-warning text-dark">ACCEPTABLE</span> – General powder
+                                <td>{{ $index + 1 }}</td>
+                                <td>
+                                    {{ $item['test_name'] ?? '-' }}
+                                    @if (isset($item['gloss_type']) && $item['gloss_type'])
+                                    <span class="badge bg-warning text-dark">{{ $item['gloss_type'] }}</span>
+                                    @endif
+                                </td>
+                                <td>{{ $item['test_value'] ?? '-' }}</td>
+                                <td>
+                                    @php
+                                    $result = strtoupper($item['test_result'] ?? 'N/A');
+                                    $badge = match ($result) {
+                                    'PASS' => 'bg-success',
+                                    'FAIL' => 'bg-danger',
+                                    'ACCEPTABLE' => 'bg-warning text-dark',
+                                    default => 'bg-secondary',
+                                    };
+                                    @endphp
+                                    <span class="badge {{ $badge }}">{{ $result }}</span>
                                 </td>
                             </tr>
+                            @endforeach
+                            @empty
                             <tr>
-                                <td>4</td>
-                                <td>Conical Mandrel Bend</td>
-                                <td>No cracks or detachment</td>
-                                <td><span class="badge bg-success">PASS</span></td>
+                                <td colspan="4" class="text-center text-muted">
+                                    No test results for this jobcard.
+                                </td>
                             </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Cupping Test</td>
-                                <td>8 mm</td>
-                                <td><span class="badge bg-success">PASS</span> – Meets Duracoat standard</td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Gloss Measurement</td>
-                                <td>Matt – 25 GU</td>
-                                <td><span class="badge bg-success">PASS</span> – Within range</td>
-                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -511,12 +509,16 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fa fa-times me-1"></i>Close
                 </button>
-                <button type="button" class="btn btn-warning">
+                <a href="{{ route('manager.jobcard-test.download', $jobcard->id) }}" class="btn btn-warning">
                     <i class="fa fa-download me-1"></i>Download
-                </button>
+                </a>
             </div>
         </form>
     </div>
 </div>
+@endforeach
+
+
+
 
 @endsection

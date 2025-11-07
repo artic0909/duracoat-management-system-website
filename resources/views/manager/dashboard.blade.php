@@ -82,15 +82,18 @@
 
 <div class="container-fluid py-4">
     <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <h5 class="fw-bolder">Paint's Statistics</h5>
+        <!-- In Stock Paints -->
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Paints</p>
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Paints in Stock</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    300
+                                    <!-- Sum of Paints Quantity -->
+                                    {{ $sumofquantity}}
                                 </h5>
                             </div>
                         </div>
@@ -104,37 +107,16 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <!-- Low of Stock -->
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Clients</p>
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Low of Stock</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    2,300
-                                </h5>
-                            </div>
-                        </div>
-                        <div class="col-4 text-end">
-                            <div
-                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                <i class="fa fa-users text-lg opacity-10" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-            <div class="card">
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Out of Stock</p>
-                                <h5 class="font-weight-bolder mb-0">
-                                    43
+                                    {{$lowstock}}
                                 </h5>
                             </div>
                         </div>
@@ -148,15 +130,16 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <!-- Restock -->
+        <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-body p-3">
                     <div class="row">
                         <div class="col-8">
                             <div class="numbers">
-                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Needs Refill</p>
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Needs Refill/ Restock</p>
                                 <h5 class="font-weight-bolder mb-0">
-                                    43
+                                    {{$restock}}
                                 </h5>
                             </div>
                         </div>
@@ -170,6 +153,138 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row mt-6">
+        <h5 class="fw-bolder">Clients & Orders</h5>
+
+        <!-- Total Clients -->
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Clients</p>
+                                <h5 class="font-weight-bolder mb-0">
+                                    {{$totalClients}}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div
+                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="fa fa-users text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Orders -->
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Orders</p>
+                                <h5 class="font-weight-bolder mb-0">
+                                    {{$totalOrders}}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div
+                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="fa fa-list text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Jobcards -->
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Jobcards</p>
+                                <h5 class="font-weight-bolder mb-0">
+                                    {{$totalJobcards}}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div
+                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="fa fa-tasks text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Deliveries -->
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Deliveries</p>
+                                <h5 class="font-weight-bolder mb-0">
+                                    {{$totalDeliveries}}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div
+                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="fa fa-truck text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="row mt-6">
+        <h5 class="fw-bolder">Tests & Test Results</h5>
+
+        <!-- Total Tests -->
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Tests</p>
+                                <h5 class="font-weight-bolder mb-0">
+                                    {{$totalTests}}
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div
+                                class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                                <i class="fa fa-flask text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
     </div>
 </div>
 @endsection

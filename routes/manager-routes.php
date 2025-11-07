@@ -44,4 +44,28 @@ Route::middleware(['auth:manager'])->prefix('manager')->group(function () {
     Route::post('/update-jobcard/pretreatment/{id}', [ManagerController::class, 'updatePretreatment'])->name('manager.update.pretreatment');
     Route::post('/update-jobcard/powderapplied/{id}', [ManagerController::class, 'updatePowderApplied'])->name('manager.update.powderapplied');
     Route::post('/update-jobcard/delivered/{id}', [ManagerController::class, 'updateDelivered'])->name('manager.update.delivered');
+
+    // Test Routes
+    Route::get('/jobcard-test/{id}', [ManagerController::class, 'jobcardTestsView'])->name('manager.jobcard-test');
+    Route::post('/jobcard-test/{id}', [ManagerController::class, 'jobcardTestStoreAndEdit'])->name('manager.jobcard-test.store');
+
+    // Download Routes
+    Route::get('/jobcard/pdf/{id}', [ManagerController::class, 'downloadJobCardInPDF'])->name('manager.jobcard.pdf');
+    Route::get('/jobcard-test/download/{id}', [ManagerController::class, 'downloadJobcardTestResultsInPDF'])->name('manager.jobcard-test.download');
+
+    // All Jobcards Routes
+    Route::get('/all-jobcards', [ManagerController::class, 'allJobcardsView'])->name('manager.all-jobcards');
+
+    // Material Out Routes
+    Route::get('/material-out', [ManagerController::class, 'materialOutView'])->name('manager.material-out');
+
+    // Stock Manage Routes
+    Route::get('/stocks-manage', [ManagerController::class, 'stockManageView'])->name('manager.stocks-manage');
+    Route::put('/stocks-manage/{id}', [ManagerController::class, 'stockUpdate'])->name('manager.stocks-manage.update');
+
+    // Profile Routes
+    Route::get('/profile', [ManagerController::class, 'profileView'])->name('manager.profile');
+    Route::put('/profile', [ManagerController::class, 'profileUpdate'])->name('manager.profile.update');
+
+
 });
