@@ -619,7 +619,7 @@
                             <span>Get Started With Manager</span>
                             <span class="arrow">→</span>
                         </a>
-                        <a href="./admin/login.html" class="cta-secondary">Admin</a>
+                        <a href="{{ route('admin.login') }}" class="cta-secondary">Admin</a>
                         <a href="./admin/login.html" class="cta-secondary">Viewer</a>
                     </div>
                 </div>

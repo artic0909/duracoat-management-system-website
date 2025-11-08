@@ -1,6 +1,6 @@
-@extends('manager.layouts.app')
+@extends('admin.layouts.app')
 
-@section('title', 'Stock Management')
+@section('title', 'Paints Management')
 
 @section('content')
 <!-- Navbar -->
@@ -13,14 +13,14 @@
                     <a class="opacity-5 text-dark" href="javascript:;">Manager</a>
                 </li>
                 <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
-                    Manage Stocks
+                    Paints
                 </li>
             </ol>
-            <h6 class="font-weight-bolder mb-0">All Paint Stocks</h6>
+            <h6 class="font-weight-bolder mb-0">All Paints</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <form method="GET" action="{{ route('manager.stocks-manage') }}"
+                <form method="GET" action="{{ route('admin.paint-manage') }}"
                     style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
 
                     <!-- Search Input + Button -->
@@ -46,12 +46,14 @@
 
                     <!-- Reset Button -->
                     @if(request('search') || request('stock_status'))
-                    <a href="{{ route('manager.stocks-manage') }}"
+                    <a href="{{ route('admin.paint-manage') }}"
                         style="background-color: #6c757d; color: white; border: none; border-radius: 6px; padding: 8px 14px; text-decoration: none;">
                         Reset
                     </a>
                     @endif
                 </form>
+
+
             </div>
             <ul class="navbar-nav justify-content-end">
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -71,10 +73,10 @@
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
                         aria-labelledby="dropdownMenuButton">
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="{{ route('manager.profile') }}">
+                            <a class="dropdown-item border-radius-md" href="{{route('admin.profile')}}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="{{ asset('assets/img/team-2.jpg') }}" class="avatar avatar-sm me-3" />
+                                        <img src="{{asset('assets/img/team-2.jpg')}}" class="avatar avatar-sm me-3" />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
@@ -85,10 +87,10 @@
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="{{ route('manager.logout') }}">
+                            <a class="dropdown-item border-radius-md" href="{{route('admin.logout')}}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="{{ asset('assets/img/team-2.jpg') }}"
+                                        <img src="{{asset('assets/img/team-2.jpg')}}"
                                             class="avatar avatar-sm bg-gradient-dark me-3" />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
@@ -121,10 +123,10 @@
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         SL
                                     </th>
-
+                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Paint Unicode
+                                        Paint Details
                                     </th>
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -144,7 +146,7 @@
                                     </th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        IN Stock Quantity
+                                        Purchase Quantity
                                     </th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -157,7 +159,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($paints as $paint)
+                                @foreach($paints as $paint)
                                 <tr>
                                     <td>
                                         <div class="d-flex px-2 py-1">
@@ -167,13 +169,19 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0">{{$paint->paint_unique_id}}</p>
+                                        <p class="text-xs font-weight-bold mb-0">{{$paint->created_at->format('d-m-Y')}}</p>
+                                    </td>
+                                    <td>
+                                        <h6 class="mb-0 text-sm">{{$paint->ral_code}}</h6>
+                                        <p class="text-xs text-secondary mb-0">
+                                            {{$paint->paint_unique_id}}
+                                        </p>
                                     </td>
                                     <td>
                                         <p class="text-xs font-weight-bold mb-0">{{$paint->brand_name}}</p>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        <span class="badge badge-sm bg-gradient-success" style="text-transform: uppercase;">{{$paint->ral_code}}</span>
+                                        <span class="badge badge-sm bg-gradient-success">{{$paint->ral_code}}</span>
                                     </td>
                                     <td class="align-middle text-center">
                                         <span class="text-secondary text-xs font-weight-bold" style="text-transform: capitalize;">{{$paint->shade_name}}</span>
@@ -185,19 +193,25 @@
                                         <span class="text-secondary text-xs font-weight-bold">{{$paint->quantity}} KG</span>
                                     </td>
                                     <td class="align-middle text-center text-sm">
-                                        @if ($paint->quantity > 5)
-                                        <span class="badge badge-sm bg-success">In stock</span>
-                                        @elseif ($paint->quantity <= 5 && $paint->quantity > 0)
-                                            <span class="badge badge-sm bg-warning text-dark">Low Stock</span>
-                                            @else
-                                            <span class="badge badge-sm bg-danger">Out of stock</span>
-                                            @endif
+                                        @if($paint->quantity <= 0)
+                                            <span class="badge bg-danger">Out of Stock</span>
+                                            @elseif($paint->quantity <= 5)
+                                                <span class="badge bg-warning text-dark">Low Stock</span>
+                                                @else
+                                                <span class="badge bg-success text-dark">In Stock</span>
+                                                @endif
                                     </td>
+
                                     <td class="align-middle text-center text-sm">
                                         <div class="d-flex gap-2 justify-content-center">
-                                            <button type="button" class="btn btn-primary px-3 py-2 rounded m-0"
-                                                data-bs-toggle="modal" data-bs-target="#addstockModal{{$paint->id}}">
-                                                <i class="fa fa-plus me-2"></i>Add Stock
+                                            <button type="button" class="btn btn-info px-3 py-2 rounded m-0"
+                                                data-bs-toggle="modal" data-bs-target="#editModal{{$paint->id}}">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>
+
+                                            <button type="button" class="btn btn-danger px-3 py-2 rounded m-0"
+                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{$paint->id}}">
+                                                <i class="fa fa-trash"></i>
                                             </button>
                                         </div>
                                     </td>
@@ -205,7 +219,7 @@
                                 @endforeach
                             </tbody>
 
-                            <!-- pagination -->
+                            <!-- Pagination -->
                             <tfoot>
                                 <tr>
                                     <td colspan="9" class="text-center">
@@ -235,66 +249,163 @@
     </div>
 </div>
 
+<!-- Add Button -->
+<button type="button" class="btn btn-primary addFixedModalButton" data-bs-toggle="modal"
+    data-bs-target="#addModal">
+    <i class="fa fa-plus"></i>
+</button>
 
-<!-- Add Stock Modal -->
-@foreach ($paints as $paint)
-<div class="modal fade" id="addstockModal{{$paint->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content" action="{{ route('manager.stocks-manage.update', $paint->id) }}" method="POST">
+        <form class="modal-content" action="{{ route('admin.paint-manage.store') }}" method="POST">
+            @csrf
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Paints</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="paintName">Paint Name/ Ral Code</label>
+                            <input type="text" name="ral_code" class="form-control" id="paintName" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="brandName">Brand Name</label>
+                            <input type="text" name="brand_name" class="form-control" id="brandName" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="shadeName">Shade Name</label>
+                            <input type="text" class="form-control" name="shade_name" id="shadeName" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="texture">Choose Finishing</label>
+                            <select name="finish" id="finish" class="form-control">
+                                <option value="">Choose Finishing</option>
+                                <option value="plain">Plain</option>
+                                <option value="texture">Texture</option>
+                                <option value="structure">Structure</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="quantity">Purchase Quantity</label>
+                            <input type="number" class="form-control" name="quantity" id="quantity" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+@foreach($paints as $paint)
+<div class="modal fade" id="editModal{{$paint->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content" action="{{ route('admin.paint-manage.update', $paint->id) }}" method="POST">
             @csrf
             @method('PUT')
 
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Paint Stock (Qty)</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit Paints</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
             <div class="modal-body">
-                @if($paint->quantity > 5)
-                <h5 class="fw-bolder text-success m-0 p-0">Current Stock: {{ $paint->quantity }} KG</h5>
-                <small class="text-success">This paint is in stock</small>
-                @elseif($paint->quantity <= 5 && $paint->quantity > 0)
-                    <h5 class="fw-bolder text-warning m-0 p-0">Current Stock: {{ $paint->quantity }} KG</h5>
-                    <small class="text-warning">This paint is low in stock</small>
-                    @else
-                    <h5 class="fw-bolder text-danger m-0 p-0">Current Stock: {{ $paint->quantity }} KG</h5>
-                    <small class="text-danger">This paint is out of stock. Please restock</small>
-                    @endif
-
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label>Paint Name (RAL Code)</label>
-                            <input type="text" value="{{ $paint->ral_code }}" class="form-control" readonly>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Brand Name</label>
-                            <input type="text" value="{{ $paint->brand_name }}" class="form-control" readonly>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="paintName">Paint Name/ Ral Code</label>
+                            <input type="text" name="ral_code" value="{{$paint->ral_code}}" class="form-control" id="paintName" />
                         </div>
                     </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label>Shade Name</label>
-                            <input type="text" class="form-control" value="{{ $paint->shade_name }}" readonly>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Finishing</label>
-                            <input type="text" class="form-control" value="{{ $paint->finish }}" readonly>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="brandName">Brand Name</label>
+                            <input type="text" name="brand_name" value="{{$paint->brand_name}}" class="form-control" id="brandName" />
                         </div>
                     </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-12">
-                            <label>Add Paint Quantity (For Restock)</label>
-                            <input type="number" name="quantity" class="form-control" placeholder="Enter quantity in KG" required>
-                            <input type="hidden" name="id" value="{{ $paint->id }}">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="shadeName">Shade Name</label>
+                            <input type="text" class="form-control" value="{{$paint->shade_name}}" name="shade_name" id="shadeName" />
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="texture">Choose Finishing</label>
+                            <select name="finish" id="finish" class="form-control">
+                                <option value="{{$paint->finish}}" selected>{{$paint->finish}}</option>
+                                <hr>
+                                <option value="plain">Plain</option>
+                                <option value="texture">Texture</option>
+                                <option value="structure">Structure</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="quantity">Purchase Quantity</label>
+                            <input type="number" class="form-control" value="{{$paint->quantity}}" name="quantity" id="quantity" />
+                        </div>
+                    </div>
+                </div>
             </div>
-
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Stock Update</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-info">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+@endforeach
+
+
+<!-- Delete Modal -->
+@foreach($paints as $paint)
+<div class="modal fade" id="deleteModal{{$paint->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="modal-content" action="{{route('admin.paint-manage.delete', $paint->id)}}" method="POST">
+            @csrf
+            @method('DELETE')
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Paints</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this Paint <span class="text-danger">{{$paint->ral_code}}</span>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" class="btn btn-danger">Delete</button>
             </div>
         </form>
     </div>

@@ -1,4 +1,4 @@
-@extends('manager.layouts.app')
+@extends('admin.layouts.app')
 
 @section('title', 'Stock Management')
 
@@ -20,7 +20,7 @@
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <form method="GET" action="{{ route('manager.stocks-manage') }}"
+                <form method="GET" action="{{ route('admin.stocks-manage') }}"
                     style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
 
                     <!-- Search Input + Button -->
@@ -46,7 +46,7 @@
 
                     <!-- Reset Button -->
                     @if(request('search') || request('stock_status'))
-                    <a href="{{ route('manager.stocks-manage') }}"
+                    <a href="{{ route('admin.stocks-manage') }}"
                         style="background-color: #6c757d; color: white; border: none; border-radius: 6px; padding: 8px 14px; text-decoration: none;">
                         Reset
                     </a>
@@ -71,7 +71,7 @@
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
                         aria-labelledby="dropdownMenuButton">
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="{{ route('manager.profile') }}">
+                            <a class="dropdown-item border-radius-md" href="{{ route('admin.profile') }}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
                                         <img src="{{ asset('assets/img/team-2.jpg') }}" class="avatar avatar-sm me-3" />
@@ -85,7 +85,7 @@
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="{{ route('manager.logout') }}">
+                            <a class="dropdown-item border-radius-md" href="{{ route('admin.logout') }}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
                                         <img src="{{ asset('assets/img/team-2.jpg') }}"
@@ -240,7 +240,7 @@
 @foreach ($paints as $paint)
 <div class="modal fade" id="addstockModal{{$paint->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content" action="{{ route('manager.stocks-manage.update', $paint->id) }}" method="POST">
+        <form class="modal-content" action="{{ route('admin.stocks-manage.update', $paint->id) }}" method="POST">
             @csrf
             @method('PUT')
 
