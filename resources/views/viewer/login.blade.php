@@ -7,7 +7,7 @@
     <link rel="icon" type="image/ico" href="../assets/img/favicon.ico">
 
     <title>
-        Manager Login - Duracoat Management System
+        Super Admin Login - Duracoat Management System
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -80,7 +80,7 @@
                         <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
                             <div class="card card-plain mt-8">
                                 <div class="card-header pb-0 text-left bg-transparent">
-                                    <h3 class="font-weight-bolder text-info text-gradient">Welcome back manager</h3>
+                                    <h3 class="font-weight-bolder text-info text-gradient">Welcome back Viewer</h3>
                                     <p class="mb-0">Enter your email and password to sign in</p>
                                 </div>
                                 <div class="card-body">
@@ -98,7 +98,7 @@
                                     </div>
                                     @endif
 
-                                    <form action="{{ route('manager.login.verify') }}" method="POST" role="form">
+                                    <form action="{{ route('viewer.login.verify') }}" method="POST" role="form">
                                         @csrf
 
                                         <label class="mb-1">Email</label>

@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('viewer.layouts.app')
 
 @section('title', 'Clients & Materials Management')
 
@@ -11,7 +11,7 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                     <li class="breadcrumb-item text-sm">
-                        <a class="opacity-5 text-dark" href="javascript:;">Admin</a>
+                        <a class="opacity-5 text-dark" href="javascript:;">Viewer</a>
                     </li>
                     <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
                         Manage Clients & Materials
@@ -21,7 +21,7 @@
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
                 <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                    <form method="GET" action="{{ route('admin.client-material-manage') }}"
+                    <form method="GET" action="{{ route('viewer.client-material-manage') }}"
                         style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
 
                         <!-- Search Input + Button -->
@@ -46,7 +46,7 @@
 
                         <!-- Reset Button -->
                         @if(request('search') || request('type'))
-                        <a href="{{ route('admin.client-material-manage') }}"
+                        <a href="{{ route('viewer.client-material-manage') }}"
                             style="background-color: #6c757d; color: white; border: none; border-radius: 6px; padding: 8px 14px; text-decoration: none;">
                             Reset
                         </a>
@@ -76,7 +76,7 @@
                         <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
                             aria-labelledby="dropdownMenuButton">
                             <li class="mb-2">
-                                <a class="dropdown-item border-radius-md" href="{{ route('admin.profile') }}">
+                                <a class="dropdown-item border-radius-md" href="{{ route('viewer.profile') }}">
                                     <div class="d-flex py-1">
                                         <div class="my-auto">
                                             <img src="{{asset('assets/img/team-2.jpg')}}" class="avatar avatar-sm me-3" />
@@ -90,7 +90,7 @@
                                 </a>
                             </li>
                             <li class="mb-2">
-                                <a class="dropdown-item border-radius-md" href="{{ route('admin.logout') }}">
+                                <a class="dropdown-item border-radius-md" href="{{ route('viewer.logout') }}">
                                     <div class="d-flex py-1">
                                         <div class="my-auto">
                                             <img src="{{asset('assets/img/team-2.jpg')}}"
@@ -127,7 +127,7 @@
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mobile</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Email</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Material Details</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
+                                        <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -203,7 +203,7 @@
                                         </td>
 
                                         <!-- Actions -->
-                                        <td class="align-middle text-center text-sm">
+                                        <!-- <td class="align-middle text-center text-sm">
                                             <div class="d-flex gap-2 justify-content-center">
                                                 <button type="button" class="btn btn-info px-3 py-2 rounded m-0" data-bs-toggle="modal"
                                                     data-bs-target="#editModal{{ $client->id }}">
@@ -214,7 +214,7 @@
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </div>
-                                        </td>
+                                        </td> -->
                                     </tr>
                                     @empty
                                     <tr>
@@ -274,7 +274,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form id="addClientForm" method="POST" action="{{ route('admin.client-material-manage.store') }}">
+                <form id="addClientForm" method="POST" action="{{ route('viewer.client-material-manage.store') }}">
                     @csrf
                     <div class="modal-body">
                         <!-- Client Info -->
@@ -362,7 +362,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
-                <form method="POST" action="{{ route('admin.client-material-manage.update', $client->id) }}">
+                <form method="POST" action="{{ route('viewer.client-material-manage.update', $client->id) }}">
                     @csrf
                     @method('PUT')
 
@@ -487,7 +487,7 @@
     @foreach ($clients as $client)
     <div class="modal fade" id="deleteModal{{$client->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form class="modal-content" action="{{ route('admin.client-material-manage.delete', $client->id) }}" method="POST">
+            <form class="modal-content" action="{{ route('viewer.client-material-manage.delete', $client->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
 

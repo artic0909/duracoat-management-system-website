@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('viewer.layouts.app')
 
 @section('title', 'Paints Management')
 
@@ -10,7 +10,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                 <li class="breadcrumb-item text-sm">
-                    <a class="opacity-5 text-dark" href="javascript:;">Admin</a>
+                    <a class="opacity-5 text-dark" href="javascript:;">Viewer</a>
                 </li>
                 <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
                     Paints
@@ -20,7 +20,7 @@
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <form method="GET" action="{{ route('admin.paint-manage') }}"
+                <form method="GET" action="{{ route('viewer.paint-manage') }}"
                     style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
 
                     <!-- Search Input + Button -->
@@ -46,7 +46,7 @@
 
                     <!-- Reset Button -->
                     @if(request('search') || request('stock_status'))
-                    <a href="{{ route('admin.paint-manage') }}"
+                    <a href="{{ route('viewer.paint-manage') }}"
                         style="background-color: #6c757d; color: white; border: none; border-radius: 6px; padding: 8px 14px; text-decoration: none;">
                         Reset
                     </a>
@@ -73,7 +73,7 @@
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
                         aria-labelledby="dropdownMenuButton">
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="{{route('admin.profile')}}">
+                            <a class="dropdown-item border-radius-md" href="{{route('viewer.profile')}}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
                                         <img src="{{asset('assets/img/team-2.jpg')}}" class="avatar avatar-sm me-3" />
@@ -87,7 +87,7 @@
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="{{route('admin.logout')}}">
+                            <a class="dropdown-item border-radius-md" href="{{route('viewer.logout')}}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
                                         <img src="{{asset('assets/img/team-2.jpg')}}"
@@ -258,7 +258,7 @@
 <!-- Add Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content" action="{{ route('admin.paint-manage.store') }}" method="POST">
+        <form class="modal-content" action="{{ route('viewer.paint-manage.store') }}" method="POST">
             @csrf
 
             <div class="modal-header">
@@ -322,7 +322,7 @@
 @foreach($paints as $paint)
 <div class="modal fade" id="editModal{{$paint->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <form class="modal-content" action="{{ route('admin.paint-manage.update', $paint->id) }}" method="POST">
+        <form class="modal-content" action="{{ route('viewer.paint-manage.update', $paint->id) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -390,7 +390,7 @@
 @foreach($paints as $paint)
 <div class="modal fade" id="deleteModal{{$paint->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <form class="modal-content" action="{{route('admin.paint-manage.delete', $paint->id)}}" method="POST">
+        <form class="modal-content" action="{{route('viewer.paint-manage.delete', $paint->id)}}" method="POST">
             @csrf
             @method('DELETE')
 

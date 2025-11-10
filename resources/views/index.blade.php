@@ -620,7 +620,7 @@
                             <span class="arrow">→</span>
                         </a>
                         <a href="{{ route('admin.login') }}" class="cta-secondary">Admin</a>
-                        <a href="./admin/login.html" class="cta-secondary">Viewer</a>
+                        <a href="{{ route('viewer.login') }}" class="cta-secondary">Viewer</a>
                     </div>
                 </div>
             </div>
