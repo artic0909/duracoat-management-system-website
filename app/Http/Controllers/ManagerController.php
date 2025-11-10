@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DelayAleartMail;
 use App\Models\ClientMaterial;
 use App\Models\Jobcard;
 use App\Models\Order;
@@ -13,7 +14,6 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\DelayAlertMail;
 use App\Models\JobcardTest;
 use Illuminate\Support\Facades\DB;
 
@@ -566,7 +566,7 @@ class ManagerController extends Controller
 
         if ($diffDays > 3) {
             // send alert email
-            // Mail::to('saklindeveloper@gmail.com')->send(new DelayAlertMail($jobcard, $diffDays));
+            Mail::to('saklindeveloper@gmail.com')->send(new DelayAleartMail($jobcard, $diffDays));
 
             // don’t update date, show error
             return redirect()->back()->with('error', 'Powder Application delayed by more than 3 days! Alert sent to admin.');

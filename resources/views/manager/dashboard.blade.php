@@ -93,7 +93,7 @@
                                 <p class="text-sm mb-0 text-capitalize font-weight-bold">Total Paints in Stock</p>
                                 <h5 class="font-weight-bolder mb-0">
                                     <!-- Sum of Paints Quantity -->
-                                    {{ $sumofquantity}}
+                                    {{ $sumofquantity}} KG
                                 </h5>
                             </div>
                         </div>

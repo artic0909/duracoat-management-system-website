@@ -261,18 +261,26 @@
                                         {{-- No pre-treatment → disable everything --}}
                                         —
                                         @elseif (!$jobcard->powder_apply_date)
-                                        {{-- Powder apply not done yet → show "-" --}}
+                                        {{-- Powder apply not done yet --}}
                                         —
                                         @elseif ($jobcard->delivery_date)
                                         {{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d/m/Y') }}
-                                        @else
-                                        {{-- Both pre-treatment & powder apply done → show delivery button --}}
+                                        @elseif (
+                                        $jobcard->pre_treatment_date &&
+                                        $jobcard->powder_apply_date &&
+                                        \App\Models\JobcardTest::where('jobcard_id', $jobcard->id)->exists()
+                                        )
+                                        {{-- All 3 conditions satisfied → show delivery button --}}
                                         <button type="button" class="btn btn-success px-3 py-2 rounded m-0"
                                             data-bs-toggle="modal" data-bs-target="#deliveredModal{{ $jobcard->id }}">
                                             <i class="fa fa-check"></i>
                                         </button>
+                                        @else
+                                        {{-- If test not found or any condition missing --}}
+                                        <span class="text-danger">Pending Test</span>
                                         @endif
                                     </td>
+
 
 
                                     <td class="text-center text-xs font-weight-bold">
