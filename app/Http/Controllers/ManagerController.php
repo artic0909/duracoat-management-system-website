@@ -15,6 +15,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\DelayAlertMail;
 use App\Models\JobcardTest;
+use Illuminate\Support\Facades\DB;
 
 class ManagerController extends Controller
 {
@@ -157,6 +158,32 @@ class ManagerController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to delete paint: ' . $e->getMessage());
         }
+    }
+
+    public function usedPaints(Request $request)
+    {
+        $search = $request->input('search');
+
+        $usedPaints = \App\Models\Jobcard::where('jobcard_status', 'delivered')
+            ->select(
+                'paint_id',
+                DB::raw('SUM(paint_used) as total_used_paint'),
+                DB::raw('MAX(created_at) as last_created_at'),
+                DB::raw('MAX(updated_at) as last_updated_at')
+            )
+            ->when($search, function ($query, $search) {
+                // Filter jobcards by related paint attributes
+                $query->whereHas('paint', function ($q) use ($search) {
+                    $q->where('ral_code', 'like', "%{$search}%")
+                        ->orWhere('paint_unique_id', 'like', "%{$search}%");
+                });
+            })
+            ->with('paint')
+            ->groupBy('paint_id')
+            ->orderBy('last_updated_at', 'desc')
+            ->paginate(8);
+
+        return view('manager.used-paints', compact('usedPaints'));
     }
     // Paint Management Routes (Manager Guard) =============================================================================================================>
 

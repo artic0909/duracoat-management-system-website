@@ -18,7 +18,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::post('/paint-manage', [AdminController::class, 'paintManageStore'])->name('admin.paint-manage.store');
     Route::put('/paint-manage/{id}', [AdminController::class, 'paintManageUpdate'])->name('admin.paint-manage.update');
     Route::delete('/paint-manage/{id}', [AdminController::class, 'paintManageDelete'])->name('admin.paint-manage.delete');
-
+    
+    Route::get('/used-paint', [AdminController::class, 'usedPaints'])->name('admin.used-paints');
 
     // Clients Management Routes (Manager Guard) =============================================================================================================>
     Route::get('/client-manage', [AdminController::class, 'clientManageView'])->name('admin.client-material-manage');
@@ -55,6 +56,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
 
     // All Jobcards Routes
     Route::get('/all-jobcards', [AdminController::class, 'allJobcardsView'])->name('admin.all-jobcards');
+    Route::get('/rejected-jobcards', [AdminController::class, 'allRejectedJobcardsView'])->name('admin.rejected-jobcards');
 
     // Material Out Routes
     Route::get('/material-out', [AdminController::class, 'materialOutView'])->name('admin.material-out');

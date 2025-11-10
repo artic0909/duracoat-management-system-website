@@ -258,11 +258,11 @@
 
                                     <td class="text-center text-xs font-weight-bold">
                                         <div class="d-flex gap-2 flex-column">
+                                            @if ($jobcard->powder_apply_date)
                                             @if ($jobcard->tests->isNotEmpty())
                                             <a href="{{ route('manager.jobcard-test', $jobcard->id) }}"
                                                 class="btn btn-outline-secondary px-3 py-2 rounded m-0">
                                                 Test Again
-                                                <!-- it go same page but with data for edit -->
                                             </a>
                                             @else
                                             <a href="{{ route('manager.jobcard-test', $jobcard->id) }}"
@@ -276,6 +276,8 @@
                                                 class="btn btn-outline-primary px-3 py-2 rounded m-0">
                                                 Test Result
                                             </button>
+                                            @endif
+
                                             <a href="{{ route('manager.jobcard.pdf', $jobcard->id) }}"
                                                 class="btn btn-outline-success px-3 py-2 rounded m-0">
                                                 Print Jobcard
@@ -444,7 +446,7 @@
 @foreach($jobcards as $jobcard)
 <div class="modal fade" id="testresultModal{{ $jobcard->id }}" tabindex="-1"
     aria-labelledby="testResultLabel{{ $jobcard->id }}" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <form class="modal-content shadow-lg border-0 rounded-3">
             <div class="modal-header">
                 <h5 class="modal-title fw-semibold" id="testResultLabel{{ $jobcard->id }}">
@@ -460,6 +462,7 @@
                         <thead class="table-light">
                             <tr>
                                 <th style="width: 5%">#</th>
+                                <th>Date</th>
                                 <th>Test Name</th>
                                 <th>Observation</th>
                                 <th>Result</th>
@@ -470,6 +473,7 @@
                             @foreach($test->testing as $index => $item)
                             <tr>
                                 <td>{{ $index + 1 }}</td>
+                                <td>{{ \Carbon\Carbon::parse($test->test_date)->format('d/m/Y') }}</td>
                                 <td>
                                     {{ $item['test_name'] ?? '-' }}
                                     @if (isset($item['gloss_type']) && $item['gloss_type'])

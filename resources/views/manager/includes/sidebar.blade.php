@@ -64,6 +64,35 @@
                         <span class="nav-link-text ms-1">Manage Paints</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link  {{ Request::routeIs('admin.used-paints') ? 'active' : '' }}" href="{{ route('manager.used-paints') }}">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <svg width="12px" height="12px" viewBox="0 0 48 48" version="1.1"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <title>usedpaint</title>
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <g transform="translate(-1869.000000, -293.000000)" fill="#FFFFFF"
+                                        fill-rule="nonzero">
+                                        <g transform="translate(1716.000000, 291.000000)">
+                                            <g transform="translate(153.000000, 2.000000)">
+                                                <path class="color-background opacity-6"
+                                                    d="M38,4 L10,4 C7.79,4 6,5.79 6,8 L6,14 C6,16.21 7.79,18 10,18 L38,18 C40.21,18 42,16.21 42,14 L42,8 C42,5.79 40.21,4 38,4 Z">
+                                                </path>
+                                                <path class="color-background"
+                                                    d="M22,22 L26,22 L26,32 C26,35.31 28.69,38 32,38 C35.31,38 38,35.31 38,32 L38,22 L42,22 L42,32 C42,37.52 37.52,42 32,42 C26.48,42 22,37.52 22,32 L22,22 Z">
+                                                </path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Used Paints</span>
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link  {{ Request::routeIs('manager.client-material-manage') ? 'active' : '' }}" href="{{ route('manager.client-material-manage') }}">
                         <div

@@ -10,7 +10,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                 <li class="breadcrumb-item text-sm">
-                    <a class="opacity-5 text-dark" href="javascript:;">Manager</a>
+                    <a class="opacity-5 text-dark" href="javascript:;">Admin</a>
                 </li>
                 <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
                     All Jobcards
@@ -258,18 +258,17 @@
 
                                     <td class="text-center text-xs font-weight-bold">
                                         <div class="d-flex gap-2 flex-column">
-                                            @if ($jobcard->tests->isNotEmpty())
+                                            <!-- @if ($jobcard->tests->isNotEmpty())
                                             <a href="{{ route('admin.jobcard-test', $jobcard->id) }}"
                                                 class="btn btn-outline-secondary px-3 py-2 rounded m-0">
                                                 Test Again
-                                                <!-- it go same page but with data for edit -->
                                             </a>
                                             @else
                                             <a href="{{ route('admin.jobcard-test', $jobcard->id) }}"
                                                 class="btn btn-primary px-3 py-2 rounded m-0">
                                                 Give Test
                                             </a>
-                                            @endif
+                                            @endif -->
 
                                             <button type="button" data-bs-toggle="modal"
                                                 data-bs-target="#testresultModal{{ $jobcard->id }}"

@@ -19,6 +19,7 @@ Route::middleware(['auth:manager'])->prefix('manager')->group(function () {
     Route::put('/paint-manage/{id}', [ManagerController::class, 'paintManageUpdate'])->name('manager.paint-manage.update');
     Route::delete('/paint-manage/{id}', [ManagerController::class, 'paintManageDelete'])->name('manager.paint-manage.delete');
 
+    Route::get('/used-paint', [ManagerController::class, 'usedPaints'])->name('manager.used-paints');
 
     // Clients Management Routes (Manager Guard) =============================================================================================================>
     Route::get('/client-manage', [ManagerController::class, 'clientManageView'])->name('manager.client-material-manage');
@@ -36,7 +37,7 @@ Route::middleware(['auth:manager'])->prefix('manager')->group(function () {
     Route::get('/add-jobcards/{order_id}', [ManagerController::class, 'addJobcardView'])->name('manager.add-jobcards');
     Route::post('/add-jobcards/{order_id}', [ManagerController::class, 'addJobcardStore'])->name('manager.add-jobcards.store');
     Route::delete('/add-jobcards/{id}', [ManagerController::class, 'addJobcardDelete'])->name('manager.add-jobcards.delete');
-    
+
     Route::get('/edit-jobcards/{id}', [ManagerController::class, 'editJobcardView'])->name('manager.edit-jobcards');
     Route::put('/edit-jobcards/{id}', [ManagerController::class, 'updateJobcard'])->name('manager.edit-jobcards.update');
 
@@ -66,6 +67,4 @@ Route::middleware(['auth:manager'])->prefix('manager')->group(function () {
     // Profile Routes
     Route::get('/profile', [ManagerController::class, 'profileView'])->name('manager.profile');
     Route::put('/profile', [ManagerController::class, 'profileUpdate'])->name('manager.profile.update');
-
-
 });

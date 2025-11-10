@@ -10,7 +10,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                 <li class="breadcrumb-item text-sm">
-                    <a class="opacity-5 text-dark" href="javascript:;">Manager</a>
+                    <a class="opacity-5 text-dark" href="javascript:;">Admin</a>
                 </li>
                 <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
                     Create Orders
@@ -187,10 +187,10 @@
                                     </td>
                                     <td class="align-middle text-center text-sm">
                                         <div class="d-flex gap-2 justify-content-center">
-                                            <a href="{{ route('admin.add-jobcards', ['order_id' => $order->id] )}}"
+                                            <!-- <a href="{{ route('admin.add-jobcards', ['order_id' => $order->id] )}}"
                                                 class="btn btn-primary px-3 py-2 rounded m-0">
                                                 <i class="fa fa-plus"></i> Add Jobcard
-                                            </a>
+                                            </a> -->
 
                                             <a href="{{ route('admin.view-created-jobcards', $order->id) }}"
                                                 class="btn btn-success px-3 py-2 rounded m-0">
@@ -246,10 +246,10 @@
 </div>
 
 <!-- Add Button -->
-<button type="button" class="btn btn-primary addFixedModalButton" data-bs-toggle="modal"
+<!-- <button type="button" class="btn btn-primary addFixedModalButton" data-bs-toggle="modal"
     data-bs-target="#addModal">
     <i class="fa fa-plus"></i>
-</button>
+</button> -->
 
 <!-- Add Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -10,7 +10,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                 <li class="breadcrumb-item text-sm">
-                    <a class="opacity-5 text-dark" href="javascript:;">Manager</a>
+                    <a class="opacity-5 text-dark" href="javascript:;">Admin</a>
                 </li>
                 <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
                     Paints
@@ -152,10 +152,10 @@
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Status
                                     </th>
-                                    <th
+                                    <!-- <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Actions
-                                    </th>
+                                    </th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -202,7 +202,7 @@
                                                 @endif
                                     </td>
 
-                                    <td class="align-middle text-center text-sm">
+                                    <!-- <td class="align-middle text-center text-sm">
                                         <div class="d-flex gap-2 justify-content-center">
                                             <button type="button" class="btn btn-info px-3 py-2 rounded m-0"
                                                 data-bs-toggle="modal" data-bs-target="#editModal{{$paint->id}}">
@@ -214,7 +214,7 @@
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </div>
-                                    </td>
+                                    </td> -->
                                 </tr>
                                 @endforeach
                             </tbody>

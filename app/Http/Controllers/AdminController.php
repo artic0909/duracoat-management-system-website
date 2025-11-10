@@ -15,6 +15,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\DelayAlertMail;
 use App\Models\JobcardTest;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -158,6 +159,34 @@ class AdminController extends Controller
             return redirect()->back()->with('error', 'Failed to delete paint: ' . $e->getMessage());
         }
     }
+
+    public function usedPaints(Request $request)
+    {
+        $search = $request->input('search');
+
+        $usedPaints = \App\Models\Jobcard::where('jobcard_status', 'delivered')
+            ->select(
+                'paint_id',
+                DB::raw('SUM(paint_used) as total_used_paint'),
+                DB::raw('MAX(created_at) as last_created_at'),
+                DB::raw('MAX(updated_at) as last_updated_at')
+            )
+            ->when($search, function ($query, $search) {
+                // Filter jobcards by related paint attributes
+                $query->whereHas('paint', function ($q) use ($search) {
+                    $q->where('ral_code', 'like', "%{$search}%")
+                        ->orWhere('paint_unique_id', 'like', "%{$search}%");
+                });
+            })
+            ->with('paint')
+            ->groupBy('paint_id')
+            ->orderBy('last_updated_at', 'desc')
+            ->paginate(8);
+
+        return view('admin.used-paints', compact('usedPaints'));
+    }
+
+
     // Paint Management Routes (Manager Guard) =============================================================================================================>
 
 
@@ -527,27 +556,8 @@ class AdminController extends Controller
     public function updatePowderApplied($id)
     {
         $jobcard = Jobcard::findOrFail($id);
-
-        // ensure pre-treatment date exists first
-        if (!$jobcard->pre_treatment_date) {
-            return redirect()->back()->with('error', 'Please mark Pre-Treatment before Powder Application.');
-        }
-
-        $preTreatmentDate = Carbon::parse($jobcard->pre_treatment_date);
-        $today = Carbon::today();
-        $diffDays = $preTreatmentDate->diffInDays($today);
-
-        if ($diffDays > 3) {
-            // send alert email
-            // Mail::to('saklindeveloper@gmail.com')->send(new DelayAlertMail($jobcard, $diffDays));
-
-            // don’t update date, show error
-            return redirect()->back()->with('error', 'Powder Application delayed by more than 3 days! Alert sent to admin.');
-        }
-
-        // within 3 days → update normally
         $jobcard->update([
-            'powder_apply_date' => $today,
+            'powder_apply_date' => Carbon::today(),
             'jobcard_status' => 'powder-applied',
         ]);
 
@@ -713,6 +723,35 @@ class AdminController extends Controller
         $jobcards = $query->paginate(5);
 
         return view('admin.all-jobcards', compact('jobcards'));
+    }
+
+    public function allRejectedJobcardsView(Request $request)
+    {
+        $threeDaysAgo = Carbon::now()->subDays(3)->toDateString();
+
+        $query = Jobcard::with('order.client')
+            ->where('jobcard_status', 'pre-treatment')
+            ->whereNotNull('pre_treatment_date')
+            ->whereNull('powder_apply_date')
+            ->whereDate('pre_treatment_date', '<=', $threeDaysAgo)
+            ->orderBy('id', 'desc');
+
+        // Optional filters
+        if ($request->filled('jobcard_number')) {
+            $query->where('jobcard_number', 'like', '%' . $request->jobcard_number . '%');
+        }
+
+        if ($request->filled('from_date') && $request->filled('end_date')) {
+            $query->whereBetween('created_at', [$request->from_date, $request->end_date]);
+        } elseif ($request->filled('from_date')) {
+            $query->whereDate('created_at', '>=', $request->from_date);
+        } elseif ($request->filled('end_date')) {
+            $query->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $jobcards = $query->paginate(5);
+
+        return view('admin.reject-jobcards', compact('jobcards'));
     }
 
     // Material Out Management Routes (Manager Guard) =============================================================================================================>

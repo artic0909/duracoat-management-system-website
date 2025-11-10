@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Jobcard Details')
+@section('title', 'All Jobcards')
 
 @section('content')
 <!-- Navbar -->
@@ -13,20 +13,38 @@
                     <a class="opacity-5 text-dark" href="javascript:;">Admin</a>
                 </li>
                 <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
-                    View Jobcards
+                    All Jobcards
                 </li>
             </ol>
-            <h6 class="font-weight-bolder mb-0">Here you can find all the jobcards of this <span
-                    class="text-primary">{{ $order->client->client_name }} - {{ $order->client->email }}</span></h6>
-            <h6 class="font-weight-bolder mb-0">Order NO: <span class="text-primary"> {{ $order->order_number }}</span></h6>
+            <h6 class="font-weight-bolder mb-0">Here you can find all the jobcards</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                <div class="input-group">
-                    <span class="input-group-text text-body"><i class="fas fa-search"
-                            aria-hidden="true"></i></span>
-                    <input type="text" class="form-control" placeholder="Type here..." />
-                </div>
+                <form action="{{ route('admin.rejected-jobcards') }}" method="GET" style="display: flex; gap: 10px; align-items: center; margin-bottom: 15px;">
+                    <div class="input-group" style="width: 220px;">
+                        <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+                        <input type="text" name="jobcard_number" class="form-control" placeholder="Search Jobcard No..."
+                            value="{{ request('jobcard_number') }}">
+                    </div>
+
+                    <div>
+                        <label for="from_date">From:</label>
+                        <input type="date" name="from_date" value="{{ request('from_date') }}"
+                            style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+
+                    <div>
+                        <label for="end_date">To:</label>
+                        <input type="date" name="end_date" value="{{ request('end_date') }}"
+                            style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 5px;">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary"
+                        style="padding: 6px 15px; border-radius: 5px;">Search</button>
+
+                    <a href="{{ route('admin.rejected-jobcards') }}" class="btn btn-secondary"
+                        style="padding: 6px 15px; border-radius: 5px;">Reset</a>
+                </form>
             </div>
             <ul class="navbar-nav justify-content-end">
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -46,10 +64,10 @@
                     <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
                         aria-labelledby="dropdownMenuButton">
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                            <a class="dropdown-item border-radius-md" href="{{ route('admin.profile') }}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm me-3" />
+                                        <img src="{{ asset('assets/img/team-2.jpg') }}" class="avatar avatar-sm me-3" />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
@@ -60,10 +78,10 @@
                             </a>
                         </li>
                         <li class="mb-2">
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
+                            <a class="dropdown-item border-radius-md" href="{{ route('admin.logout') }}">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="../assets/img/team-2.jpg"
+                                        <img src="{{ asset('assets/img/team-2.jpg') }}"
                                             class="avatar avatar-sm bg-gradient-dark me-3" />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
@@ -71,43 +89,6 @@
                                             <span class="font-weight-bold">Logout</span>&nbsp;<i
                                                 class="fa fa-power-off"></i>
                                         </h6>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item border-radius-md" href="javascript:;">
-                                <div class="d-flex py-1">
-                                    <div class="avatar avatar-sm bg-gradient-secondary me-3 my-auto">
-                                        <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <title>credit-card</title>
-                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <g transform="translate(-2169.000000, -745.000000)"
-                                                    fill="#FFFFFF" fill-rule="nonzero">
-                                                    <g transform="translate(1716.000000, 291.000000)">
-                                                        <g transform="translate(453.000000, 454.000000)">
-                                                            <path class="color-background"
-                                                                d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z"
-                                                                opacity="0.593633743"></path>
-                                                            <path class="color-background"
-                                                                d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z">
-                                                            </path>
-                                                        </g>
-                                                    </g>
-                                                </g>
-                                            </g>
-                                        </svg>
-                                    </div>
-                                    <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="text-sm font-weight-normal mb-1">
-                                            Payment successfully completed
-                                        </h6>
-                                        <p class="text-xs text-secondary mb-0">
-                                            <i class="fa fa-clock me-1"></i>
-                                            2 days
-                                        </p>
                                     </div>
                                 </div>
                             </a>
@@ -162,17 +143,6 @@
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Powder Apply Date
-                                    </th>
-
-
-                                    <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Delivery Date
-                                    </th>
-
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Actions
                                     </th>
                                 </tr>
                             </thead>
@@ -255,78 +225,38 @@
                                         @endif
                                     </td>
 
-                                    <td class="text-center text-xs font-weight-bold">
-                                        {{-- DELIVERY COLUMN --}}
-                                        @if (!$jobcard->pre_treatment_date)
-                                        {{-- No pre-treatment → disable everything --}}
-                                        —
-                                        @elseif (!$jobcard->powder_apply_date)
-                                        {{-- Powder apply not done yet → show "-" --}}
-                                        —
-                                        @elseif ($jobcard->delivery_date)
-                                        {{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d/m/Y') }}
-                                        @else
-                                        {{-- Both pre-treatment & powder apply done → show delivery button --}}
-                                        <button type="button" class="btn btn-success px-3 py-2 rounded m-0"
-                                            data-bs-toggle="modal" data-bs-target="#deliveredModal{{ $jobcard->id }}">
-                                            <i class="fa fa-check"></i>
-                                        </button>
-                                        @endif
-                                    </td>
-
-
-                                    <td class="text-center text-xs font-weight-bold">
-                                        <div class="d-flex gap-2 flex-column">
-                                            <!-- @if ($jobcard->tests->isNotEmpty())
-                                            <a href="{{ route('admin.jobcard-test', $jobcard->id) }}"
-                                                class="btn btn-outline-secondary px-3 py-2 rounded m-0">
-                                                Test Again
-                                            </a>
-                                            @else
-                                            <a href="{{ route('admin.jobcard-test', $jobcard->id) }}"
-                                                class="btn btn-primary px-3 py-2 rounded m-0">
-                                                Give Test
-                                            </a>
-                                            @endif -->
-
-                                            <button type="button" data-bs-toggle="modal"
-                                                data-bs-target="#testresultModal{{ $jobcard->id }}"
-                                                class="btn btn-outline-primary px-3 py-2 rounded m-0">
-                                                Test Result
-                                            </button>
-                                            <a href="{{ route('admin.jobcard.pdf', $jobcard->id) }}"
-                                                class="btn btn-outline-success px-3 py-2 rounded m-0">
-                                                Print Jobcard
-                                            </a>
-
-                                            @if ($jobcard->paint_used)
-                                            <button type="button" class="btn btn-danger rounded m-0"
-                                                data-bs-toggle="modal" data-bs-target="#deleteModal{{ $jobcard->id }}">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                            @else
-                                            <div>
-                                                <a href="{{ route('admin.edit-jobcards', $jobcard->id) }}" class="btn btn-info rounded m-0">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-
-                                                <button type="button" class="btn btn-danger rounded m-0"
-                                                    data-bs-toggle="modal" data-bs-target="#deleteModal{{ $jobcard->id }}">
-                                                    <i class="fa fa-trash"></i>
-                                                </button>
-                                            </div>
-                                            @endif
-                                        </div>
-                                    </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="12" class="text-center text-muted py-4">
+                                    <td colspan="9" class="text-center text-muted py-4">
                                         No jobcards created yet for this order.
                                     </td>
                                 </tr>
                                 @endforelse
                             </tbody>
+
+                            <!-- pagination -->
+                            <tfoot>
+                                <tr>
+                                    <td colspan="11" class="text-center">
+                                        <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
+                                            @if ($jobcards->onFirstPage())
+                                            <span class="text-muted">Prev</span>
+                                            @else
+                                            <a href="{{ $jobcards->previousPageUrl() }}" class="text-primary text-decoration-none">Prev</a>
+                                            @endif
+
+                                            <span>{{ $jobcards->currentPage() }} / {{ $jobcards->lastPage() }}</span>
+
+                                            @if ($jobcards->hasMorePages())
+                                            <a href="{{ $jobcards->nextPageUrl() }}" class="text-primary text-decoration-none">Next</a>
+                                            @else
+                                            <span class="text-muted">Next</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
 
                             <!-- Modals -->
                             <!-- Pre-Treatment Modal -->
@@ -408,12 +338,6 @@
         </div>
     </div>
 </div>
-
-<!-- Create Jobcard Button -->
-<!-- <a href="{{ route('admin.add-jobcards', ['order_id' => $order->id] )}}" class="btn btn-primary addFixedModalButton">
-    <i class="fa fa-plus"></i>
-</a> -->
-
 
 <!-- Delete Jobcard Modal -->
 @foreach ($jobcards as $jobcard)
@@ -516,8 +440,6 @@
     </div>
 </div>
 @endforeach
-
-
 
 
 @endsection

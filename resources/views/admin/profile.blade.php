@@ -10,7 +10,7 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                 <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark"
-                        href="javascript:;">Manager</a>
+                        href="javascript:;">Admin</a>
                 </li>
                 <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Profile</li>
             </ol>
@@ -99,7 +99,7 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fa fa-user"></i></span>
                                 <input type="text" name="name" class="form-control" id="profileName"
-                                    value="{{ Auth::guard('manager')->user()->name }}" required>
+                                    value="{{ Auth::guard('admin')->user()->name }}" required>
                             </div>
                         </div>
 
@@ -109,7 +109,7 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                                 <input type="email" name="email" class="form-control" id="profileEmail"
-                                    value="{{ Auth::guard('manager')->user()->email }}" readonly>
+                                    value="{{ Auth::guard('admin')->user()->email }}" readonly>
                             </div>
                         </div>
 
