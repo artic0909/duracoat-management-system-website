@@ -566,7 +566,7 @@ class ManagerController extends Controller
 
         if ($diffDays > 3) {
             // send alert email
-            Mail::to('saklindeveloper@gmail.com')->send(new DelayAleartMail($jobcard, $diffDays));
+            Mail::to('arif@rconpl.in')->cc('rakibul@rconpl.in')->send(new DelayAleartMail($jobcard, $diffDays));
 
             // don’t update date, show error
             return redirect()->back()->with('error', 'Powder Application delayed by more than 3 days! Alert sent to admin.');
