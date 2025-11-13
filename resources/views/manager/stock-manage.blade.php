@@ -51,6 +51,10 @@
                         Reset
                     </a>
                     @endif
+                    <a href="{{ route('manager.export.paints') }}"
+                        style="background-color: #034078; color: white; border: none; border-radius: 6px; padding: 8px 14px; text-decoration: none;">
+                        Export
+                    </a>
                 </form>
             </div>
             <ul class="navbar-nav justify-content-end">

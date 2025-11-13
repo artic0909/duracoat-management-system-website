@@ -44,6 +44,11 @@
 
                     <a href="{{ route('manager.all-jobcards') }}" class="btn btn-secondary"
                         style="padding: 6px 15px; border-radius: 5px;">Reset</a>
+
+                    <a href="{{ route('manager.export.jobcards') }}" class="btn"
+                        style="background-color: #034078; color: white; padding: 6px 15px; border-radius: 5px;">
+                        Export
+                    </a>
                 </form>
             </div>
             <ul class="navbar-nav justify-content-end">

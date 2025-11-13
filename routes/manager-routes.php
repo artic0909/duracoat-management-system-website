@@ -68,4 +68,11 @@ Route::middleware(['auth:manager'])->prefix('manager')->group(function () {
     // Profile Routes
     Route::get('/profile', [ManagerController::class, 'profileView'])->name('manager.profile');
     Route::put('/profile', [ManagerController::class, 'profileUpdate'])->name('manager.profile.update');
+
+    // Exports Routes
+    Route::get('/export/paints', [ManagerController::class, 'exportPaintsToExcel'])->name('manager.export.paints');
+    Route::get('/export/jobcards', [ManagerController::class, 'exportJobcardsToExcel'])->name('manager.export.jobcards');
+    Route::get('/export/orders', [ManagerController::class, 'exportOrdersToExcel'])->name('manager.export.orders');
+    Route::get('/export/client-materials/in', [ManagerController::class, 'exportClientAndMaterialsInToExcel'])->name('manager.export.client.in');
+    Route::get('/export/client-materials/out', [ManagerController::class, 'exportClientAndMaterialsOutToExcel'])->name('manager.export.client.out');
 });

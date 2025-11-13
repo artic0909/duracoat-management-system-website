@@ -18,7 +18,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::post('/paint-manage', [AdminController::class, 'paintManageStore'])->name('admin.paint-manage.store');
     Route::put('/paint-manage/{id}', [AdminController::class, 'paintManageUpdate'])->name('admin.paint-manage.update');
     Route::delete('/paint-manage/{id}', [AdminController::class, 'paintManageDelete'])->name('admin.paint-manage.delete');
-    
+
     Route::get('/used-paint', [AdminController::class, 'usedPaints'])->name('admin.used-paints');
 
     // Clients Management Routes (Manager Guard) =============================================================================================================>
@@ -37,7 +37,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/add-jobcards/{order_id}', [AdminController::class, 'addJobcardView'])->name('admin.add-jobcards');
     Route::post('/add-jobcards/{order_id}', [AdminController::class, 'addJobcardStore'])->name('admin.add-jobcards.store');
     Route::delete('/add-jobcards/{id}', [AdminController::class, 'addJobcardDelete'])->name('admin.add-jobcards.delete');
-    
+
     Route::get('/edit-jobcards/{id}', [AdminController::class, 'editJobcardView'])->name('admin.edit-jobcards');
     Route::put('/edit-jobcards/{id}', [AdminController::class, 'updateJobcard'])->name('admin.edit-jobcards.update');
 
@@ -69,5 +69,10 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/profile', [AdminController::class, 'profileView'])->name('admin.profile');
     Route::put('/profile', [AdminController::class, 'profileUpdate'])->name('admin.profile.update');
 
-
+    // Exports Routes
+    Route::get('/export/paints', [AdminController::class, 'exportPaintsToExcel'])->name('admin.export.paints');
+    Route::get('/export/jobcards', [AdminController::class, 'exportJobcardsToExcel'])->name('admin.export.jobcards');
+    Route::get('/export/orders', [AdminController::class, 'exportOrdersToExcel'])->name('admin.export.orders');
+    Route::get('/export/client-materials/in', [AdminController::class, 'exportClientAndMaterialsInToExcel'])->name('admin.export.client.in');
+    Route::get('/export/client-materials/out', [AdminController::class, 'exportClientAndMaterialsOutToExcel'])->name('admin.export.client.out');
 });

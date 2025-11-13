@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ClientMaterialsInExport;
 use App\Models\ClientMaterial;
 use App\Models\Jobcard;
 use App\Models\Order;
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\DelayAlertMail;
 use App\Models\JobcardTest;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\GenericExport;
 
 class ViewerController extends Controller
 {
@@ -862,5 +865,212 @@ class ViewerController extends Controller
         $user->save();
 
         return back()->with('success', 'Profile updated successfully.');
+    }
+
+
+
+    // Export in Excel =============================================================================================================>
+    public function exportPaintsToExcel(Request $request)
+    {
+        $paints = DB::table('paints')
+            ->select('paint_unique_id', 'brand_name', 'ral_code', 'shade_name', 'finish', 'quantity')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $data = $paints->map(function ($item) {
+            // Determine stock status based on quantity
+            if ($item->quantity <= 0) {
+                $stockStatus = 'Out of Stock';
+            } elseif ($item->quantity <= 5) {
+                $stockStatus = 'Low Stock';
+            } else {
+                $stockStatus = 'In Stock';
+            }
+
+            return [
+                'Paint Unique ID' => $item->paint_unique_id,
+                'Brand Name' => $item->brand_name,
+                'RAL Code' => $item->ral_code,
+                'Shade Name' => $item->shade_name,
+                'Finish' => $item->finish,
+                'Quantity' => $item->quantity,
+                'Unit' => 'Kg',
+                'Status' => $stockStatus,
+            ];
+        });
+
+        $headings = [
+            'Paint Unique ID',
+            'Brand Name',
+            'RAL Code',
+            'Shade Name',
+            'Finish',
+            'Quantity',
+            'Unit',
+            'Status',
+        ];
+
+        return Excel::download(new GenericExport($data, $headings), 'paints_export.xlsx');
+    }
+
+    public function exportJobcardsToExcel(Request $request)
+    {
+        // Join jobcards with orders to get order_number
+        $jobcards = DB::table('jobcards')
+            ->join('orders', 'jobcards.order_id', '=', 'orders.id')
+            ->select(
+                'jobcards.jobcard_creation_date',
+                'orders.order_number',
+                'jobcards.jobcard_number',
+                'jobcards.material_type',
+                'jobcards.material_name',
+                'jobcards.material_quantity',
+                'jobcards.material_unit',
+                'jobcards.paint_used',
+                'jobcards.jobcard_status',
+                'jobcards.pre_treatment_date',
+                'jobcards.powder_apply_date',
+                'jobcards.delivery_date',
+                'jobcards.delivery_statement',
+                'jobcards.created_at'
+            )
+            ->orderBy('jobcards.id', 'desc')
+            ->get();
+
+        // Map the data for export
+        $data = $jobcards->map(function ($item) {
+            return [
+                'Creation Date' => $item->jobcard_creation_date,
+                'Order Number' => $item->order_number,
+                'Jobcard Number' => $item->jobcard_number,
+                'Material Type' => $item->material_type,
+                'Material Name' => $item->material_name,
+                'Quantity' => $item->material_quantity,
+                'Unit' => $item->material_unit,
+                'Paint Used' => $item->paint_used,
+                'Status' => ucfirst($item->jobcard_status),
+                'Pre-Treatment Date' => $item->pre_treatment_date,
+                'Powder Apply Date' => $item->powder_apply_date,
+                'Delivery Date' => $item->delivery_date,
+                'Delivery Statement' => $item->delivery_statement,
+                'Created At' => $item->created_at,
+            ];
+        });
+
+        // Headings for Excel file
+        $headings = [
+            'Creation Date',
+            'Order Number',
+            'Jobcard Number',
+            'Material Type',
+            'Material Name',
+            'Quantity',
+            'Unit',
+            'Paint Used',
+            'Status',
+            'Pre-Treatment Date',
+            'Powder Apply Date',
+            'Delivery Date',
+            'Delivery Statement',
+            'Created At',
+        ];
+
+        // Export as Excel file
+        return Excel::download(new GenericExport($data, $headings), 'jobcards_export.xlsx');
+    }
+
+    public function exportOrdersToExcel(Request $request)
+    {
+        $orders = DB::table('orders')
+            ->join('client_materials', 'orders.client_id', '=', 'client_materials.id')
+            ->select('orders.order_number', 'client_materials.client_name', 'client_materials.email', 'client_materials.mobile', 'orders.created_at')
+            ->orderBy('orders.id', 'desc')
+            ->get();
+
+        $data = $orders->map(function ($item) {
+            return [
+                'Order Number' => $item->order_number,
+                'Client Name' => $item->client_name,
+                'Email' => $item->email,
+                'Mobile' => $item->mobile,
+                'Created At' => $item->created_at,
+            ];
+        });
+
+        $headings = ['Order Number', 'Client Name', 'Email', 'Mobile', 'Created At'];
+
+        return Excel::download(new GenericExport($data, $headings), 'orders_export.xlsx');
+    }
+
+    public function exportClientAndMaterialsInToExcel(Request $request)
+    {
+        return Excel::download(new ClientMaterialsInExport, 'client_materials_in.xlsx');
+    }
+
+    public function exportClientAndMaterialsOutToExcel(Request $request)
+    {
+        // Fetch only delivered jobcards and join with orders
+        $jobcards = DB::table('jobcards')
+            ->join('orders', 'jobcards.order_id', '=', 'orders.id')
+            ->select(
+                'jobcards.jobcard_creation_date',
+                'orders.order_number',
+                'jobcards.jobcard_number',
+                'jobcards.material_type',
+                'jobcards.material_name',
+                'jobcards.material_quantity',
+                'jobcards.material_unit',
+                'jobcards.paint_used',
+                'jobcards.jobcard_status',
+                'jobcards.pre_treatment_date',
+                'jobcards.powder_apply_date',
+                'jobcards.delivery_date',
+                'jobcards.delivery_statement',
+                'jobcards.created_at'
+            )
+            ->where('jobcards.jobcard_status', '=', 'delivered')
+            ->orderBy('jobcards.id', 'desc')
+            ->get();
+
+        // Map the data for Excel
+        $data = $jobcards->map(function ($item) {
+            return [
+                'Creation Date' => $item->jobcard_creation_date,
+                'Order Number' => $item->order_number,
+                'Jobcard Number' => $item->jobcard_number,
+                'Material Type' => $item->material_type,
+                'Material Name' => $item->material_name,
+                'Quantity' => $item->material_quantity,
+                'Unit' => $item->material_unit,
+                'Paint Used' => $item->paint_used,
+                'Status' => ucfirst($item->jobcard_status),
+                'Pre-Treatment Date' => $item->pre_treatment_date,
+                'Powder Apply Date' => $item->powder_apply_date,
+                'Delivery Date' => $item->delivery_date,
+                'Delivery Statement' => $item->delivery_statement,
+                'Created At' => $item->created_at,
+            ];
+        });
+
+        // Headings for Excel export
+        $headings = [
+            'Creation Date',
+            'Order Number',
+            'Jobcard Number',
+            'Material Type',
+            'Material Name',
+            'Quantity',
+            'Unit',
+            'Paint Used',
+            'Status',
+            'Pre-Treatment Date',
+            'Powder Apply Date',
+            'Delivery Date',
+            'Delivery Statement',
+            'Created At',
+        ];
+
+        // Download Excel
+        return Excel::download(new GenericExport($data, $headings), 'client_materials_out.xlsx');
     }
 }

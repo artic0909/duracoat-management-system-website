@@ -18,7 +18,7 @@ Route::middleware(['auth:viewer'])->prefix('viewer')->group(function () {
     Route::post('/paint-manage', [ViewerController::class, 'paintManageStore'])->name('viewer.paint-manage.store');
     Route::put('/paint-manage/{id}', [ViewerController::class, 'paintManageUpdate'])->name('viewer.paint-manage.update');
     Route::delete('/paint-manage/{id}', [ViewerController::class, 'paintManageDelete'])->name('viewer.paint-manage.delete');
-    
+
     Route::get('/used-paint', [ViewerController::class, 'usedPaints'])->name('viewer.used-paints');
 
     // Clients Management Routes (Manager Guard) =============================================================================================================>
@@ -37,7 +37,7 @@ Route::middleware(['auth:viewer'])->prefix('viewer')->group(function () {
     Route::get('/add-jobcards/{order_id}', [ViewerController::class, 'addJobcardView'])->name('viewer.add-jobcards');
     Route::post('/add-jobcards/{order_id}', [ViewerController::class, 'addJobcardStore'])->name('viewer.add-jobcards.store');
     Route::delete('/add-jobcards/{id}', [ViewerController::class, 'addJobcardDelete'])->name('viewer.add-jobcards.delete');
-    
+
     Route::get('/edit-jobcards/{id}', [ViewerController::class, 'editJobcardView'])->name('viewer.edit-jobcards');
     Route::put('/edit-jobcards/{id}', [ViewerController::class, 'updateJobcard'])->name('viewer.edit-jobcards.update');
 
@@ -69,5 +69,10 @@ Route::middleware(['auth:viewer'])->prefix('viewer')->group(function () {
     Route::get('/profile', [ViewerController::class, 'profileView'])->name('viewer.profile');
     Route::put('/profile', [ViewerController::class, 'profileUpdate'])->name('viewer.profile.update');
 
-
+    // Exports Routes
+    Route::get('/export/paints', [ViewerController::class, 'exportPaintsToExcel'])->name('viewer.export.paints');
+    Route::get('/export/jobcards', [ViewerController::class, 'exportJobcardsToExcel'])->name('viewer.export.jobcards');
+    Route::get('/export/orders', [ViewerController::class, 'exportOrdersToExcel'])->name('viewer.export.orders');
+    Route::get('/export/client-materials/in', [ViewerController::class, 'exportClientAndMaterialsInToExcel'])->name('viewer.export.client.in');
+    Route::get('/export/client-materials/out', [ViewerController::class, 'exportClientAndMaterialsOutToExcel'])->name('viewer.export.client.out');
 });

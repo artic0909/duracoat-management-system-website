@@ -44,6 +44,11 @@
 
                     <a href="{{ route('admin.orders-and-jobcards') }}" class="btn btn-secondary"
                         style="padding: 6px 15px; border-radius: 5px;">Reset</a>
+
+                    <a href="{{ route('admin.export.orders') }}" class="btn"
+                        style="background-color: #034078; color: white; padding: 6px 15px; border-radius: 5px;">
+                        Export
+                    </a>
                 </form>
 
             </div>

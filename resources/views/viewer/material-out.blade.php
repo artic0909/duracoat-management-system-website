@@ -44,6 +44,10 @@
 
                     <a href="{{ route('viewer.material-out') }}" class="btn btn-secondary"
                         style="padding: 6px 15px; border-radius: 5px;">Reset</a>
+
+                    <a href="{{ route('viewer.export.client.out') }}" class="btn"
+                        style="background-color: #034078; color: white; padding: 6px 15px; border-radius: 5px;">Export</a>
+
                 </form>
             </div>
             <ul class="navbar-nav justify-content-end">
