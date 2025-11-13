@@ -22,6 +22,7 @@ class Jobcard extends Model
         'pre_treatment_date',
         'powder_apply_date',
         'delivery_date',
+        'delivery_statement',
     ];
 
     protected $casts = [
@@ -29,6 +30,7 @@ class Jobcard extends Model
         'pre_treatment_date'    => 'date',
         'powder_apply_date'     => 'date',
         'delivery_date'         => 'date',
+        'delivery_statement'    => 'string',
     ];
 
     /**

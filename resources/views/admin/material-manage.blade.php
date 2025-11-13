@@ -205,10 +205,10 @@
                                         <!-- Actions -->
                                         <td class="align-middle text-center text-sm">
                                             <div class="d-flex gap-2 justify-content-center">
-                                                <button type="button" class="btn btn-info px-3 py-2 rounded m-0" data-bs-toggle="modal"
+                                                <!-- <button type="button" class="btn btn-info px-3 py-2 rounded m-0" data-bs-toggle="modal"
                                                     data-bs-target="#editModal{{ $client->id }}">
                                                     <i class="fa fa-pencil"></i>
-                                                </button>
+                                                </button> -->
                                                 <button type="button" class="btn btn-danger px-3 py-2 rounded m-0" data-bs-toggle="modal"
                                                     data-bs-target="#deleteModal{{ $client->id }}">
                                                     <i class="fa fa-trash"></i>

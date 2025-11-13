@@ -148,7 +148,15 @@
 
             <tr>
                 <td><strong>Job Card Prepared By</strong><br><br></td>
-                <td><strong>Material Delivery Date</strong><br><br>{{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d/m/Y') }}</td>
+                <td><strong>Material Delivery Date</strong><br><br>
+                    @if(isset($jobcard->delivery_date))
+                    {{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d/m/Y') }}
+                    @else
+                    
+                        {!! nl2br(e($jobcard->delivery_statement ?? '')) !!}
+                    
+                    @endif
+                </td>
             </tr>
         </table>
     </div>

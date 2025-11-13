@@ -303,7 +303,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="quantity">Purchase Quantity</label>
-                            <input type="number" class="form-control" name="quantity" id="quantity" />
+                            <input type="text" class="form-control" name="quantity" id="quantity" />
                         </div>
                     </div>
                 </div>
@@ -369,7 +369,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="quantity">Purchase Quantity</label>
-                            <input type="number" class="form-control" value="{{$paint->quantity}}" name="quantity" id="quantity" />
+                            <input type="text" class="form-control" value="{{$paint->quantity}}" name="quantity" id="quantity" />
                         </div>
                     </div>
                 </div>

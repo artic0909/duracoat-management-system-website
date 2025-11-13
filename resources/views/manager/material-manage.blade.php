@@ -314,21 +314,21 @@
                                         placeholder="Material Name" required>
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="number" name="quantity[]" class="form-control"
+                                    <input type="text" name="quantity[]" class="form-control"
                                         placeholder="Quantity" required>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <select name="unit[]" class="form-select" required>
-                                        <option value="">Select Unit</option>
+                                        <option value="">Unit</option>
                                         <option value="KG">KG</option>
                                         <option value="Nos">Nos</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <select name="paint_id[]" class="form-select" required>
                                         <option value="">Select Paint</option>
                                         @foreach ($paints as $paint)
-                                        <option value="{{ $paint->id }}">{{ $paint->ral_code }} - {{ $paint->brand_name }}</option>
+                                        <option value="{{ $paint->id }}">{{ $paint->ral_code }} - {{ $paint->brand_name }} - {{ $paint->shade_name}} - {{ $paint->finish }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -405,21 +405,21 @@
                                     <input type="text" name="material_name[]" class="form-control" value="{{ $material['material_name'] ?? '' }}" placeholder="Material Name" required>
                                 </div>
                                 <div class="col-md-2">
-                                    <input type="number" name="quantity[]" class="form-control" value="{{ $material['quantity'] ?? '' }}" placeholder="Quantity" required>
+                                    <input type="text" name="quantity[]" class="form-control" value="{{ $material['quantity'] ?? '' }}" placeholder="Quantity" required>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <select name="unit[]" class="form-select" required>
                                         <option value="">Select Unit</option>
                                         <option value="KG" {{ $material['unit'] == 'KG' ? 'selected' : '' }}>KG</option>
                                         <option value="Nos" {{ $material['unit'] == 'Nos' ? 'selected' : '' }}>Nos</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <select name="paint_id[]" class="form-select" required>
                                         <option value="">Select Paint</option>
                                         @foreach ($paints as $paint)
                                         <option value="{{ $paint->id }}" {{ isset($material['paint_id']) && $material['paint_id'] == $paint->id ? 'selected' : '' }}>
-                                            {{ $paint->ral_code }} - {{ $paint->brand_name }}
+                                            {{ $paint->ral_code }} - {{ $paint->brand_name }} - {{ $paint->shade_name}} - {{ $paint->finish }}
                                         </option>
                                         @endforeach
                                     </select>
@@ -449,7 +449,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <select name="unit[]" class="form-select" required>
-                                        <option value="">Select Unit</option>
+                                        <option value="">Unit</option>
                                         <option value="KG">KG</option>
                                         <option value="Nos">Nos</option>
                                     </select>
@@ -531,18 +531,18 @@
             <div class="col-md-2">
                 <input type="number" name="quantity[]" class="form-control" placeholder="Quantity" required>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <select name="unit[]" class="form-select" required>
-                    <option value="">Select Unit</option>
+                    <option value="">Unit</option>
                     <option value="KG">KG</option>
                     <option value="Nos">Nos</option>
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <select name="paint_id[]" class="form-select" required>
                     <option value="">Select Paint</option>
                     @foreach ($paints as $paint)
-                        <option value="{{ $paint->id }}">{{ $paint->ral_code }}</option>
+                        <option value="{{ $paint->id }}">{{ $paint->ral_code }} - {{ $paint->brand_name }} - {{ $paint->shade_name }} - {{ $paint->finish }}</option>
                     @endforeach
                 </select>
             </div>

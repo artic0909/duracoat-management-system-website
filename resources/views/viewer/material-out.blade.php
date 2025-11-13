@@ -190,7 +190,20 @@
 
                                     </td>
                                     <td>
-                                        <span class="text-secondary text-xs fw-bolder bg-success text-dark m-0 p-1">{{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d/m/Y') }}</span>
+                                        @if ($jobcard->delivery_date)
+                                        <span class="text-secondary text-xs fw-bolder bg-success text-dark m-0 p-1">
+                                            {{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d/m/Y') }}
+                                        </span>
+                                        @elseif ($jobcard->delivery_statement)
+                                        <button type="button" class="btn btn-primary"
+                                            data-bs-target="#deliveryStatementModal{{ $jobcard->id }}"
+                                            data-bs-toggle="modal"
+                                            data-bs-dismiss="modal">
+                                            View Statement
+                                        </button>
+                                        @else
+                                        —
+                                        @endif
 
                                     </td>
 
@@ -367,6 +380,35 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
+            </div>
+        </form>
+    </div>
+</div>
+@endforeach
+
+
+<!-- Delivered Statement Modal -->
+@foreach ($jobcards as $jobcard)
+<div class="modal fade" id="deliveryStatementModal{{ $jobcard->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deliveryStatementLabel{{ $jobcard->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{ route('manager.update.delivered-statement', $jobcard->id) }}" method="POST">
+            @csrf
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delivery Statement</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="delivery_statement_{{ $jobcard->id }}" class="form-label fw-semibold">Write your delivery statement:</label>
+                    <textarea name="delivery_statement" id="delivery_statement_{{ $jobcard->id }}" rows="4" class="form-control" placeholder="Write your delivery note or reason..." readonly>{{$jobcard->delivery_statement}}</textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                        class="btn btn-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="submit" class="btn btn-primary">Submit Statement</button>
+                </div>
             </div>
         </form>
     </div>

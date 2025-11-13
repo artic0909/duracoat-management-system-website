@@ -88,7 +88,9 @@ class ManagerController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('ral_code', 'like', "%{$search}%")
-                    ->orWhere('paint_unique_id', 'like', "%{$search}%");
+                    ->orWhere('paint_unique_id', 'like', "%{$search}%")
+                    ->orWhere('shade_name', 'like', "%{$search}%")
+                    ->orWhere('finish', 'like', "%{$search}%");
             });
         }
 
@@ -336,7 +338,13 @@ class ManagerController extends Controller
         }
 
         $orders = $query->paginate(8);
-        $clients = ClientMaterial::orderBy('id', 'desc')->get();
+        $clients = ClientMaterial::orderBy('id', 'desc')->get()->map(function ($client) {
+            if (is_string($client->material_details)) {
+                $client->material_details = json_decode($client->material_details, true);
+            }
+            return $client;
+        });
+
 
         $jobcardsCountPerticularOrder = [];
         foreach ($orders as $order) {
@@ -564,15 +572,15 @@ class ManagerController extends Controller
         $today = Carbon::today();
         $diffDays = $preTreatmentDate->diffInDays($today);
 
-        if ($diffDays > 3) {
+        if ($diffDays > 5) {
             // send alert email
             Mail::to('arif@rconpl.in')->cc('rakibul@rconpl.in')->send(new DelayAleartMail($jobcard, $diffDays));
 
             // don’t update date, show error
-            return redirect()->back()->with('error', 'Powder Application delayed by more than 3 days! Alert sent to admin.');
+            return redirect()->back()->with('error', 'Powder Application delayed by more than 5 days! Alert sent to admin.');
         }
 
-        // within 3 days → update normally
+        // within 5 days → update normally
         $jobcard->update([
             'powder_apply_date' => $today,
             'jobcard_status' => 'powder-applied',
@@ -590,6 +598,21 @@ class ManagerController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Jobcard marked as delivered today!');
+    }
+
+    public function updateDeliveryStatement(Request $request, $id)
+    {
+        $request->validate([
+            'delivery_statement' => 'required|string',
+        ]);
+
+        $jobcard = Jobcard::findOrFail($id);
+        $jobcard->update([
+            'delivery_statement' => $request->delivery_statement,
+            'jobcard_status' => 'delivered',
+        ]);
+
+        return redirect()->back()->with('success', 'Delivery statement updated successfully!');
     }
 
     // Tests Management Routes
@@ -745,7 +768,7 @@ class ManagerController extends Controller
     // Material Out Management Routes (Manager Guard) =============================================================================================================>
     public function materialOutView(Request $request)
     {
-        $query = Jobcard::with('order.client')->whereNotNull('delivery_date')->orderBy('id', 'desc');
+        $query = Jobcard::with('order.client')->where('jobcard_status', 'delivered')->orderBy('id', 'desc');
 
         if ($request->filled('order_number')) {
             $search = $request->order_number;
@@ -781,7 +804,9 @@ class ManagerController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('ral_code', 'like', "%{$search}%")
-                    ->orWhere('paint_unique_id', 'like', "%{$search}%");
+                    ->orWhere('paint_unique_id', 'like', "%{$search}%")
+                    ->orWhere('shade_name', 'like', "%{$search}%")
+                    ->orWhere('finish', 'like', "%{$search}%");
             });
         }
 

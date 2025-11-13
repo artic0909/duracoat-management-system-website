@@ -237,27 +237,34 @@
                                     </td>
 
                                     <td class="text-center text-xs font-weight-bold">
-                                        {{-- DELIVERY COLUMN --}}
+                                        <!-- {{-- DELIVERY COLUMN --}} -->
                                         @if (!$jobcard->pre_treatment_date)
-                                        {{-- No pre-treatment → disable everything --}}
+                                        <!-- {{-- No pre-treatment → disable everything --}} -->
                                         —
                                         @elseif (!$jobcard->powder_apply_date)
-                                        {{-- Powder apply not done yet --}}
+                                        <!-- {{-- Powder apply not done yet --}} -->
                                         —
                                         @elseif ($jobcard->delivery_date)
                                         {{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d/m/Y') }}
+                                        @elseif ($jobcard->delivery_statement)
+                                        <button type="button" class="btn btn-info"
+                                            data-bs-target="#deliveryStatementModal{{ $jobcard->id }}"
+                                            data-bs-toggle="modal"
+                                            data-bs-dismiss="modal">
+                                            View Statement
+                                        </button>
                                         @elseif (
                                         $jobcard->pre_treatment_date &&
                                         $jobcard->powder_apply_date &&
                                         \App\Models\JobcardTest::where('jobcard_id', $jobcard->id)->exists()
                                         )
-                                        {{-- All 3 conditions satisfied → show delivery button --}}
+                                        <!-- {{-- All 3 conditions satisfied → show delivery button --}} -->
                                         <button type="button" class="btn btn-success px-3 py-2 rounded m-0"
                                             data-bs-toggle="modal" data-bs-target="#deliveredModal{{ $jobcard->id }}">
                                             <i class="fa fa-check"></i>
                                         </button>
                                         @else
-                                        {{-- If test not found or any condition missing --}}
+                                        <!-- {{-- If test not found or any condition missing --}} -->
                                         <span class="text-danger">Pending Test</span>
                                         @endif
                                     </td>
@@ -394,7 +401,8 @@
 
                             <!-- Delivered Modal -->
                             @foreach ($jobcards as $jobcard)
-                            <div class="modal fade" id="deliveredModal{{ $jobcard->id }}" tabindex="-1" aria-labelledby="deliveredLabel{{ $jobcard->id }}" aria-hidden="true">
+                            <!-- Delivered Confirmation Modal -->
+                            <div class="modal fade" id="deliveredModal{{ $jobcard->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deliveredLabel{{ $jobcard->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <form action="{{ route('manager.update.delivered', $jobcard->id) }}" method="POST">
                                         @csrf
@@ -404,11 +412,53 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Are you sure this material has been <strong>Delivered</strong> today?</p>
+                                                <p>
+                                                    Are you sure this
+                                                    <strong class="text-danger">
+                                                        material quantity ({{ $jobcard->material_quantity }} {{ $jobcard->material_unit }})
+                                                    </strong> has been delivered today?
+                                                </p>
+
+                                                <!-- Trigger for 2nd Modal -->
+                                                <button type="button" class="btn btn-primary"
+                                                    data-bs-target="#deliveryStatementModal{{ $jobcard->id }}"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-dismiss="modal">
+                                                    Or give a delivery statement ?
+                                                </button>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                                 <button type="submit" class="btn btn-success">Yes, Confirm</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Delivery Statement Modal -->
+                            <div class="modal fade" id="deliveryStatementModal{{ $jobcard->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deliveryStatementLabel{{ $jobcard->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <form action="{{ route('manager.update.delivered-statement', $jobcard->id) }}" method="POST">
+                                        @csrf
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Delivery Statement</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <label for="delivery_statement_{{ $jobcard->id }}" class="form-label fw-semibold">Write your delivery statement:</label>
+                                                <textarea name="delivery_statement" id="delivery_statement_{{ $jobcard->id }}" rows="4" class="form-control" placeholder="Write your delivery note or reason...">{{$jobcard->delivery_statement}}</textarea>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button"
+                                                    class="btn btn-secondary"
+                                                    data-bs-target="#deliveredModal{{ $jobcard->id }}"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-dismiss="modal">
+                                                    ← Back
+                                                </button>
+                                                <button type="submit" class="btn btn-primary">Submit Statement</button>
                                             </div>
                                         </div>
                                     </form>

@@ -286,7 +286,7 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <label>Add Paint Quantity (For Restock)</label>
-                            <input type="number" name="quantity" class="form-control" placeholder="Enter quantity in KG" required>
+                            <input type="text" name="quantity" class="form-control" placeholder="Enter quantity in KG" required>
                             <input type="hidden" name="id" value="{{ $paint->id }}">
                         </div>
                     </div>

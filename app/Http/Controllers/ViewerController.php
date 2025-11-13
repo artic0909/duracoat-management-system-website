@@ -88,7 +88,9 @@ class ViewerController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('ral_code', 'like', "%{$search}%")
-                    ->orWhere('paint_unique_id', 'like', "%{$search}%");
+                    ->orWhere('paint_unique_id', 'like', "%{$search}%")
+                    ->orWhere('shade_name', 'like', "%{$search}%")
+                    ->orWhere('finish', 'like', "%{$search}%");
             });
         }
 
@@ -757,7 +759,7 @@ class ViewerController extends Controller
     // Material Out Management Routes (Manager Guard) =============================================================================================================>
     public function materialOutView(Request $request)
     {
-        $query = Jobcard::with('order.client')->whereNotNull('delivery_date')->orderBy('id', 'desc');
+        $query = Jobcard::with('order.client')->where('jobcard_status', 'delivered')->orderBy('id', 'desc');
 
         if ($request->filled('order_number')) {
             $search = $request->order_number;
@@ -793,7 +795,9 @@ class ViewerController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('ral_code', 'like', "%{$search}%")
-                    ->orWhere('paint_unique_id', 'like', "%{$search}%");
+                    ->orWhere('paint_unique_id', 'like', "%{$search}%")
+                    ->orWhere('shade_name', 'like', "%{$search}%")
+                    ->orWhere('finish', 'like', "%{$search}%");
             });
         }
 

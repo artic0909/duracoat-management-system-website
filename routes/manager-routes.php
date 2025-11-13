@@ -45,6 +45,7 @@ Route::middleware(['auth:manager'])->prefix('manager')->group(function () {
     Route::post('/update-jobcard/pretreatment/{id}', [ManagerController::class, 'updatePretreatment'])->name('manager.update.pretreatment');
     Route::post('/update-jobcard/powderapplied/{id}', [ManagerController::class, 'updatePowderApplied'])->name('manager.update.powderapplied');
     Route::post('/update-jobcard/delivered/{id}', [ManagerController::class, 'updateDelivered'])->name('manager.update.delivered');
+    Route::post('/update-jobcard/delivered-statement/{id}', [ManagerController::class, 'updateDeliveryStatement'])->name('manager.update.delivered-statement');
 
     // Test Routes
     Route::get('/jobcard-test/{id}', [ManagerController::class, 'jobcardTestsView'])->name('manager.jobcard-test');

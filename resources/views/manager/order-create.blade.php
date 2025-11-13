@@ -253,7 +253,7 @@
 
 <!-- Add Modal -->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <form class="modal-content" method="POST" action="{{ route('manager.orders-and-jobcards.store') }}">
             @csrf
             <div class="modal-header">
@@ -273,10 +273,25 @@
                                 data-name="{{ $client->client_name }}"
                                 data-email="{{ $client->email }}"
                                 data-mobile="{{ $client->mobile }}">
-                                {{ $client->client_name }} | {{ $client->email }} | {{ $client->mobile }} | {{ $client->client_unique_id }}
+
+                                {{ $client->client_name }} |
+                                {{ $client->email }} |
+                                {{ $client->mobile }} |
+                                {{ $client->client_unique_id }} |
+
+                                @if(!empty($client->material_details))
+                                @foreach ($client->material_details as $material)
+                                {{ $material['material_name'] ?? '' }}{{ !$loop->last ? ', ' : '' }} |
+                                {{ $material['quantity'] ?? '' }}{{ !$loop->last ? ', ' : '' }}
+                                {{ $material['unit'] ?? '' }}{{ !$loop->last ? ', ' : '' }}
+                                @endforeach
+                                @else
+                                No Material
+                                @endif
                             </option>
                             @endforeach
                         </select>
+
                     </div>
 
                     <!-- Client Details -->
