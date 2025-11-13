@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\DelayAleartMail;
+use App\Mail\DeliveryMail;
 use App\Models\ClientMaterial;
 use App\Models\Jobcard;
 use App\Models\Order;
@@ -592,12 +593,22 @@ class ManagerController extends Controller
     public function updateDelivered($id)
     {
         $jobcard = Jobcard::findOrFail($id);
+
         $jobcard->update([
             'delivery_date' => Carbon::today(),
             'jobcard_status' => 'delivered',
         ]);
 
-        return redirect()->back()->with('success', 'Jobcard marked as delivered today!');
+        $mailData = [
+            'type' => 'delivered',             
+            'delivered_at' => Carbon::today(),   
+        ];
+
+        Mail::to('arif@rconpl.in')
+            ->cc('rakibul@rconpl.in')
+            ->send(new DeliveryMail($jobcard, $mailData));
+
+        return redirect()->back()->with('success', 'Jobcard marked as delivered today and notification sent!');
     }
 
     public function updateDeliveryStatement(Request $request, $id)
@@ -612,7 +623,16 @@ class ManagerController extends Controller
             'jobcard_status' => 'delivered',
         ]);
 
-        return redirect()->back()->with('success', 'Delivery statement updated successfully!');
+        $mailData = [
+            'type' => 'statement',
+            'delivery_statement' => $request->delivery_statement,
+        ];
+
+        Mail::to('arif@rconpl.in')
+            ->cc('rakibul@rconpl.in')
+            ->send(new DeliveryMail($jobcard, $mailData));
+
+        return redirect()->back()->with('success', 'Delivery statement updated and notification sent!');
     }
 
     // Tests Management Routes
