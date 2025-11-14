@@ -593,9 +593,37 @@ class ManagerController extends Controller
         return redirect()->back()->with('success', 'Powder Application marked for today!');
     }
 
+    // public function updateDelivered($id)
+    // {
+    //     $jobcard = Jobcard::findOrFail($id);
+
+    //     $jobcard->update([
+    //         'delivery_date' => Carbon::today(),
+    //         'jobcard_status' => 'delivered',
+    //     ]);
+
+    //     $mailData = [
+    //         'type' => 'delivered',
+    //         'delivered_at' => Carbon::today(),
+    //     ];
+
+    //     Mail::to('arif@rconpl.in')
+    //         ->cc('rakibul@rconpl.in')
+    //         ->send(new DeliveryMail($jobcard, $mailData));
+
+    //     return redirect()->back()->with('success', 'Jobcard marked as delivered today and notification sent!');
+    // }
+
     public function updateDelivered($id)
     {
         $jobcard = Jobcard::findOrFail($id);
+
+        // get client data
+        $client = ClientMaterial::find($jobcard->client_id);
+
+        if (!$client) {
+            return redirect()->back()->with('error', 'Client not found for this jobcard.');
+        }
 
         $jobcard->update([
             'delivery_date' => Carbon::today(),
@@ -607,12 +635,38 @@ class ManagerController extends Controller
             'delivered_at' => Carbon::today(),
         ];
 
-        Mail::to('arif@rconpl.in')
-            ->cc('rakibul@rconpl.in')
+        // send delivery mail to client + CC 2 fixed emails
+        Mail::to($client->email)
+            ->cc(['arif@rconpl.in', 'rakibul@rconpl.in'])
             ->send(new DeliveryMail($jobcard, $mailData));
 
-        return redirect()->back()->with('success', 'Jobcard marked as delivered today and notification sent!');
+        return redirect()->back()->with('success', 'Jobcard delivered & notification sent to client!');
     }
+
+
+    // public function updateDeliveryStatement(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'delivery_statement' => 'required|string',
+    //     ]);
+
+    //     $jobcard = Jobcard::findOrFail($id);
+    //     $jobcard->update([
+    //         'delivery_statement' => $request->delivery_statement,
+    //         'jobcard_status' => 'delivered',
+    //     ]);
+
+    //     $mailData = [
+    //         'type' => 'statement',
+    //         'delivery_statement' => $request->delivery_statement,
+    //     ];
+
+    //     Mail::to('arif@rconpl.in')
+    //         ->cc('rakibul@rconpl.in')
+    //         ->send(new DeliveryMail($jobcard, $mailData));
+
+    //     return redirect()->back()->with('success', 'Delivery statement updated and notification sent!');
+    // }
 
     public function updateDeliveryStatement(Request $request, $id)
     {
@@ -621,6 +675,15 @@ class ManagerController extends Controller
         ]);
 
         $jobcard = Jobcard::findOrFail($id);
+
+        // fetch client email using client_id
+        $client = ClientMaterial::find($jobcard->client_id);
+
+        if (!$client) {
+            return redirect()->back()->with('error', 'Client not found for this jobcard.');
+        }
+
+        // update statement & status
         $jobcard->update([
             'delivery_statement' => $request->delivery_statement,
             'jobcard_status' => 'delivered',
@@ -631,12 +694,14 @@ class ManagerController extends Controller
             'delivery_statement' => $request->delivery_statement,
         ];
 
-        Mail::to('arif@rconpl.in')
-            ->cc('rakibul@rconpl.in')
+        // send to client + CC to arif & rakibul
+        Mail::to($client->email)
+            ->cc(['arif@rconpl.in', 'rakibul@rconpl.in'])
             ->send(new DeliveryMail($jobcard, $mailData));
 
-        return redirect()->back()->with('success', 'Delivery statement updated and notification sent!');
+        return redirect()->back()->with('success', 'Delivery statement updated and notification sent to client!');
     }
+
 
     // Tests Management Routes
     public function jobcardTestsView($id)
