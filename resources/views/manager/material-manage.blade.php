@@ -419,7 +419,7 @@
                                         <option value="Nos" {{ $material['unit'] == 'Nos' ? 'selected' : '' }}>Nos</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <select name="paint_id[]" class="form-select" required>
                                         <option value="">Select Paint</option>
                                         @foreach ($paints as $paint)
@@ -429,7 +429,11 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-1 d-flex align-items-center">
+                                <div class="col-md-1 d-flex align-items-center gap-1">
+                                    <button type="button" class="btn btn-success btn-sm add-material-row">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+
                                     <button type="button" class="btn btn-danger btn-sm remove-material-row">
                                         <i class="fa fa-times"></i>
                                     </button>
@@ -534,7 +538,7 @@
                 <input type="text" name="material_name[]" class="form-control" placeholder="Material Name" required>
             </div>
             <div class="col-md-2">
-                <input type="number" name="quantity[]" class="form-control" placeholder="Quantity" required>
+                <input type="text" name="quantity[]" class="form-control" placeholder="Quantity" required>
             </div>
             <div class="col-md-1">
                 <select name="unit[]" class="form-select" required>
