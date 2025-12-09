@@ -151,7 +151,7 @@
                             <input type="hidden" name="paint_id" value="{{ $jobcard->paint_id }}" readonly>
                             <div class="col-md-2">
                                 <label class="form-label">Paint Used (Qty)</label>
-                                <input type="number" class="form-control" name="paint_used"
+                                <input type="text" class="form-control" name="paint_used"
                                     placeholder="Used Quantity KG" value="{{ $jobcard->paint_used }}">
                             </div>
                         </div>
