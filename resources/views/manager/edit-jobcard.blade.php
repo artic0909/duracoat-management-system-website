@@ -127,26 +127,55 @@
                         </div>
 
                         <!-- Product Row -->
+                        <!-- Choose Client's Product / Material -->
+                        <h6 class="font-weight-bolder mb-2">Choose Client's Product / Material:</h6>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <div class="border rounded p-2" style="max-height: 220px; overflow-y: auto;">
+                                    @foreach($clientMaterials as $index => $mat)
+                                    <div class="form-check">
+                                        <input class="form-check-input material-radio" type="radio"
+                                            name="selected_material"
+                                            id="mat{{ $index }}"
+                                            value="{{ $index }}"
+                                            data-type="{{ $mat['type'] }}"
+                                            data-name="{{ $mat['material_name'] }}"
+                                            data-quantity="{{ $mat['quantity'] }}"
+                                            data-unit="{{ $mat['unit'] }}"
+                                            data-paint_id="{{ $mat['paint_id'] }}"
+                                            data-paint_code="{{ $mat['paint_code'] }}"
+                                            {{ ($jobcard->material_name == $mat['material_name'] && $jobcard->material_type == $mat['type']) ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="mat{{ $index }}">
+                                            {{ $mat['material_name'] }} ({{ $mat['type'] }}) - Qty: {{ $mat['quantity'] }} {{ $mat['unit'] }} | RAL: {{ $mat['paint_code'] }}
+                                        </label>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Row -->
+                        <h6 class="font-weight-bolder mb-2">Material Details:</h6>
                         <div class="row mb-3">
                             <div class="col-md-1">
                                 <label class="form-label">Type</label>
-                                <input type="text" value="{{ $jobcard->material_type }}" class="form-control" readonly>
+                                <input type="text" name="material_type" value="{{ $jobcard->material_type }}" class="form-control" readonly>
                             </div>
                             <div class="col-md-2">
                                 <label class="form-label">Product Name</label>
-                                <input type="text" value="{{ $jobcard->material_name }}" class="form-control" readonly>
+                                <input type="text" name="material_name" value="{{ $jobcard->material_name }}" class="form-control" readonly>
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Product Quantity</label>
-                                <input type="text" value="{{ $jobcard->material_quantity }}" class="form-control" readonly>
+                                <input type="text" name="material_quantity" value="{{ $jobcard->material_quantity }}" class="form-control" readonly>
                             </div>
                             <div class="col-md-1">
                                 <label class="form-label">Unit</label>
-                                <input type="text" value="{{ $jobcard->material_unit }}" class="form-control" readonly>
+                                <input type="text" name="material_unit" value="{{ $jobcard->material_unit }}" class="form-control" readonly>
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Paint Code (RAL)</label>
-                                <input type="text" value="{{ $jobcard->ral_code }}" class="form-control" readonly>
+                                <input type="text" name="ral_code" value="{{ $jobcard->ral_code }}" class="form-control" readonly>
                             </div>
                             <input type="hidden" name="paint_id" value="{{ $jobcard->paint_id }}" readonly>
                             <div class="col-md-2">
@@ -166,5 +195,19 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    document.querySelectorAll('.material-radio').forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.querySelector('input[name="material_type"]').value = this.dataset.type;
+            document.querySelector('input[name="material_name"]').value = this.dataset.name;
+            document.querySelector('input[name="material_quantity"]').value = this.dataset.quantity;
+            document.querySelector('input[name="material_unit"]').value = this.dataset.unit;
+            document.querySelector('input[name="paint_id"]').value = this.dataset.paint_id;
+            document.querySelector('input[name="ral_code"]').value = this.dataset.paint_code;
+        });
+    });
+</script>
 
 @endsection
