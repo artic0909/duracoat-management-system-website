@@ -445,16 +445,20 @@ class ManagerController extends Controller
 
             // Replace paint_id with paint details (RAL code & name)
             $clientMaterials = collect($clientMaterials)->map(function ($mat) use ($paints) {
-                $paint = $paints->get($mat['paint_id']);
+                // Handle case where paint_id might be missing or null
+                $paintId = $mat['paint_id'] ?? null;
+                $paint = $paintId ? $paints->get($paintId) : null;
+
                 return [
                     'type' => $mat['type'] ?? '',
                     'material_name' => $mat['material_name'] ?? '',
                     'quantity' => $mat['quantity'] ?? '',
                     'unit' => $mat['unit'] ?? '',
-                    'paint_id' => $mat['paint_id'] ?? '',
-                    'paint_code' => $paint->ral_code ?? 'N/A',
+                    'paint_id' => $paintId,
+                    'paint_code' => $paint ? $paint->ral_code : 'N/A',
                 ];
             })->toArray();
+
 
             return view('manager.add-jobcard', compact('order', 'clientMaterials'));
         } catch (\Exception $e) {
@@ -473,7 +477,7 @@ class ManagerController extends Controller
                 'material_name' => 'required|string',
                 'material_quantity' => 'required|numeric',
                 'material_unit' => 'required|string',
-                'paint_id' => 'required|exists:paints,id',
+                'paint_id' => 'nullable|exists:paints,id',
                 'ral_code' => 'nullable|string',
             ]);
 
@@ -531,14 +535,17 @@ class ManagerController extends Controller
 
         // Replace paint_id with paint details (RAL code & name)
         $clientMaterials = collect($clientMaterials)->map(function ($mat) use ($paints) {
-            $paint = $paints->get($mat['paint_id']);
+            // Handle case where paint_id might be missing or null
+            $paintId = $mat['paint_id'] ?? null;
+            $paint = $paintId ? $paints->get($paintId) : null;
+
             return [
                 'type' => $mat['type'] ?? '',
                 'material_name' => $mat['material_name'] ?? '',
                 'quantity' => $mat['quantity'] ?? '',
                 'unit' => $mat['unit'] ?? '',
-                'paint_id' => $mat['paint_id'] ?? '',
-                'paint_code' => $paint->ral_code ?? 'N/A',
+                'paint_id' => $paintId,
+                'paint_code' => $paint ? $paint->ral_code : 'N/A',
             ];
         })->toArray();
 

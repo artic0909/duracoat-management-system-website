@@ -197,6 +197,7 @@
                                             <table class="table table-sm table-bordered mb-0">
                                                 <thead class="bg-light">
                                                     <tr>
+                                                        <th class="text-xs text-secondary">Date</th>
                                                         <th class="text-xs text-secondary">Material Name</th>
                                                         <th class="text-xs text-secondary">Quantity</th>
                                                         <th class="text-xs text-secondary">Paint Name - Code</th>
@@ -209,6 +210,13 @@
                                                     $paint = $material['paint_id'] ? App\Models\Paint::find($material['paint_id']) : null;
                                                     @endphp
                                                     <tr>
+                                                        <td class="text-xs">
+                                                            @if(isset($material['date']) && $material['date'])
+                                                                {{ \Carbon\Carbon::parse($material['date'])->format('d/m/Y') }}
+                                                            @else
+                                                                -
+                                                            @endif
+                                                        </td>
                                                         <td class="text-xs">
                                                             {{ $material['material_name'] ?? 'N/A' }}
                                                             ({{ $material['type'] ?? '-' }})
@@ -236,6 +244,10 @@
                                         <!-- Actions -->
                                         <td class="align-middle text-center text-sm">
                                             <div class="d-flex gap-2 justify-content-center">
+                                                <button type="button" class="btn btn-warning px-3 py-2 rounded m-0" data-bs-toggle="modal"
+                                                    data-bs-target="#viewModal{{ $client->id }}">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
                                                 <button type="button" class="btn btn-info px-3 py-2 rounded m-0" data-bs-toggle="modal"
                                                     data-bs-target="#editModal{{ $client->id }}">
                                                     <i class="fa fa-pencil"></i>
@@ -385,6 +397,89 @@
             </div>
         </div>
     </div>
+
+    <!-- View Modal -->
+    @foreach ($clients as $client)
+    <div class="modal fade" id="viewModal{{$client->id}}" tabindex="-1" aria-labelledby="viewClientModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewClientModalLabel">Client Details</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="fw-bold">Client Name:</label>
+                            <p class="text-sm border p-2 rounded bg-light">{{ $client->client_name }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="fw-bold">Mobile:</label>
+                            <p class="text-sm border p-2 rounded bg-light">{{ $client->mobile ?? 'N/A' }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="fw-bold">Email:</label>
+                            <p class="text-sm border p-2 rounded bg-light">{{ $client->email ?? 'N/A' }}</p>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-bold text-secondary mb-2">Material Details</h6>
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-items-center mb-0">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Type</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Material Name</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantity</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Paint Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(!empty($client->material_details) && is_array($client->material_details))
+                                    @foreach ($client->material_details as $material)
+                                    @php
+                                        $paint = $material['paint_id'] ? App\Models\Paint::find($material['paint_id']) : null;
+                                    @endphp
+                                    <tr>
+                                        <td class="text-sm">
+                                            @if(isset($material['date']) && $material['date'])
+                                                {{ \Carbon\Carbon::parse($material['date'])->format('d/m/Y') }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td class="text-sm">{{ $material['type'] ?? '-' }}</td>
+                                        <td class="text-sm">{{ $material['material_name'] ?? '-' }}</td>
+                                        <td class="text-sm">{{ $material['quantity'] ?? '-' }}</td>
+                                        <td class="text-sm">{{ $material['unit'] ?? '-' }}</td>
+                                        <td class="text-sm">
+                                            @if ($paint)
+                                                <span class="fw-bold text-dark">{{ $paint->ral_code }}</span> <br>
+                                                <span class="text-xs text-muted">Brand: {{ $paint->brand_name }} | Shade: {{ $paint->shade_name }} | Finish: {{ $paint->finish }}</span>
+                                            @else
+                                                <span class="text-muted">N/A</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted">No materials found</td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
 
     <!-- Edit Modal -->
     @foreach ($clients as $client)
