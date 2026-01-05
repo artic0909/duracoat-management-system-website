@@ -168,7 +168,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">Product Quantity</label>
-                                <input type="text" name="material_quantity" value="{{ $jobcard->material_quantity }}" class="form-control" readonly>
+                                <input type="text" name="material_quantity" value="{{ $jobcard->material_quantity }}" class="form-control">
                             </div>
                             <div class="col-md-1">
                                 <label class="form-label">Unit</label>
