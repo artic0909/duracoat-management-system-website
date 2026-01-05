@@ -309,6 +309,28 @@
                                 </tr>
                                 @endforelse
                             </tbody>
+                            <!-- pagination -->
+                            <tfoot>
+                                <tr>
+                                    <td colspan="12" class="text-center">
+                                        <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
+                                            @if ($jobcards->onFirstPage())
+                                            <span class="text-muted">Prev</span>
+                                            @else
+                                            <a href="{{ $jobcards->previousPageUrl() }}" class="text-primary text-decoration-none">Prev</a>
+                                            @endif
+
+                                            <span>{{ $jobcards->currentPage() }} / {{ $jobcards->lastPage() }}</span>
+
+                                            @if ($jobcards->hasMorePages())
+                                            <a href="{{ $jobcards->nextPageUrl() }}" class="text-primary text-decoration-none">Next</a>
+                                            @else
+                                            <span class="text-muted">Next</span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tfoot>
 
                             <!-- Modals -->
                             <!-- Pre-Treatment Modal -->

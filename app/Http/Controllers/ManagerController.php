@@ -594,7 +594,7 @@ class ManagerController extends Controller
         $jobcards = Jobcard::with('tests')
             ->where('order_id', $order_id)
             ->orderBy('id', 'desc')
-            ->get();
+            ->paginate(10);
 
         return view('manager.view-jobcard-details', compact('order', 'jobcards'));
     }
