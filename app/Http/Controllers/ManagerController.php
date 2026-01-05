@@ -661,8 +661,12 @@ class ManagerController extends Controller
     //     return redirect()->back()->with('success', 'Jobcard marked as delivered today and notification sent!');
     // }
 
-    public function updateDelivered($id)
+    public function updateDelivered(Request $request, $id)
     {
+        $request->validate([
+            'invoice' => 'required|string|max:255',
+        ]);
+
         $jobcard = Jobcard::findOrFail($id);
 
         // get client data
@@ -675,50 +679,25 @@ class ManagerController extends Controller
         $jobcard->update([
             'delivery_date' => Carbon::today(),
             'jobcard_status' => 'delivered',
+            'invoice' => $request->invoice,
         ]);
 
         $mailData = [
             'type' => 'delivered',
             'delivered_at' => Carbon::today(),
         ];
-
         // send delivery mail to client + CC 2 fixed emails
         Mail::to($client->email)
             ->cc(['arif@rconpl.in', 'rakibul@rconpl.in'])
             ->send(new DeliveryMail($jobcard, $mailData));
-
         return redirect()->back()->with('success', 'Jobcard delivered & notification sent to client!');
     }
-
-
-    // public function updateDeliveryStatement(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'delivery_statement' => 'required|string',
-    //     ]);
-
-    //     $jobcard = Jobcard::findOrFail($id);
-    //     $jobcard->update([
-    //         'delivery_statement' => $request->delivery_statement,
-    //         'jobcard_status' => 'delivered',
-    //     ]);
-
-    //     $mailData = [
-    //         'type' => 'statement',
-    //         'delivery_statement' => $request->delivery_statement,
-    //     ];
-
-    //     Mail::to('arif@rconpl.in')
-    //         ->cc('rakibul@rconpl.in')
-    //         ->send(new DeliveryMail($jobcard, $mailData));
-
-    //     return redirect()->back()->with('success', 'Delivery statement updated and notification sent!');
-    // }
 
     public function updateDeliveryStatement(Request $request, $id)
     {
         $request->validate([
             'delivery_statement' => 'required|string',
+            'invoice' => 'required|string|max:255',
         ]);
 
         $jobcard = Jobcard::findOrFail($id);
@@ -734,6 +713,7 @@ class ManagerController extends Controller
         $jobcard->update([
             'delivery_statement' => $request->delivery_statement,
             'jobcard_status' => 'delivered',
+            'invoice' => $request->invoice,
         ]);
 
         $mailData = [

@@ -58,6 +58,11 @@
                     </tr>
 
                     <tr>
+                        <td><strong>Tax Invoice:</strong></td>
+                        <td style="text-transform: capitalize;">{{ $jobcard->invoice ?? 'N/A' }}</td>
+                    </tr>
+
+                    <tr>
                         <td><strong>Current Status:</strong></td>
                         <td style="text-transform: capitalize;">{{ $jobcard->jobcard_status ?? 'N/A' }}</td>
                     </tr>

@@ -23,14 +23,15 @@ class Jobcard extends Model
         'powder_apply_date',
         'delivery_date',
         'delivery_statement',
+        'invoice',
     ];
 
     protected $casts = [
         'jobcard_creation_date' => 'date',
-        'pre_treatment_date'    => 'date',
-        'powder_apply_date'     => 'date',
-        'delivery_date'         => 'date',
-        'delivery_statement'    => 'string',
+        'pre_treatment_date' => 'date',
+        'powder_apply_date' => 'date',
+        'delivery_date' => 'date',
+        'delivery_statement' => 'string',
     ];
 
     /**
