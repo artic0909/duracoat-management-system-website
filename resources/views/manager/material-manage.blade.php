@@ -3,6 +3,32 @@
 @section('title', 'Clients & Materials Management')
 
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    /* Select2 Bootstrap 5 Theme Fixes (Optional if not using a specific theme) */
+    .select2-container .select2-selection--single {
+        height: 38px !important;
+        /* Match Bootstrap form-control height */
+        padding: 5px 0;
+        border: 1px solid #d2d6da;
+        border-radius: 0.5rem;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 38px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        padding-left: 12px;
+        line-height: normal;
+        color: #495057;
+    }
+    
+    /* Ensure z-index is correct for modals */
+    .select2-container {
+        z-index: 999999;
+    }
+</style>
 <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur"
@@ -307,6 +333,9 @@
                         <!-- Dynamic Material Details Section -->
                         <div id="material-details-container">
                             <div class="row g-2 material-row mb-2">
+                                <div class="col-md-2">
+                                    <input type="date" name="date[]" class="form-control" required>
+                                </div>
                                 <div class="col-md-1">
                                     <select name="material_type[]" class="form-select" required>
                                         <option value="">Type</option>
@@ -329,9 +358,9 @@
                                         <option value="Nos">Nos</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4">
-                                    <select name="paint_id[]" class="form-select" required>
-                                        <option value="">Select Paint</option>
+                                <div class="col-md-3">
+                                    <select name="paint_id[]" class="form-select select2-paint">
+                                        <option value="">Select Paint (Optional)</option>
                                         @foreach ($paints as $paint)
                                         <option value="{{ $paint->id }}">{{ $paint->ral_code }} - {{ $paint->brand_name }} - {{ $paint->shade_name}} - {{ $paint->finish }}</option>
                                         @endforeach
@@ -399,6 +428,9 @@
                             @if(!empty($client->material_details))
                             @foreach ($client->material_details as $index => $material)
                             <div class="row g-2 material-row mb-2">
+                                <div class="col-md-2">
+                                    <input type="date" name="date[]" class="form-control" value="{{ $material['date'] ?? '' }}" required>
+                                </div>
                                 <div class="col-md-1">
                                     <select name="material_type[]" class="form-select" required>
                                         <option value="">Type</option>
@@ -420,8 +452,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <select name="paint_id[]" class="form-select" required>
-                                        <option value="">Select Paint</option>
+                                    <select name="paint_id[]" class="form-select select2-paint">
+                                        <option value="">Select Paint (Optional)</option>
                                         @foreach ($paints as $paint)
                                         <option value="{{ $paint->id }}" {{ isset($material['paint_id']) && $material['paint_id'] == $paint->id ? 'selected' : '' }}>
                                             {{ $paint->ral_code }} - {{ $paint->brand_name }} - {{ $paint->shade_name}} - {{ $paint->finish }}
@@ -443,6 +475,9 @@
                             @else
                             <!-- Show one empty row if no materials exist -->
                             <div class="row g-2 material-row mb-2">
+                                <div class="col-md-2">
+                                    <input type="date" name="date[]" class="form-control" required>
+                                </div>
                                 <div class="col-md-1">
                                     <select name="material_type[]" class="form-select" required>
                                         <option value="">Type</option>
@@ -464,8 +499,8 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <select name="paint_id[]" class="form-select" required>
-                                        <option value="">Select Paint</option>
+                                    <select name="paint_id[]" class="form-select select2-paint">
+                                        <option value="">Select Paint (Optional)</option>
                                         @foreach ($paints as $paint)
                                         <option value="{{ $paint->id }}">{{ $paint->ral_code }}</option>
                                         @endforeach
@@ -520,13 +555,44 @@
     @endforeach
 
 
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <!-- JS for Dynamic Material Rows -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
+            // Initialize Select2 on page load
+            function initSelect2() {
+                $('.select2-paint').select2({
+                    dropdownParent: $('body'), // Fix for select2 inside modal
+                    width: '100%',
+                    placeholder: "Select Paint (Optional)",
+                    allowClear: true
+                });
+                
+                // Fix for Select2 inside bootstrap modal not searchable
+                // When a modal is opened, attach select2 to that modal
+                 $('.modal').on('shown.bs.modal', function () {
+                    $(this).find('.select2-paint').each(function() {
+                        $(this).select2({
+                            dropdownParent: $(this).closest('.modal'), 
+                            width: '100%',
+                            placeholder: "Select Paint (Optional)",
+                            allowClear: true
+                        });
+                    });
+                });
+            }
+            initSelect2();
+
+
             function createMaterialRow() {
                 return `
         <div class="row g-2 material-row mb-2">
+            <div class="col-md-2">
+                <input type="date" name="date[]" class="form-control" required>
+            </div>
             <div class="col-md-1">
                 <select name="material_type[]" class="form-select" required>
                     <option value="">Type</option>
@@ -547,9 +613,9 @@
                     <option value="Nos">Nos</option>
                 </select>
             </div>
-            <div class="col-md-4">
-                <select name="paint_id[]" class="form-select" required>
-                    <option value="">Select Paint</option>
+            <div class="col-md-3">
+                <select name="paint_id[]" class="form-select select2-paint">
+                    <option value="">Select Paint (Optional)</option>
                     @foreach ($paints as $paint)
                         <option value="{{ $paint->id }}">{{ $paint->ral_code }} - {{ $paint->brand_name }} - {{ $paint->shade_name }} - {{ $paint->finish }}</option>
                     @endforeach
@@ -572,12 +638,27 @@
                     const parentModal = addBtn.closest('.modal');
                     const container = parentModal.querySelector('[id^="edit-material-details-container"]') ||
                         parentModal.querySelector('#material-details-container');
+                    
+                    // Add new row
                     container.insertAdjacentHTML('beforeend', createMaterialRow());
+                    
+                    // Re-initialize select2 for the new row's select element
+                    // We need to find the specific select2-paint element we just added. 
+                    // To keep it simple, we can re-init on all inside this modal or just target the last one.
+                     $(container).find('.select2-paint:last').select2({
+                        dropdownParent: $(parentModal),
+                        width: '100%',
+                        placeholder: "Select Paint (Optional)",
+                        allowClear: true
+                    });
                 }
 
                 if (removeBtn) {
                     e.preventDefault();
-                    removeBtn.closest('.material-row').remove();
+                    // Destroy select2 before removing if needed, though mostly automatic in simple cases.
+                    const row = removeBtn.closest('.material-row');
+                    $(row).find('.select2-paint').select2('destroy');
+                    row.remove();
                 }
             });
 

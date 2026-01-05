@@ -229,11 +229,12 @@ class ManagerController extends Controller
                 'client_name' => 'required|string|max:255',
                 'mobile' => 'nullable|string|max:15',
                 'email' => 'nullable|email|max:255',
+                'date' => 'required|array',
                 'material_type' => 'required|array',
                 'material_name' => 'required|array',
                 'quantity' => 'required|array',
                 'unit' => 'required|array',
-                'paint_id' => 'required|array',
+                'paint_id' => 'nullable|array',
             ]);
 
             $uniqueId = 'CLT-' . now()->format('Ymd') . '-' . strtoupper(Str::random(6));
@@ -247,11 +248,12 @@ class ManagerController extends Controller
                     continue;
 
                 $materials[] = [
+                    'date' => $request->date[$index] ?? null,
                     'type' => $type,
                     'material_name' => $request->material_name[$index],
                     'quantity' => $request->quantity[$index],
                     'unit' => $request->unit[$index],
-                    'paint_id' => $request->paint_id[$index],
+                    'paint_id' => $request->paint_id[$index] ?? null,
                 ];
             }
 
@@ -276,11 +278,12 @@ class ManagerController extends Controller
                 'client_name' => 'required|string|max:255',
                 'mobile' => 'nullable|string|max:15',
                 'email' => 'nullable|email|max:255',
+                'date' => 'required|array',
                 'material_type' => 'required|array',
                 'material_name' => 'required|array',
                 'quantity' => 'required|array',
                 'unit' => 'required|array',
-                'paint_id' => 'required|array',
+                'paint_id' => 'nullable|array',
             ]);
 
             $materials = [];
@@ -292,11 +295,12 @@ class ManagerController extends Controller
                     continue;
 
                 $materials[] = [
+                    'date' => $request->date[$index] ?? null,
                     'type' => $type,
                     'material_name' => $request->material_name[$index],
                     'quantity' => $request->quantity[$index],
                     'unit' => $request->unit[$index],
-                    'paint_id' => $request->paint_id[$index],
+                    'paint_id' => $request->paint_id[$index] ?? null,
                 ];
             }
 
