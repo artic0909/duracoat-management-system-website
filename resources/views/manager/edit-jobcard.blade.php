@@ -134,7 +134,8 @@
                                 <div class="border rounded p-2" style="max-height: 220px; overflow-y: auto;">
                                     @foreach($clientMaterials as $index => $mat)
                                     <div class="form-check">
-                                        <input class="form-check-input material-radio" type="radio"
+                                        <input class="form-check-input material-radio"
+                                            type="{{ count($clientMaterials) > 1 ? 'radio' : 'checkbox' }}"
                                             name="selected_material"
                                             id="mat{{ $index }}"
                                             value="{{ $index }}"
