@@ -212,7 +212,7 @@ class ManagerController extends Controller
                 $query->where('material_details', 'like', "%\"type\":\"{$type}\"%");
             })
             ->orderBy('id', 'desc')
-            ->paginate(5)
+            ->paginate(10)
             ->appends([
                 'search' => $search,
                 'type' => $type

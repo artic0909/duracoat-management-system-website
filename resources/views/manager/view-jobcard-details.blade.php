@@ -142,7 +142,7 @@
                             <tbody>
                                 @forelse($jobcards as $index => $jobcard)
                                 <tr>
-                                    <td class="text-xs font-weight-bold">{{ $index + 1 }}</td>
+                                    <td class="text-xs font-weight-bold">{{ ($jobcards->currentPage() - 1) * $jobcards->perPage() + $loop->iteration }}</td>
 
                                     <td class="text-xs font-weight-bold">
                                         @switch($jobcard->jobcard_status)
