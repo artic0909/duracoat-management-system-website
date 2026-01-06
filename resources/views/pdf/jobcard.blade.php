@@ -119,7 +119,14 @@
             </tr>
 
             <tr>
-                <td colspan="2"><strong>Product short description</strong><br><br>Item: {{ $jobcard->material_name }} / Qty: {{ $jobcard->material_quantity }} {{ $jobcard->material_unit }}</td>
+                <td colspan="2">
+                    <strong>Product short description</strong><br><br>
+                    Item: {{ $jobcard->material_name }} / Qty: {{ $jobcard->material_quantity }} {{ $jobcard->material_unit }}
+                    <br><br>
+                    <strong>
+                        Required Micron: {{ $jobcard->min_micron }} - {{ $jobcard->max_micron }} micron
+                    </strong>
+                </td>
             </tr>
 
             <tr>
@@ -130,7 +137,10 @@
             </tr>
 
             <tr>
-                <td><strong>Powder Name/ RAL Code</strong><br><br>{{ $jobcard->ral_code }}</td>
+                <td>
+                    <strong>Powder Name/ RAL Code</strong><br><br>
+                    {{ $jobcard->paint->brand_name ?? '' }} - {{ $jobcard->paint->ral_code ?? $jobcard->ral_code }} - {{ $jobcard->paint->shade_name ?? '' }} - {{ $jobcard->paint->finish ?? '' }}
+                </td>
                 <td><strong>Used Powder</strong><br><br>{{ $jobcard->paint_used }} KG</td>
             </tr>
             <!-- 
@@ -150,11 +160,15 @@
                 <td><strong>Job Card Prepared By</strong><br><br></td>
                 <td><strong>Material Delivery Date</strong><br><br>
                     @if(isset($jobcard->delivery_date))
-                    {{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d/m/Y') }}
-                    @else
-                    
-                        {!! nl2br(e($jobcard->delivery_statement ?? '')) !!}
-                    
+                        <strong>Date:</strong> {{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d/m/Y') }}<br>
+                    @endif
+
+                    @if(!empty($jobcard->invoice))
+                        <strong>Invoice No:</strong> {{ $jobcard->invoice }}<br>
+                    @endif
+
+                    @if(!empty($jobcard->delivery_statement))
+                        <strong>Note:</strong> {!! nl2br(e($jobcard->delivery_statement)) !!}
                     @endif
                 </td>
             </tr>

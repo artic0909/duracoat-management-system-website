@@ -461,6 +461,9 @@
                                             <div class="modal-body">
                                                 <label for="delivery_statement_{{ $jobcard->id }}" class="form-label fw-semibold">Write your delivery statement with TAX INVOICE:</label>
                                                 <textarea name="delivery_statement" id="delivery_statement_{{ $jobcard->id }}" rows="4" class="form-control" placeholder="Write your delivery note or reason...">{{$jobcard->delivery_statement}}</textarea>
+                                                
+                                                <label for="invoice" class="mt-2">TAX Invoice<span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control mb-3" name="invoice" placeholder="Tax Invoice" required>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button"
