@@ -457,6 +457,12 @@ class ManagerController extends Controller
                 $paintId = $mat['paint_id'] ?? null;
                 $paint = $paintId ? $paints->get($paintId) : null;
 
+                // Extract additional details from material
+                // Note: 'date' might be stored in the material array, check its key key
+                $date = $mat['date'] ?? null;
+                $minMicron = $mat['min_micron'] ?? null;
+                $maxMicron = $mat['max_micron'] ?? null;
+
                 return [
                     'type' => $mat['type'] ?? '',
                     'material_name' => $mat['material_name'] ?? '',
@@ -464,6 +470,9 @@ class ManagerController extends Controller
                     'unit' => $mat['unit'] ?? '',
                     'paint_id' => $paintId,
                     'paint_code' => $paint ? $paint->ral_code : 'N/A',
+                    'date' => $date, // Add date
+                    'min_micron' => $minMicron, // Add min_micron
+                    'max_micron' => $maxMicron, // Add max_micron
                 ];
             })->toArray();
 
@@ -487,6 +496,8 @@ class ManagerController extends Controller
                 'material_unit' => 'required|string',
                 'paint_id' => 'nullable|exists:paints,id',
                 'ral_code' => 'nullable|string',
+                'min_micron' => 'nullable|string', // Validating min_micron
+                'max_micron' => 'nullable|string', // Validating max_micron
             ]);
 
             $order = Order::with('client')->findOrFail($order_id);
@@ -502,6 +513,8 @@ class ManagerController extends Controller
                 'material_unit' => $request->material_unit,
                 'paint_id' => $request->paint_id,
                 'ral_code' => $request->ral_code,
+                'min_micron' => $request->min_micron, // Storing min_micron
+                'max_micron' => $request->max_micron, // Storing max_micron
                 'jobcard_status' => 'pending',
             ]);
 
@@ -547,6 +560,11 @@ class ManagerController extends Controller
             $paintId = $mat['paint_id'] ?? null;
             $paint = $paintId ? $paints->get($paintId) : null;
 
+            // Extract additional details from material
+            $date = $mat['date'] ?? null;
+            $minMicron = $mat['min_micron'] ?? null;
+            $maxMicron = $mat['max_micron'] ?? null;
+
             return [
                 'type' => $mat['type'] ?? '',
                 'material_name' => $mat['material_name'] ?? '',
@@ -554,6 +572,9 @@ class ManagerController extends Controller
                 'unit' => $mat['unit'] ?? '',
                 'paint_id' => $paintId,
                 'paint_code' => $paint ? $paint->ral_code : 'N/A',
+                'date' => $date,
+                'min_micron' => $minMicron,
+                'max_micron' => $maxMicron,
             ];
         })->toArray();
 
@@ -574,6 +595,8 @@ class ManagerController extends Controller
             'ral_code' => $request->ral_code,
             'paint_id' => $request->paint_id,
             'paint_used' => $request->paint_used,
+            'min_micron' => $request->min_micron,
+            'max_micron' => $request->max_micron,
         ]);
 
         // Step 2: Deduct paint quantity if paint_used is provided

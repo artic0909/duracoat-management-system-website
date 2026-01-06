@@ -121,11 +121,11 @@ class AdminController extends Controller
     {
         try {
             $validated = $request->validate([
-                'ral_code'   => 'nullable|string|max:255',
+                'ral_code' => 'nullable|string|max:255',
                 'brand_name' => 'nullable|string|max:255',
                 'shade_name' => 'nullable|string|max:255',
-                'finish'     => 'nullable|in:plain,texture,structure',
-                'quantity'   => 'nullable|numeric|min:0',
+                'finish' => 'nullable|in:plain,texture,structure',
+                'quantity' => 'nullable|numeric|min:0',
             ]);
 
             $validated['paint_unique_id'] = 'PNT-' . strtoupper(uniqid());
@@ -141,11 +141,11 @@ class AdminController extends Controller
     {
         try {
             $validated = $request->validate([
-                'ral_code'   => 'nullable|string|max:255',
+                'ral_code' => 'nullable|string|max:255',
                 'brand_name' => 'nullable|string|max:255',
                 'shade_name' => 'nullable|string|max:255',
-                'finish'     => 'nullable|in:plain,texture,structure',
-                'quantity'   => 'nullable|numeric|min:0',
+                'finish' => 'nullable|in:plain,texture,structure',
+                'quantity' => 'nullable|numeric|min:0',
             ]);
 
             Paint::where('id', $id)->update($validated);
@@ -227,17 +227,17 @@ class AdminController extends Controller
         try {
 
             $validatedData = $request->validate([
-                'client_name'   => 'required|string|max:255',
-                'mobile'        => 'nullable|string|max:15',
-                'email'         => 'nullable|email|max:255',
+                'client_name' => 'required|string|max:255',
+                'mobile' => 'nullable|string|max:15',
+                'email' => 'nullable|email|max:255',
                 'date' => 'required|array',
                 'material_type' => 'required|array',
                 'material_name' => 'required|array',
-                'quantity'      => 'required|array',
-                'unit'          => 'required|array',
-                'min_micron'    => 'required|array',
-                'max_micron'    => 'required|array',
-                'paint_id'      => 'required|array',
+                'quantity' => 'required|array',
+                'unit' => 'required|array',
+                'min_micron' => 'required|array',
+                'max_micron' => 'required|array',
+                'paint_id' => 'required|array',
             ]);
 
             $uniqueId = 'CLT-' . now()->format('Ymd') . '-' . strtoupper(Str::random(6));
@@ -247,25 +247,26 @@ class AdminController extends Controller
                 if (
                     empty($request->material_name[$index]) &&
                     empty($request->quantity[$index])
-                ) continue;
+                )
+                    continue;
 
                 $materials[] = [
                     'date' => $request->date[$index] ?? null,
-                    'type'          => $type,
+                    'type' => $type,
                     'material_name' => $request->material_name[$index],
-                    'quantity'      => $request->quantity[$index],
-                    'unit'          => $request->unit[$index],
-                    'min_micron'    => $request->min_micron[$index],
-                    'max_micron'    => $request->max_micron[$index],
-                    'paint_id'      => $request->paint_id[$index],
+                    'quantity' => $request->quantity[$index],
+                    'unit' => $request->unit[$index],
+                    'min_micron' => $request->min_micron[$index],
+                    'max_micron' => $request->max_micron[$index],
+                    'paint_id' => $request->paint_id[$index],
                 ];
             }
 
             ClientMaterial::create([
                 'client_unique_id' => $uniqueId,
-                'client_name'      => $request->client_name,
-                'mobile'           => $request->mobile,
-                'email'            => $request->email,
+                'client_name' => $request->client_name,
+                'mobile' => $request->mobile,
+                'email' => $request->email,
                 'material_details' => $materials,
             ]);
 
@@ -279,17 +280,17 @@ class AdminController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'client_name'   => 'required|string|max:255',
-                'mobile'        => 'nullable|string|max:15',
-                'email'         => 'nullable|email|max:255',
+                'client_name' => 'required|string|max:255',
+                'mobile' => 'nullable|string|max:15',
+                'email' => 'nullable|email|max:255',
                 'date' => 'required|array',
                 'material_type' => 'required|array',
                 'material_name' => 'required|array',
-                'quantity'      => 'required|array',
-                'unit'          => 'required|array',
-                'min_micron'    => 'required|array',
-                'max_micron'    => 'required|array',
-                'paint_id'      => 'required|array',
+                'quantity' => 'required|array',
+                'unit' => 'required|array',
+                'min_micron' => 'required|array',
+                'max_micron' => 'required|array',
+                'paint_id' => 'required|array',
             ]);
 
             $materials = [];
@@ -297,24 +298,25 @@ class AdminController extends Controller
                 if (
                     empty($request->material_name[$index]) &&
                     empty($request->quantity[$index])
-                ) continue;
+                )
+                    continue;
 
                 $materials[] = [
                     'date' => $request->date[$index] ?? null,
-                    'type'          => $type,
+                    'type' => $type,
                     'material_name' => $request->material_name[$index],
-                    'quantity'      => $request->quantity[$index],
-                    'unit'          => $request->unit[$index],
-                    'min_micron'    => $request->min_micron[$index],
-                    'max_micron'    => $request->max_micron[$index],
-                    'paint_id'      => $request->paint_id[$index],
+                    'quantity' => $request->quantity[$index],
+                    'unit' => $request->unit[$index],
+                    'min_micron' => $request->min_micron[$index],
+                    'max_micron' => $request->max_micron[$index],
+                    'paint_id' => $request->paint_id[$index],
                 ];
             }
 
             ClientMaterial::where('id', $id)->update([
-                'client_name'      => $request->client_name,
-                'mobile'           => $request->mobile,
-                'email'            => $request->email,
+                'client_name' => $request->client_name,
+                'mobile' => $request->mobile,
+                'email' => $request->email,
                 'material_details' => $materials,
             ]);
 
@@ -370,12 +372,12 @@ class AdminController extends Controller
         try {
 
             $request->validate([
-                'client_id'     => 'required|exists:client_materials,id',
-                'order_number'  => 'required|string|max:255|unique:orders,order_number',
+                'client_id' => 'required|exists:client_materials,id',
+                'order_number' => 'required|string|max:255|unique:orders,order_number',
             ]);
 
             $order = Order::create([
-                'client_id'    => $request->client_id,
+                'client_id' => $request->client_id,
                 'order_number' => $request->order_number,
             ]);
 
@@ -395,14 +397,14 @@ class AdminController extends Controller
     {
         try {
             $request->validate([
-                'client_id'     => 'required|exists:client_materials,id',
-                'order_number'  => 'required|string|max:255|unique:orders,order_number,' . $id,
+                'client_id' => 'required|exists:client_materials,id',
+                'order_number' => 'required|string|max:255|unique:orders,order_number,' . $id,
             ]);
 
             $order = Order::findOrFail($id);
 
             $order->update([
-                'client_id'    => $request->client_id,
+                'client_id' => $request->client_id,
                 'order_number' => $request->order_number,
             ]);
 
@@ -447,13 +449,22 @@ class AdminController extends Controller
             // Replace paint_id with paint details (RAL code & name)
             $clientMaterials = collect($clientMaterials)->map(function ($mat) use ($paints) {
                 $paint = $paints->get($mat['paint_id']);
+
+                // Extract additional details from material
+                $date = $mat['date'] ?? null;
+                $minMicron = $mat['min_micron'] ?? null;
+                $maxMicron = $mat['max_micron'] ?? null;
+
                 return [
-                    'type'          => $mat['type'] ?? '',
+                    'type' => $mat['type'] ?? '',
                     'material_name' => $mat['material_name'] ?? '',
-                    'quantity'      => $mat['quantity'] ?? '',
-                    'unit'          => $mat['unit'] ?? '',
-                    'paint_id'      => $mat['paint_id'] ?? '',
-                    'paint_code'    => $paint->ral_code ?? 'N/A',
+                    'quantity' => $mat['quantity'] ?? '',
+                    'unit' => $mat['unit'] ?? '',
+                    'paint_id' => $mat['paint_id'] ?? '',
+                    'paint_code' => $paint->ral_code ?? 'N/A',
+                    'date' => $date,
+                    'min_micron' => $minMicron,
+                    'max_micron' => $maxMicron,
                 ];
             })->toArray();
 
@@ -468,30 +479,34 @@ class AdminController extends Controller
         try {
             $request->validate([
                 'jobcard_creation_date' => 'required|date',
-                'jobcard_number'        => 'required|string|max:255|unique:jobcards,jobcard_number',
-                'selected_material'     => 'required',
-                'material_type'         => 'required|string',
-                'material_name'         => 'required|string',
-                'material_quantity'     => 'required|numeric',
-                'material_unit'         => 'required|string',
-                'paint_id'              => 'required|exists:paints,id',
-                'ral_code'              => 'nullable|string',
+                'jobcard_number' => 'required|string|max:255|unique:jobcards,jobcard_number',
+                'selected_material' => 'required',
+                'material_type' => 'required|string',
+                'material_name' => 'required|string',
+                'material_quantity' => 'required|numeric',
+                'material_unit' => 'required|string',
+                'paint_id' => 'required|exists:paints,id',
+                'ral_code' => 'nullable|string',
+                'min_micron' => 'nullable|string', // Validating min_micron
+                'max_micron' => 'nullable|string', // Validating max_micron
             ]);
 
             $order = Order::with('client')->findOrFail($order_id);
 
             Jobcard::create([
-                'order_id'              => $order->id,
-                'client_id'             => $order->client->id,
+                'order_id' => $order->id,
+                'client_id' => $order->client->id,
                 'jobcard_creation_date' => $request->jobcard_creation_date,
-                'jobcard_number'        => $request->jobcard_number,
-                'material_type'         => $request->material_type,
-                'material_name'         => $request->material_name,
-                'material_quantity'     => $request->material_quantity,
-                'material_unit'         => $request->material_unit,
-                'paint_id'              => $request->paint_id,
-                'ral_code'              => $request->ral_code,
-                'jobcard_status'        => 'pending',
+                'jobcard_number' => $request->jobcard_number,
+                'material_type' => $request->material_type,
+                'material_name' => $request->material_name,
+                'material_quantity' => $request->material_quantity,
+                'material_unit' => $request->material_unit,
+                'paint_id' => $request->paint_id,
+                'ral_code' => $request->ral_code,
+                'min_micron' => $request->min_micron, // Storing min_micron
+                'max_micron' => $request->max_micron, // Storing max_micron
+                'jobcard_status' => 'pending',
             ]);
 
             return redirect()->route('admin.view-created-jobcards', $order->id)->with('success', 'Jobcard created successfully!');
@@ -513,8 +528,48 @@ class AdminController extends Controller
     // Edit Jobcard
     public function editJobcardView($id)
     {
-        $jobcard = Jobcard::findOrFail($id);
-        return view('admin.edit-jobcard', compact('jobcard'));
+        $jobcard = Jobcard::with('client')->findOrFail($id); // Eager load client
+        $order = $jobcard->order; // Get order via relationship if available, or fetch using order_id
+
+        // Re-use logic to get client materials (similar to addJobcardView)
+        $clientMaterialsRaw = $jobcard->client->material_details ?? [];
+
+        if (is_string($clientMaterialsRaw)) {
+            $clientMaterials = json_decode($clientMaterialsRaw, true) ?? [];
+        } elseif (is_array($clientMaterialsRaw)) {
+            $clientMaterials = $clientMaterialsRaw;
+        } else {
+            $clientMaterials = [];
+        }
+
+        // Fetch all paint records
+        $paints = Paint::all(['id', 'ral_code', 'quantity'])->keyBy('id');
+
+        // Replace paint_id with paint details (RAL code & name)
+        $clientMaterials = collect($clientMaterials)->map(function ($mat) use ($paints) {
+            // Handle case where paint_id might be missing or null
+            $paintId = $mat['paint_id'] ?? null;
+            $paint = $paintId ? $paints->get($paintId) : null;
+
+            // Extract additional details from material
+            $date = $mat['date'] ?? null;
+            $minMicron = $mat['min_micron'] ?? null;
+            $maxMicron = $mat['max_micron'] ?? null;
+
+            return [
+                'type' => $mat['type'] ?? '',
+                'material_name' => $mat['material_name'] ?? '',
+                'quantity' => $mat['quantity'] ?? '',
+                'unit' => $mat['unit'] ?? '',
+                'paint_id' => $paintId,
+                'paint_code' => $paint ? $paint->ral_code : 'N/A',
+                'date' => $date,
+                'min_micron' => $minMicron,
+                'max_micron' => $maxMicron,
+            ];
+        })->toArray();
+
+        return view('admin.edit-jobcard', compact('jobcard', 'clientMaterials'));
     }
 
     public function updateJobcard(Request $request, $id)
@@ -524,8 +579,10 @@ class AdminController extends Controller
         // Step 1: Update jobcard fields
         $jobcard->update([
             'jobcard_number' => $request->jobcard_number,
-            'paint_used'     => $request->paint_used,
-            'paint_id'       => $request->paint_id,
+            'paint_used' => $request->paint_used,
+            'paint_id' => $request->paint_id,
+            'min_micron' => $request->min_micron,
+            'max_micron' => $request->max_micron,
         ]);
 
         // Step 2: Deduct paint quantity if paint_used is provided

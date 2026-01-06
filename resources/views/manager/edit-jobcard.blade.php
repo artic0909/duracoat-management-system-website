@@ -144,10 +144,20 @@
                                             data-quantity="{{ $mat['quantity'] }}"
                                             data-unit="{{ $mat['unit'] }}"
                                             data-paint_id="{{ $mat['paint_id'] }}"
+                                            data-paint_id="{{ $mat['paint_id'] }}"
                                             data-paint_code="{{ $mat['paint_code'] }}"
+                                            data-date="{{ $mat['date'] ? \Carbon\Carbon::parse($mat['date'])->format('d/m/Y') : '-' }}"
+                                            data-min_micron="{{ $mat['min_micron'] ?? '-' }}"
+                                            data-max_micron="{{ $mat['max_micron'] ?? '-' }}"
                                             {{ ($jobcard->material_name == $mat['material_name'] && $jobcard->material_type == $mat['type']) ? 'checked' : '' }}>
                                         <label class="form-check-label" for="mat{{ $index }}">
-                                            {{ $mat['material_name'] }} ({{ $mat['type'] }}) - Qty: {{ $mat['quantity'] }} {{ $mat['unit'] }} | RAL: {{ $mat['paint_code'] }}
+                                            <strong>{{ $mat['material_name'] }}</strong> ({{ $mat['type'] }}) 
+                                            <br>
+                                            <small class="text-muted">
+                                            Qty: {{ $mat['quantity'] }} {{ $mat['unit'] }} | RAL: {{ $mat['paint_code'] }}
+                                            | Date: {{ $mat['date'] ? \Carbon\Carbon::parse($mat['date'])->format('d/m/Y') : '-' }}
+                                            | Micron: {{ $mat['min_micron'] ?? '-' }} - {{ $mat['max_micron'] ?? '-' }}
+                                            </small>
                                         </label>
                                     </div>
                                     @endforeach
@@ -186,6 +196,22 @@
                             </div>
                         </div>
 
+                        <!-- Extra Details Row -->
+                         <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Material Date</label>
+                                <input type="text" name="material_date" class="form-control" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Min Micron</label>
+                                <input type="text" name="min_micron" class="form-control" value="{{ $jobcard->min_micron }}" readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Max Micron</label>
+                                <input type="text" name="max_micron" class="form-control" value="{{ $jobcard->max_micron }}" readonly>
+                            </div>
+                        </div>
+
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-info">Update Jobcard</button>
                         </div>
@@ -207,7 +233,16 @@
             document.querySelector('input[name="material_unit"]').value = this.dataset.unit;
             document.querySelector('input[name="paint_id"]').value = this.dataset.paint_id;
             document.querySelector('input[name="ral_code"]').value = this.dataset.paint_code;
+            document.querySelector('input[name="material_date"]').value = this.dataset.date;
+            document.querySelector('input[name="min_micron"]').value = this.dataset.min_micron;
+            document.querySelector('input[name="max_micron"]').value = this.dataset.max_micron;
         });
+
+        // Trigger change on the checked radio button to populate fields on load
+        const checkedRadio = document.querySelector('.material-radio:checked');
+        if (checkedRadio) {
+            checkedRadio.dispatchEvent(new Event('change'));
+        }
     });
 </script>
 
