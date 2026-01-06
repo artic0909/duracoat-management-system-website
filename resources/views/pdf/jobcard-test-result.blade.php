@@ -175,7 +175,7 @@
 
         <!-- Certification Text -->
         <div class="certification-text">
-            This is to Certified that <strong>M/S: {{ $jobcard->client->client_name ?? 'ABC COMPANY PVT LTD' }}, {{ $jobcard->client->address ?? '' }}</strong> Supplied us different <strong>M S Profile/Aluminium Profile</strong> For <strong>{{ $jobcard->min_micron ?? '' }}-{{ $jobcard->max_micron ?? '' }} Micron Powder coating, RAL {{ $jobcard->ral_color ?? '' }} shade</strong> and <strong>Tested</strong> by us ,that are confirm to the following specification:
+            This is to Certified that <strong>M/S: {{ $jobcard->client->client_name ?? 'ABC COMPANY PVT LTD' }}, {{ $jobcard->client->address ?? '' }}</strong> Supplied us different <strong>M S Profile/Aluminium Profile</strong> For <strong>{{ $jobcard->min_micron ?? '' }}-{{ $jobcard->max_micron ?? '' }} Micron Powder coating, {{ $jobcard->paint->brand_name ?? '' }} - {{ $jobcard->paint->ral_code ?? $jobcard->ral_code }} - {{ $jobcard->paint->shade_name ?? '' }} - {{ $jobcard->paint->finish ?? '' }}</strong> and <strong>Tested</strong> by us ,that are confirm to the following specification:
         </div>
 
         <!-- Test Results Table -->
