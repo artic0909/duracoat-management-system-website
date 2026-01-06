@@ -15,6 +15,8 @@ class Jobcard extends Model
         'material_name',
         'material_quantity',
         'material_unit',
+        'min_micron',
+        'max_micron',
         'paint_id',
         'ral_code',
         'paint_used',
