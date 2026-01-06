@@ -554,7 +554,7 @@
             const peel = peelInput.value;
             
             if (!isNaN(rubs) && peel) {
-                if (rubs >= 30 && peel === 'No') {
+                if (rubs === 30 && peel === 'No') {
                     mekResult.value = 'No Peel off'; // Pass
                     updateResultClass(mekResult, true);
                 } else {
