@@ -225,169 +225,182 @@
 
                         <h5 class="fw-bolder mb-3 text-primary">🧪 QC Testings & Results</h5>
 
-                        @php
-                        $existingTest = \App\Models\JobcardTest::where('jobcard_id', $jobcard->id)->first();
-                        @endphp
-
-                        <!-- 1️⃣ Cross Hatch Adhesion Test -->
+                        <!-- 1. Substrate -->
                         <div class="card shadow-sm mb-3 border-0">
                             <div class="card-body">
-                                <h6 class="fw-semibold mb-3 text-secondary">1️⃣ Cross Hatch Adhesion Test</h6>
+                                <h6 class="fw-semibold mb-3 text-secondary">1. Substrate</h6>
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-4">
-                                        <label class="form-label">Adhesion Grade (GT0–GT5)</label>
-                                        <input type="text" class="form-control" id="adhesionInput"
-                                            name="adhesionInput"
-                                            value="{{ $existingTest->testing[0]['test_value'] ?? '' }}"
-                                            placeholder="e.g., GT1">
+                                        <label class="form-label">Substrate Type</label>
+                                        <select class="form-select" id="substrateInput" name="substrateInput">
+                                            <option value="">Select Substrate</option>
+                                            <option value="Aluminium Profile" {{ ($existingTest->testing[0]['test_value'] ?? '') == 'Aluminium Profile' ? 'selected' : '' }}>Aluminium Profile</option>
+                                            <option value="M S Profile" {{ ($existingTest->testing[0]['test_value'] ?? '') == 'M S Profile' ? 'selected' : '' }}>M S Profile</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-8">
                                         <label class="form-label">Result</label>
-                                        <input type="text" class="form-control text-success fw-semibold"
-                                            id="adhesionResult" readonly
-                                            name="adhesionResult"
-                                            value="{{ $existingTest->testing[0]['test_result'] ?? '' }}">
+                                        <input type="text" class="form-control text-success fw-semibold" id="substrateResult" readonly name="substrateResult" value="{{ $existingTest->testing[0]['test_result'] ?? '' }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 2️⃣ Pencil Hardness Test -->
+                        <!-- 2. Dry filmThickness -->
                         <div class="card shadow-sm mb-3 border-0">
                             <div class="card-body">
-                                <h6 class="fw-semibold mb-3 text-secondary">2️⃣ Pencil Hardness Test</h6>
+                                <h6 class="fw-semibold mb-3 text-secondary">2. Dry filmThickness ({{ $jobcard->min_micron }} - {{ $jobcard->max_micron }} micron)</h6>
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-4">
-                                        <label class="form-label">Observed Hardness</label>
-                                        <input type="text" class="form-control" id="hardnessInput"
-                                            name="hardnessInput"
-                                            value="{{ $existingTest->testing[1]['test_value'] ?? '' }}"
-                                            placeholder="e.g., 2H">
+                                        <label class="form-label">Thickness (micron)</label>
+                                        <input type="number" class="form-control" id="filmThicknessInput" name="filmThicknessInput" value="{{ $existingTest->testing[1]['test_value'] ?? '' }}" placeholder="Enter thickness">
                                     </div>
                                     <div class="col-md-8">
                                         <label class="form-label">Result</label>
-                                        <input type="text" class="form-control text-success fw-semibold"
-                                            id="hardnessResult" name="hardnessResult" readonly
-                                            value="{{ $existingTest->testing[1]['test_result'] ?? '' }}">
+                                        <input type="text" class="form-control text-success fw-semibold" id="filmThicknessResult" readonly name="filmThicknessResult" value="{{ $existingTest->testing[1]['test_result'] ?? '' }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 3️⃣ Impact Resistance Test -->
+                        <!-- 3. Baking Temperature -->
                         <div class="card shadow-sm mb-3 border-0">
                             <div class="card-body">
-                                <h6 class="fw-semibold mb-3 text-secondary">3️⃣ Impact Resistance Test</h6>
+                                <h6 class="fw-semibold mb-3 text-secondary">3. Baking Temperature</h6>
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-4">
-                                        <label class="form-label">Result (kg·cm)</label>
-                                        <input type="number" class="form-control" id="impactInput"
-                                            name="impactInput"
-                                            value="{{ $existingTest->testing[2]['test_value'] ?? '' }}"
-                                            placeholder="e.g., 45">
+                                        <label class="form-label">Temperature (C)</label>
+                                        <input type="text" class="form-control" id="bakingTempInput" name="bakingTempInput" value="{{ $existingTest->testing[2]['test_value'] ?? '' }}" placeholder="e.g. 200">
                                     </div>
                                     <div class="col-md-8">
-                                        <label class="form-label">Acceptance</label>
-                                        <input type="text" class="form-control text-success fw-semibold"
-                                            id="impactResult" readonly name="impactResult"
-                                            value="{{ $existingTest->testing[2]['test_result'] ?? '' }}">
+                                        <label class="form-label">Result</label>
+                                        <input type="text" class="form-control text-success fw-semibold" id="bakingTempResult" readonly name="bakingTempResult" value="{{ $existingTest->testing[2]['test_result'] ?? '' }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 4️⃣ Conical Mandrel Bend Test -->
+                        <!-- 4. Baking Time -->
                         <div class="card shadow-sm mb-3 border-0">
                             <div class="card-body">
-                                <h6 class="fw-semibold mb-3 text-secondary">4️⃣ Conical Mandrel Bend Test</h6>
+                                <h6 class="fw-semibold mb-3 text-secondary">4. Baking Time</h6>
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Time (Minutes)</label>
+                                        <input type="text" class="form-control" id="bakingTimeInput" name="bakingTimeInput" value="{{ $existingTest->testing[3]['test_value'] ?? '' }}" placeholder="e.g. 10">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label class="form-label">Result</label>
+                                        <input type="text" class="form-control text-success fw-semibold" id="bakingTimeResult" readonly name="bakingTimeResult" value="{{ $existingTest->testing[3]['test_result'] ?? '' }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 5. Colour Uniformity Test -->
+                        <div class="card shadow-sm mb-3 border-0">
+                            <div class="card-body">
+                                <h6 class="fw-semibold mb-3 text-secondary">5. Colour Uniformity Test</h6>
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-4">
                                         <label class="form-label">Observation</label>
-                                        <select class="form-select" id="bendInput" name="bendInput">
+                                        <select class="form-select" id="colourUniformityInput" name="colourUniformityInput">
                                             <option value="">Select Observation</option>
-                                            <option value="No cracks or detachment"
-                                                {{ ($existingTest->testing[3]['test_value'] ?? '') == 'No cracks or detachment' ? 'selected' : '' }}>
-                                                No cracks or detachment</option>
-                                            <option value="Hairline cracks"
-                                                {{ ($existingTest->testing[3]['test_value'] ?? '') == 'Hairline cracks' ? 'selected' : '' }}>
-                                                Hairline cracks</option>
-                                            <option value="Peeling or detachment"
-                                                {{ ($existingTest->testing[3]['test_value'] ?? '') == 'Peeling or detachment' ? 'selected' : '' }}>
-                                                Peeling or detachment</option>
+                                            <option value="Close to standard" {{ ($existingTest->testing[4]['test_value'] ?? '') == 'Close to standard' ? 'selected' : '' }}>Close to standard</option>
+                                            <option value="Not standard" {{ ($existingTest->testing[4]['test_value'] ?? '') == 'Not standard' ? 'selected' : '' }}>Not standard</option>
                                         </select>
                                     </div>
                                     <div class="col-md-8">
                                         <label class="form-label">Result</label>
-                                        <input type="text" class="form-control text-success fw-semibold"
-                                            id="bendResult" readonly name="bendResult"
-                                            value="{{ $existingTest->testing[3]['test_result'] ?? '' }}">
+                                        <input type="text" class="form-control text-success fw-semibold" id="colourUniformityResult" readonly name="colourUniformityResult" value="{{ $existingTest->testing[4]['test_result'] ?? '' }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 5️⃣ Cupping Test -->
+                         <!-- 6. M E K Test -->
+                         <div class="card shadow-sm mb-3 border-0">
+                            <div class="card-body">
+                                <h6 class="fw-semibold mb-3 text-secondary">6. M E K Test</h6>
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Rubs (Count)</label>
+                                        <input type="number" class="form-control" id="mekRubsInput" name="mekRubsInput" value="{{ $existingTest->testing[5]['rubs_value'] ?? '' }}" placeholder="e.g. 30">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Peel Off?</label>
+                                        <select class="form-select" id="mekPeelInput" name="mekPeelInput">
+                                            <option value="">Select</option>
+                                            <option value="No" {{ ($existingTest->testing[5]['peel_value'] ?? '') == 'No' ? 'selected' : '' }}>No</option>
+                                            <option value="Yes" {{ ($existingTest->testing[5]['peel_value'] ?? '') == 'Yes' ? 'selected' : '' }}>Yes</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Result</label>
+                                        <input type="text" class="form-control text-success fw-semibold" id="mekResult" readonly name="mekResult" value="{{ $existingTest->testing[5]['test_result'] ?? '' }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 7. Cross Hatch Test -->
+                         <div class="card shadow-sm mb-3 border-0">
+                            <div class="card-body">
+                                <h6 class="fw-semibold mb-3 text-secondary">7. Cross Hatch Test</h6>
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-md-4">
+                                        <label class="form-label">Observation</label>
+                                        <select class="form-select" id="crossHatchInput" name="crossHatchInput">
+                                            <option value="">Select Observation</option>
+                                            <option value="11x1" {{ ($existingTest->testing[6]['test_value'] ?? '') == '11x1' ? 'selected' : '' }}>11x1</option>
+                                            <option value="Peel off > 5%" {{ ($existingTest->testing[6]['test_value'] ?? '') == 'Peel off > 5%' ? 'selected' : '' }}>Peel off > 5%</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label class="form-label">Result</label>
+                                        <input type="text" class="form-control text-success fw-semibold" id="crossHatchResult" readonly name="crossHatchResult" value="{{ $existingTest->testing[6]['test_result'] ?? '' }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 8. Conical Mandrel Test -->
                         <div class="card shadow-sm mb-3 border-0">
                             <div class="card-body">
-                                <h6 class="fw-semibold mb-3 text-secondary">5️⃣ Cupping Test</h6>
+                                <h6 class="fw-semibold mb-3 text-secondary">8. Conical Mandrel Test</h6>
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-4">
-                                        <label class="form-label">Depth (mm)</label>
-                                        <input type="number" class="form-control" id="cuppingInput"
-                                            name="cuppingInput"
-                                            value="{{ $existingTest->testing[4]['test_value'] ?? '' }}"
-                                            placeholder="e.g., 8">
+                                        <label class="form-label">Observation</label>
+                                         <select class="form-select" id="mandrelInput" name="mandrelInput">
+                                            <option value="">Select Observation</option>
+                                            <option value="No Crack" {{ ($existingTest->testing[7]['test_value'] ?? '') == 'No Crack' ? 'selected' : '' }}>No Crack</option>
+                                            <option value="Cracked" {{ ($existingTest->testing[7]['test_value'] ?? '') == 'Cracked' ? 'selected' : '' }}>Cracked</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-8">
                                         <label class="form-label">Result</label>
-                                        <input type="text" class="form-control text-success fw-semibold"
-                                            id="cuppingResult" name="cuppingResult" readonly
-                                            value="{{ $existingTest->testing[4]['test_result'] ?? '' }}">
+                                        <input type="text" class="form-control text-success fw-semibold" id="mandrelResult" readonly name="mandrelResult" value="{{ $existingTest->testing[7]['test_result'] ?? '' }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 6️⃣ Gloss Measurement Test -->
-                        <div class="card shadow-sm mb-4 border-0">
+                        <!-- 9. Pencil Hardness Test -->
+                        <div class="card shadow-sm mb-3 border-0">
                             <div class="card-body">
-                                <h6 class="fw-semibold mb-3 text-secondary">6️⃣ Gloss Measurement Test</h6>
+                                <h6 class="fw-semibold mb-3 text-secondary">9. Pencil Hardness Test</h6>
                                 <div class="row g-3 align-items-center">
                                     <div class="col-md-4">
-                                        <label class="form-label">Finish Type</label>
-                                        <select id="glossType" class="form-select" name="glossType">
-                                            <option value="">Select Type</option>
-                                            <option value="Matt"
-                                                {{ ($existingTest->testing[5]['gloss_type'] ?? '') == 'Matt' ? 'selected' : '' }}>
-                                                Matt
-                                            </option>
-                                            <option value="Semi-Gloss"
-                                                {{ ($existingTest->testing[5]['gloss_type'] ?? '') == 'Semi-Gloss' ? 'selected' : '' }}>
-                                                Semi-Gloss
-                                            </option>
-                                            <option value="Gloss"
-                                                {{ ($existingTest->testing[5]['gloss_type'] ?? '') == 'Gloss' ? 'selected' : '' }}>
-                                                Gloss
-                                            </option>
-                                        </select>
+                                        <label class="form-label">Hardness (H/h)</label>
+                                        <input type="text" class="form-control" id="pencilHardnessInput" name="pencilHardnessInput" value="{{ $existingTest->testing[8]['test_value'] ?? '' }}" placeholder="e.g. H">
                                     </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Gloss Units (GU)</label>
-                                        <input type="number" class="form-control" id="glossInput"
-                                            name="glossInput"
-                                            value="{{ $existingTest->testing[5]['test_value'] ?? '' }}"
-                                            placeholder="e.g., 25">
-                                    </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-8">
                                         <label class="form-label">Result</label>
-                                        <input type="text" class="form-control text-success fw-semibold"
-                                            id="glossResult" readonly name="glossResult"
-                                            value="{{ $existingTest->testing[5]['test_result'] ?? '' }}">
+                                        <input type="text" class="form-control text-success fw-semibold" id="pencilHardnessResult" readonly name="pencilHardnessResult" value="{{ $existingTest->testing[8]['test_result'] ?? '' }}">
                                     </div>
                                 </div>
                             </div>
                         </div>
-
 
                         <!-- Submit Button -->
                         <div class="text-end">
@@ -411,50 +424,103 @@
 <!-- Modern JS Auto Checking -->
 <script>
     document.addEventListener('input', function() {
-        const adhesion = document.getElementById('adhesionInput').value.trim().toUpperCase();
-        const adhesionResult = document.getElementById('adhesionResult');
-        adhesionResult.value =
-            adhesion.startsWith('GT0') ? '✅ PASS – Excellent adhesion' :
-            adhesion.startsWith('GT1') ? '✅ Acceptable adhesion' :
-            /GT[2-5]/.test(adhesion) ? '❌ FAIL – Poor adhesion' :
-            '';
+        // 1. Substrate
+        const substrate = document.getElementById('substrateInput').value;
+        const substrateResult = document.getElementById('substrateResult');
+        substrateResult.value = substrate ? 'Observations: Reference - AAMA 2603' : '';
 
-        const hardness = document.getElementById('hardnessInput').value.trim().toUpperCase();
-        const hardnessResult = document.getElementById('hardnessResult');
-        if (!hardness) hardnessResult.value = '';
-        else if (['H', '2H', '3H', '4H'].includes(hardness)) hardnessResult.value = '✅ PASS – Meets hardness criteria';
-        else hardnessResult.value = '❌ FAIL – Below acceptable hardness';
+        // 2. Dry Film Thickness
+        const thickness = parseFloat(document.getElementById('filmThicknessInput').value);
+        const thicknessResult = document.getElementById('filmThicknessResult');
+        const minMicron = parseFloat('{{ $jobcard->min_micron }}');
+        const maxMicron = parseFloat('{{ $jobcard->max_micron }}');
 
-        const impact = parseFloat(document.getElementById('impactInput').value);
-        const impactResult = document.getElementById('impactResult');
-        if (!isNaN(impact)) {
-            impactResult.value = impact >= 50 ? '✅ PASS – Meets architectural grade' :
-                impact >= 40 ? '✅ Acceptable – General powder' :
-                '❌ FAIL – Below standard';
-        } else impactResult.value = '';
+        if (!isNaN(thickness) && minMicron && maxMicron) {
+             if (thickness >= minMicron && thickness <= maxMicron) {
+                 thicknessResult.value = 'Pass';
+             } else {
+                 thicknessResult.value = 'Fail';
+             }
+        } else if (!isNaN(thickness)) {
+            // If min/max not strictly defined, just accept it? Or leave blank logic?
+            // Assuming required so Fail if not matched? User said "take jobcards min_micron & max_micron"
+             thicknessResult.value = 'Fail (Micron range not set)';
+        } else {
+            thicknessResult.value = '';
+        }
 
-        const bend = document.getElementById('bendInput').value;
-        const bendResult = document.getElementById('bendResult');
-        if (!bend) bendResult.value = '';
-        else if (bend.includes('No cracks')) bendResult.value = '✅ PASS';
-        else if (bend.includes('Hairline')) bendResult.value = '⚠️ Acceptable';
-        else bendResult.value = '❌ FAIL';
+        // 3. Baking Temp
+        const temp = document.getElementById('bakingTempInput').value.trim();
+        const tempResult = document.getElementById('bakingTempResult');
+        if(temp) {
+             // Removing non-numeric for check or just exact string match?
+             // User said "200 degree C". Let's check if it contains 200.
+             if(temp.includes('200')) {
+                 tempResult.value = 'Pass';
+             } else {
+                 tempResult.value = 'Pass'; // Wait, standard logic? User said "200 C then pass". Implicitly others fail?
+                 // Let's assume strict 200 check.
+                 tempResult.value = (temp == '200' || temp == '200 C' || temp == '200° C') ? 'Pass' : 'Fail';
+                 // To be safer with user input format like "200", "200C"
+                 if (parseInt(temp) === 200) tempResult.value = 'Pass';
+                 else tempResult.value = 'Fail';
+             }
+        } else tempResult.value = '';
 
-        const cup = parseFloat(document.getElementById('cuppingInput').value);
-        const cupResult = document.getElementById('cuppingResult');
-        if (!isNaN(cup)) cupResult.value = cup >= 8 ? '✅ PASS – Meets Duracoat standard' : '❌ FAIL – Below 8mm';
-        else cupResult.value = '';
+        // 4. Baking Time
+        const time = document.getElementById('bakingTimeInput').value.trim();
+        const timeResult = document.getElementById('bakingTimeResult');
+        if(time) {
+             if (parseInt(time) === 10) timeResult.value = 'Pass';
+             else timeResult.value = 'Fail';
+        } else timeResult.value = '';
 
-        const glossType = document.getElementById('glossType').value;
-        const glossValue = parseFloat(document.getElementById('glossInput').value);
-        const glossResult = document.getElementById('glossResult');
-        if (glossType && !isNaN(glossValue)) {
-            let pass = false;
-            if (glossType === 'Matt' && glossValue >= 10 && glossValue <= 30) pass = true;
-            if (glossType === 'Semi-Gloss' && glossValue >= 31 && glossValue <= 70) pass = true;
-            if (glossType === 'Gloss' && glossValue >= 71 && glossValue <= 95) pass = true;
-            glossResult.value = pass ? '✅ PASS – Within range' : '❌ FAIL – Out of range';
-        } else glossResult.value = '';
+        // 5. Colour Uniformity
+        const colour = document.getElementById('colourUniformityInput').value.trim().toLowerCase();
+        const colourResult = document.getElementById('colourUniformityResult');
+        if(colour) {
+             if (colour === 'close to standard') colourResult.value = 'Pass';
+             else colourResult.value = 'Fail';
+        } else colourResult.value = '';
+
+        // 6. MEK Test
+        const rubs = parseInt(document.getElementById('mekRubsInput').value);
+        const peel = document.getElementById('mekPeelInput').value;
+        const mekResult = document.getElementById('mekResult');
+        
+        if (!isNaN(rubs) && peel) {
+            if (rubs >= 30 && peel === 'No') {
+                mekResult.value = 'No Peel off'; // User req: "No Peel off" as remarks/result for pass
+            } else {
+                mekResult.value = 'Fail';
+            }
+        } else {
+            mekResult.value = '';
+        }
+
+        // 7. Cross Hatch
+        const cross = document.getElementById('crossHatchInput').value.trim();
+        const crossResult = document.getElementById('crossHatchResult');
+        if(cross) {
+            if(cross === '11x1') crossResult.value = 'No Peel off';
+            else crossResult.value = 'Fail';
+        } else crossResult.value = '';
+
+        // 8. Conical Mandrel
+        const mandrel = document.getElementById('mandrelInput').value.trim();
+        const mandrelResult = document.getElementById('mandrelResult');
+        if(mandrel) {
+            if(mandrel.toLowerCase() === 'no crack') mandrelResult.value = 'No Crack';
+            else mandrelResult.value = 'Fail';
+        } else mandrelResult.value = '';
+
+        // 9. Pencil Hardness
+        const pencil = document.getElementById('pencilHardnessInput').value.trim();
+        const pencilResult = document.getElementById('pencilHardnessResult');
+        if(pencil) {
+            if(pencil === 'H' || pencil === 'h') pencilResult.value = 'Pass';
+            else pencilResult.value = 'Fail';
+        } else pencilResult.value = '';
     });
 </script>
 @endsection

@@ -775,54 +775,76 @@ class ManagerController extends Controller
         $jobcard = Jobcard::with('order', 'client')->findOrFail($id);
 
         $request->validate([
-            'adhesionInput' => 'nullable|string|max:10',
-            'adhesionResult' => 'nullable|string|max:255',
-            'hardnessInput' => 'nullable|string|max:10',
-            'hardnessResult' => 'nullable|string|max:255',
-            'impactInput' => 'nullable|numeric',
-            'impactResult' => 'nullable|string|max:255',
-            'bendInput' => 'nullable|string|max:255',
-            'bendResult' => 'nullable|string|max:255',
-            'cuppingInput' => 'nullable|numeric',
-            'cuppingResult' => 'nullable|string|max:255',
-            'glossType' => 'nullable|string|max:50',
-            'glossInput' => 'nullable|numeric',
-            'glossResult' => 'nullable|string|max:255',
+            'substrateInput' => 'nullable|string',
+            'substrateResult' => 'nullable|string',
+            'filmThicknessInput' => 'nullable|string',
+            'filmThicknessResult' => 'nullable|string',
+            'bakingTempInput' => 'nullable|string',
+            'bakingTempResult' => 'nullable|string',
+            'bakingTimeInput' => 'nullable|string',
+            'bakingTimeResult' => 'nullable|string',
+            'colourUniformityInput' => 'nullable|string',
+            'colourUniformityResult' => 'nullable|string',
+            'mekRubsInput' => 'nullable|string',
+            'mekPeelInput' => 'nullable|string',
+            'mekResult' => 'nullable|string',
+            'crossHatchInput' => 'nullable|string',
+            'crossHatchResult' => 'nullable|string',
+            'mandrelInput' => 'nullable|string',
+            'mandrelResult' => 'nullable|string',
+            'pencilHardnessInput' => 'nullable|string',
+            'pencilHardnessResult' => 'nullable|string',
         ]);
 
         $today = Carbon::today()->format('Y-m-d');
 
         $testing = [
             [
-                'test_name' => 'Cross Hatch Adhesion Test',
-                'test_value' => $request->adhesionInput,
-                'test_result' => $request->adhesionResult,
+                'test_name' => 'Substrate',
+                'test_value' => $request->substrateInput,
+                'test_result' => $request->substrateResult,
+            ],
+            [
+                'test_name' => 'Dry filmThickness',
+                'test_value' => $request->filmThicknessInput,
+                'test_result' => $request->filmThicknessResult,
+            ],
+            [
+                'test_name' => 'Baking Temperature',
+                'test_value' => $request->bakingTempInput,
+                'test_result' => $request->bakingTempResult,
+            ],
+            [
+                'test_name' => 'Baking Time',
+                'test_value' => $request->bakingTimeInput,
+                'test_result' => $request->bakingTimeResult,
+            ],
+            [
+                'test_name' => 'Colour Uniformity Test',
+                'test_value' => $request->colourUniformityInput,
+                'test_result' => $request->colourUniformityResult,
+            ],
+            [
+                'test_name' => 'M E K Test',
+                'test_value' => $request->mekRubsInput . ' Rubs | Peel: ' . $request->mekPeelInput,
+                'rubs_value' => $request->mekRubsInput, // Optional extra storage if needed
+                'peel_value' => $request->mekPeelInput,    // Optional
+                'test_result' => $request->mekResult,
+            ],
+            [
+                'test_name' => 'Cross Hatch Test',
+                'test_value' => $request->crossHatchInput,
+                'test_result' => $request->crossHatchResult,
+            ],
+            [
+                'test_name' => 'Conical Mandrel Test',
+                'test_value' => $request->mandrelInput,
+                'test_result' => $request->mandrelResult,
             ],
             [
                 'test_name' => 'Pencil Hardness Test',
-                'test_value' => $request->hardnessInput,
-                'test_result' => $request->hardnessResult,
-            ],
-            [
-                'test_name' => 'Impact Resistance Test',
-                'test_value' => $request->impactInput,
-                'test_result' => $request->impactResult,
-            ],
-            [
-                'test_name' => 'Conical Mandrel Bend Test',
-                'test_value' => $request->bendInput,
-                'test_result' => $request->bendResult,
-            ],
-            [
-                'test_name' => 'Cupping Test',
-                'test_value' => $request->cuppingInput,
-                'test_result' => $request->cuppingResult,
-            ],
-            [
-                'test_name' => 'Gloss Measurement Test',
-                'test_value' => $request->glossInput,
-                'test_result' => $request->glossResult,
-                'gloss_type' => $request->glossType,
+                'test_value' => $request->pencilHardnessInput,
+                'test_result' => $request->pencilHardnessResult,
             ],
         ];
 
