@@ -172,7 +172,7 @@
                                             <thead class="table-light">
                                                 <tr>
                                                     <th>Product / Material</th>
-                                                    <th>Paint Code (RAL)</th>
+                                                    <th>Paint Details</th>
                                                     <th>Paint Used (Qty)</th>
                                                 </tr>
                                             </thead>
@@ -183,7 +183,12 @@
                                                         {{ $jobcard->material_quantity }} {{ $jobcard->material_unit }}<br>
                                                         {{ $jobcard->material_type }}
                                                     </td>
-                                                    <td><span class="badge bg-gradient-info text-white">{{ $jobcard->ral_code }}</span></td>
+                                                    <td class="text-xs font-weight-bold">
+                                                        {{ $jobcard->paint->brand_name ?? '' }} <br>
+                                                        {{ $jobcard->paint->ral_code ?? $jobcard->ral_code }} <br>
+                                                        {{ $jobcard->paint->shade_name ?? '' }} <br>
+                                                        {{ $jobcard->paint->finish ?? '' }}
+                                                    </td>
                                                     <td class="text-xs font-weight-bold">{{ $jobcard->paint_used ?? '—' }}</td>
                                                 </tr>
                                             </tbody>

@@ -151,7 +151,6 @@
     <div class="container">
         <!-- Header with Logo and Company Name -->
         <div class="header-section">
-            <img src="{{ asset('./logo.png') }}" alt="Dura Coat Logo" class="logo">
             <h1 class="company-name">
                 <span class="dura">DURA</span><span class="coat">COAT</span>
             </h1>
