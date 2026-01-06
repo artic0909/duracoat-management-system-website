@@ -126,6 +126,10 @@
                                         </th>
 
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Invoice
+                                        </th>
+
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Jobcard Details
                                         </th>
 
@@ -171,6 +175,10 @@
                                             <td>
                                                 <p class="text-xs fw-bolder mb-0 bg-primary text-white m-0 p-1">
                                                     {{ $jobcard->order->order_number }}</p>
+                                            </td>
+
+                                            <td>
+                                                <p class="text-xs fw-bolder mb-0 bg-secondary text-white m-0 p-1">{{ $jobcard->invoice ?? '—' }}</p>
                                             </td>
 
                                             <td>

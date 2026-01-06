@@ -131,6 +131,11 @@
 
                                     <th
                                         class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Invoice
+                                    </th>
+
+                                    <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Jobcard Details
                                     </th>
 
@@ -163,7 +168,7 @@
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">{{$loop->iteration}}</h6>
+                                                <h6 class="mb-0 text-sm">{{ ($jobcards->currentPage() - 1) * $jobcards->perPage() + $loop->iteration }}</h6>
                                             </div>
                                         </div>
                                     </td>
@@ -175,6 +180,10 @@
 
                                     <td>
                                         <p class="text-xs fw-bolder mb-0 bg-primary text-white m-0 p-1">{{ $jobcard->order->order_number }}</p>
+                                    </td>
+
+                                    <td>
+                                        <p class="text-xs fw-bolder mb-0 bg-secondary text-white m-0 p-1">{{ $jobcard->invoice ?? '—' }}</p>
                                     </td>
 
                                     <td>
