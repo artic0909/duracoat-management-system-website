@@ -423,104 +423,206 @@
 
 <!-- Modern JS Auto Checking -->
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        validateQC();
+    });
+
     document.addEventListener('input', function() {
+        validateQC();
+    });
+
+    function validateQC() {
+        function updateResultClass(element, isPass) {
+            if (isPass) {
+                element.classList.remove('text-danger');
+                element.classList.add('text-success');
+            } else {
+                element.classList.remove('text-success');
+                element.classList.add('text-danger');
+            }
+        }
+
         // 1. Substrate
-        const substrate = document.getElementById('substrateInput').value;
+        const substrateInput = document.getElementById('substrateInput');
         const substrateResult = document.getElementById('substrateResult');
-        substrateResult.value = substrate ? 'Observations: Reference - AAMA 2603' : '';
+        if(substrateInput && substrateResult) {
+            const val = substrateInput.value;
+            // Only update if not already set or ensure consistency
+            // Logic: substrate selects -> result is fixed text
+            if(val) {
+                 substrateResult.value = 'Observations: Reference - AAMA 2603';
+                 updateResultClass(substrateResult, true);
+            } else {
+                 substrateResult.value = '';
+                 substrateResult.classList.remove('text-danger', 'text-success');
+            }
+        }
 
         // 2. Dry Film Thickness
-        const thickness = parseFloat(document.getElementById('filmThicknessInput').value);
+        const thicknessInput = document.getElementById('filmThicknessInput');
         const thicknessResult = document.getElementById('filmThicknessResult');
-        const minMicron = parseFloat('{{ $jobcard->min_micron }}');
-        const maxMicron = parseFloat('{{ $jobcard->max_micron }}');
+        if(thicknessInput && thicknessResult) {
+            const thickness = parseFloat(thicknessInput.value);
+            const minMicron = parseFloat('{{ $jobcard->min_micron }}');
+            const maxMicron = parseFloat('{{ $jobcard->max_micron }}');
 
-        if (!isNaN(thickness) && minMicron && maxMicron) {
-             if (thickness >= minMicron && thickness <= maxMicron) {
-                 thicknessResult.value = 'Pass';
-             } else {
-                 thicknessResult.value = 'Fail';
-             }
-        } else if (!isNaN(thickness)) {
-            // If min/max not strictly defined, just accept it? Or leave blank logic?
-            // Assuming required so Fail if not matched? User said "take jobcards min_micron & max_micron"
-             thicknessResult.value = 'Fail (Micron range not set)';
-        } else {
-            thicknessResult.value = '';
+            if (!isNaN(thickness) && minMicron && maxMicron) {
+                 if (thickness >= minMicron && thickness <= maxMicron) {
+                     thicknessResult.value = 'Pass';
+                     updateResultClass(thicknessResult, true);
+                 } else {
+                     thicknessResult.value = 'Fail';
+                     updateResultClass(thicknessResult, false);
+                 }
+            } else if (!isNaN(thickness)) {
+                 thicknessResult.value = 'Fail (Micron range not set)';
+                 updateResultClass(thicknessResult, false);
+            } else {
+                thicknessResult.value = '';
+                thicknessResult.classList.remove('text-danger', 'text-success');
+            }
         }
 
         // 3. Baking Temp
-        const temp = document.getElementById('bakingTempInput').value.trim();
+        const tempInput = document.getElementById('bakingTempInput');
         const tempResult = document.getElementById('bakingTempResult');
-        if(temp) {
-             // Removing non-numeric for check or just exact string match?
-             // User said "200 degree C". Let's check if it contains 200.
-             if(temp.includes('200')) {
-                 tempResult.value = 'Pass';
-             } else {
-                 tempResult.value = 'Pass'; // Wait, standard logic? User said "200 C then pass". Implicitly others fail?
-                 // Let's assume strict 200 check.
-                 tempResult.value = (temp == '200' || temp == '200 C' || temp == '200° C') ? 'Pass' : 'Fail';
-                 // To be safer with user input format like "200", "200C"
-                 if (parseInt(temp) === 200) tempResult.value = 'Pass';
-                 else tempResult.value = 'Fail';
-             }
-        } else tempResult.value = '';
+        if(tempInput && tempResult) {
+            const temp = tempInput.value.trim();
+            if(temp) {
+                 if(temp.includes('200')) {
+                     tempResult.value = 'Pass';
+                     updateResultClass(tempResult, true);
+                 } else {
+                     if (parseInt(temp) === 200) {
+                        tempResult.value = 'Pass';
+                        updateResultClass(tempResult, true);
+                     } else {
+                        tempResult.value = 'Fail';
+                        updateResultClass(tempResult, false);
+                     }
+                 }
+            } else {
+                tempResult.value = '';
+                tempResult.classList.remove('text-danger', 'text-success');
+            }
+        }
 
         // 4. Baking Time
-        const time = document.getElementById('bakingTimeInput').value.trim();
+        const timeInput = document.getElementById('bakingTimeInput');
         const timeResult = document.getElementById('bakingTimeResult');
-        if(time) {
-             if (parseInt(time) === 10) timeResult.value = 'Pass';
-             else timeResult.value = 'Fail';
-        } else timeResult.value = '';
+        if(timeInput && timeResult) {
+            const time = timeInput.value.trim();
+            if(time) {
+                 if (parseInt(time) === 10) {
+                     timeResult.value = 'Pass';
+                     updateResultClass(timeResult, true);
+                 } else {
+                     timeResult.value = 'Fail';
+                     updateResultClass(timeResult, false);
+                 }
+            } else {
+                timeResult.value = '';
+                timeResult.classList.remove('text-danger', 'text-success');
+            }
+        }
 
         // 5. Colour Uniformity
-        const colour = document.getElementById('colourUniformityInput').value.trim().toLowerCase();
+        const colourInput = document.getElementById('colourUniformityInput');
         const colourResult = document.getElementById('colourUniformityResult');
-        if(colour) {
-             if (colour === 'close to standard') colourResult.value = 'Pass';
-             else colourResult.value = 'Fail';
-        } else colourResult.value = '';
+        if(colourInput && colourResult) {
+            const colour = colourInput.value;
+            if(colour) {
+                 if (colour === 'Close to standard') {
+                     colourResult.value = 'Pass';
+                     updateResultClass(colourResult, true);
+                 } else {
+                     colourResult.value = 'Fail';
+                     updateResultClass(colourResult, false);
+                 }
+            } else {
+                colourResult.value = '';
+                colourResult.classList.remove('text-danger', 'text-success');
+            }
+        }
 
         // 6. MEK Test
-        const rubs = parseInt(document.getElementById('mekRubsInput').value);
-        const peel = document.getElementById('mekPeelInput').value;
+        const rubsInput = document.getElementById('mekRubsInput');
+        const peelInput = document.getElementById('mekPeelInput');
         const mekResult = document.getElementById('mekResult');
-        
-        if (!isNaN(rubs) && peel) {
-            if (rubs >= 30 && peel === 'No') {
-                mekResult.value = 'No Peel off'; // User req: "No Peel off" as remarks/result for pass
+        if(rubsInput && peelInput && mekResult) {
+            const rubs = parseInt(rubsInput.value);
+            const peel = peelInput.value;
+            
+            if (!isNaN(rubs) && peel) {
+                if (rubs >= 30 && peel === 'No') {
+                    mekResult.value = 'No Peel off'; // Pass
+                    updateResultClass(mekResult, true);
+                } else {
+                    mekResult.value = 'Fail';
+                    updateResultClass(mekResult, false);
+                }
             } else {
-                mekResult.value = 'Fail';
+                mekResult.value = '';
+                mekResult.classList.remove('text-danger', 'text-success');
             }
-        } else {
-            mekResult.value = '';
         }
 
         // 7. Cross Hatch
-        const cross = document.getElementById('crossHatchInput').value.trim();
+        const crossInput = document.getElementById('crossHatchInput');
         const crossResult = document.getElementById('crossHatchResult');
-        if(cross) {
-            if(cross === '11x1') crossResult.value = 'No Peel off';
-            else crossResult.value = 'Fail';
-        } else crossResult.value = '';
+        if(crossInput && crossResult) {
+            const cross = crossInput.value;
+            if(cross) {
+                if(cross === '11x1') {
+                    crossResult.value = 'No Peel off';
+                    updateResultClass(crossResult, true);
+                } else {
+                    crossResult.value = 'Fail';
+                    updateResultClass(crossResult, false);
+                }
+            } else {
+                crossResult.value = '';
+                crossResult.classList.remove('text-danger', 'text-success');
+            }
+        }
 
         // 8. Conical Mandrel
-        const mandrel = document.getElementById('mandrelInput').value.trim();
+        const mandrelInput = document.getElementById('mandrelInput');
         const mandrelResult = document.getElementById('mandrelResult');
-        if(mandrel) {
-            if(mandrel.toLowerCase() === 'no crack') mandrelResult.value = 'No Crack';
-            else mandrelResult.value = 'Fail';
-        } else mandrelResult.value = '';
+        if(mandrelInput && mandrelResult) {
+            const mandrel = mandrelInput.value;
+            if(mandrel) {
+                if(mandrel === 'No Crack') {
+                    mandrelResult.value = 'No Crack';
+                    updateResultClass(mandrelResult, true);
+                } else {
+                    mandrelResult.value = 'Fail';
+                    updateResultClass(mandrelResult, false);
+                }
+            } else {
+                mandrelResult.value = '';
+                mandrelResult.classList.remove('text-danger', 'text-success');
+            }
+        }
 
         // 9. Pencil Hardness
-        const pencil = document.getElementById('pencilHardnessInput').value.trim();
+        const pencilInput = document.getElementById('pencilHardnessInput');
         const pencilResult = document.getElementById('pencilHardnessResult');
-        if(pencil) {
-            if(pencil === 'H' || pencil === 'h') pencilResult.value = 'Pass';
-            else pencilResult.value = 'Fail';
-        } else pencilResult.value = '';
-    });
+        if(pencilInput && pencilResult) {
+            const pencil = pencilInput.value.trim();
+            if(pencil) {
+                if(pencil === 'H' || pencil === 'h') {
+                    pencilResult.value = 'Pass';
+                    updateResultClass(pencilResult, true);
+                } else {
+                    pencilResult.value = 'Fail';
+                    updateResultClass(pencilResult, false);
+                }
+            } else {
+                pencilResult.value = '';
+                pencilResult.classList.remove('text-danger', 'text-success');
+            }
+        }
+    }
 </script>
 @endsection
