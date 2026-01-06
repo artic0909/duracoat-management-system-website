@@ -315,7 +315,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Material Name</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantity</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Micron</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Micron (Min - Max)</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Paint Details</th>
                                 </tr>
                             </thead>
@@ -337,7 +337,7 @@
                                         <td class="text-sm">{{ $material['material_name'] ?? '-' }}</td>
                                         <td class="text-sm">{{ $material['quantity'] ?? '-' }}</td>
                                         <td class="text-sm">{{ $material['unit'] ?? '-' }}</td>
-                                        <td class="text-sm">{{ $material['micron'] ?? '-' }}</td>
+                                        <td class="text-sm">{{ $material['min_micron'] ?? '-' }} - {{ $material['max_micron'] ?? '-' }}</td>
                                         <td class="text-sm">
                                             @if ($paint)
                                                 <span class="fw-bold text-dark">{{ $paint->ral_code }}</span> <br>

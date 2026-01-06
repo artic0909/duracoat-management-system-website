@@ -389,9 +389,12 @@
                                         </select>
                                     </div>
                                     <div class="col-md-1">
-                                        <input type="text" name="micron[]" class="form-control" placeholder="Micron">
+                                        <input type="text" name="min_micron[]" class="form-control" placeholder="Min Micron">
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-1">
+                                        <input type="text" name="max_micron[]" class="form-control" placeholder="Max Micron">
+                                    </div>
+                                    <div class="col-md-2">
                                         <select name="paint_id[]" class="form-select select2-paint">
                                             <option value="">Select Paint (Optional)</option>
                                             @foreach ($paints as $paint)
@@ -463,7 +466,7 @@
                                                 Quantity</th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit
                                             </th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Micron
+                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Micron (Min - Max)
                                             </th>
                                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Paint Details</th>
@@ -487,7 +490,7 @@
                                                     <td class="text-sm">{{ $material['material_name'] ?? '-' }}</td>
                                                     <td class="text-sm">{{ $material['quantity'] ?? '-' }}</td>
                                                     <td class="text-sm">{{ $material['unit'] ?? '-' }}</td>
-                                                    <td class="text-sm">{{ $material['micron'] ?? '-' }}</td>
+                                                    <td class="text-sm">{{ $material['min_micron'] ?? '-' }} - {{ $material['max_micron'] ?? '-' }}</td>
                                                     <td class="text-sm">
                                                         @if ($paint)
                                                             <span class="fw-bold text-dark">{{ $paint->ral_code }}</span> <br>
@@ -593,10 +596,14 @@
                                                     </select>
                                                 </div>
                                                 <div class="col-md-1">
-                                                    <input type="text" name="micron[]" class="form-control"
-                                                        value="{{ $material['micron'] ?? '' }}" placeholder="Micron">
+                                                    <input type="text" name="min_micron[]" class="form-control"
+                                                        value="{{ $material['min_micron'] ?? '' }}" placeholder="Min Micron">
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-md-1">
+                                                    <input type="text" name="max_micron[]" class="form-control"
+                                                        value="{{ $material['max_micron'] ?? '' }}" placeholder="Max Micron">
+                                                </div>
+                                                <div class="col-md-2">
                                                     <select name="paint_id[]" class="form-select select2-paint">
                                                         <option value="">Select Paint (Optional)</option>
                                                         @foreach ($paints as $paint)
@@ -646,7 +653,13 @@
                                                     <option value="Nos">Nos</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-1">
+                                                <input type="text" name="min_micron[]" class="form-control" placeholder="Min Micron">
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input type="text" name="max_micron[]" class="form-control" placeholder="Max Micron">
+                                            </div>
+                                            <div class="col-md-2">
                                                 <select name="paint_id[]" class="form-select select2-paint">
                                                     <option value="">Select Paint (Optional)</option>
                                                     @foreach ($paints as $paint)
@@ -764,9 +777,12 @@
                     </select>
                 </div>
                 <div class="col-md-1">
-                    <input type="text" name="micron[]" class="form-control" placeholder="Micron">
+                    <input type="text" name="min_micron[]" class="form-control" placeholder="Min Micron">
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-1">
+                    <input type="text" name="max_micron[]" class="form-control" placeholder="Max Micron">
+                </div>
+                <div class="col-md-2">
                     <select name="paint_id[]" class="form-select select2-paint">
                         <option value="">Select Paint (Optional)</option>
                         @foreach ($paints as $paint)
