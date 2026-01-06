@@ -308,6 +308,10 @@
                                                 class="btn btn-outline-primary px-3 py-2 rounded m-0">
                                                 Test Result
                                             </button>
+                                            <a href="{{ route('admin.jobcard.view', $jobcard->id) }}" target="_blank"
+                                                class="btn btn-info px-3 py-2 rounded m-0">
+                                                <i class="fas fa-eye"></i> View
+                                            </a>
                                             <a href="{{ route('admin.jobcard.pdf', $jobcard->id) }}"
                                                 class="btn btn-outline-success px-3 py-2 rounded m-0">
                                                 Print Jobcard

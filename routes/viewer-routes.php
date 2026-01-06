@@ -53,6 +53,7 @@ Route::middleware(['auth:viewer'])->prefix('viewer')->group(function () {
     // Download Routes
     Route::get('/jobcard/pdf/{id}', [ViewerController::class, 'downloadJobCardInPDF'])->name('viewer.jobcard.pdf');
     Route::get('/jobcard-test/download/{id}', [ViewerController::class, 'downloadJobcardTestResultsInPDF'])->name('viewer.jobcard-test.download');
+    Route::get('/jobcard/view/{id}', [ViewerController::class, 'viewJobCard'])->name('viewer.jobcard.view');
 
     // All Jobcards Routes
     Route::get('/all-jobcards', [ViewerController::class, 'allJobcardsView'])->name('viewer.all-jobcards');

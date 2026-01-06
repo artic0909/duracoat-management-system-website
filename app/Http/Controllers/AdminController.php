@@ -749,6 +749,13 @@ class AdminController extends Controller
         return $pdf->download('JobCard_' . $jobcard->jobcard_number . '.pdf');
     }
 
+    public function viewJobCard($id)
+    {
+        $jobcard = Jobcard::with('order.client')->findOrFail($id);
+
+        return view('pdf.jobcard', compact('jobcard'));
+    }
+
     public function downloadJobcardTestResultsInPDF($id)
     {
         // Get jobcard with related test data

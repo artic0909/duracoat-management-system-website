@@ -53,6 +53,7 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     // Download Routes
     Route::get('/jobcard/pdf/{id}', [AdminController::class, 'downloadJobCardInPDF'])->name('admin.jobcard.pdf');
     Route::get('/jobcard-test/download/{id}', [AdminController::class, 'downloadJobcardTestResultsInPDF'])->name('admin.jobcard-test.download');
+    Route::get('/jobcard/view/{id}', [AdminController::class, 'viewJobCard'])->name('admin.jobcard.view');
 
     // All Jobcards Routes
     Route::get('/all-jobcards', [AdminController::class, 'allJobcardsView'])->name('admin.all-jobcards');

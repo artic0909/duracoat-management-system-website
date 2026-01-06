@@ -276,6 +276,10 @@
                                             @endif
 
 
+                                            <a href="{{ route('manager.jobcard.view', $jobcard->id) }}" target="_blank"
+                                                class="btn btn-info px-3 py-2 rounded m-0">
+                                                <i class="fas fa-eye"></i> View
+                                            </a>
                                             <a href="{{ route('manager.jobcard.pdf', $jobcard->id) }}"
                                                 class="btn btn-outline-success px-3 py-2 rounded m-0">
                                                 Print Jobcard

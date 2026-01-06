@@ -121,11 +121,11 @@ class ViewerController extends Controller
     {
         try {
             $validated = $request->validate([
-                'ral_code'   => 'nullable|string|max:255',
+                'ral_code' => 'nullable|string|max:255',
                 'brand_name' => 'nullable|string|max:255',
                 'shade_name' => 'nullable|string|max:255',
-                'finish'     => 'nullable|in:plain,texture,structure',
-                'quantity'   => 'nullable|numeric|min:0',
+                'finish' => 'nullable|in:plain,texture,structure',
+                'quantity' => 'nullable|numeric|min:0',
             ]);
 
             $validated['paint_unique_id'] = 'PNT-' . strtoupper(uniqid());
@@ -141,11 +141,11 @@ class ViewerController extends Controller
     {
         try {
             $validated = $request->validate([
-                'ral_code'   => 'nullable|string|max:255',
+                'ral_code' => 'nullable|string|max:255',
                 'brand_name' => 'nullable|string|max:255',
                 'shade_name' => 'nullable|string|max:255',
-                'finish'     => 'nullable|in:plain,texture,structure',
-                'quantity'   => 'nullable|numeric|min:0',
+                'finish' => 'nullable|in:plain,texture,structure',
+                'quantity' => 'nullable|numeric|min:0',
             ]);
 
             Paint::where('id', $id)->update($validated);
@@ -227,14 +227,14 @@ class ViewerController extends Controller
         try {
 
             $validatedData = $request->validate([
-                'client_name'   => 'required|string|max:255',
-                'mobile'        => 'nullable|string|max:15',
-                'email'         => 'nullable|email|max:255',
+                'client_name' => 'required|string|max:255',
+                'mobile' => 'nullable|string|max:15',
+                'email' => 'nullable|email|max:255',
                 'material_type' => 'required|array',
                 'material_name' => 'required|array',
-                'quantity'      => 'required|array',
-                'unit'          => 'required|array',
-                'paint_id'      => 'required|array',
+                'quantity' => 'required|array',
+                'unit' => 'required|array',
+                'paint_id' => 'required|array',
             ]);
 
             $uniqueId = 'CLT-' . now()->format('Ymd') . '-' . strtoupper(Str::random(6));
@@ -244,22 +244,23 @@ class ViewerController extends Controller
                 if (
                     empty($request->material_name[$index]) &&
                     empty($request->quantity[$index])
-                ) continue;
+                )
+                    continue;
 
                 $materials[] = [
-                    'type'          => $type,
+                    'type' => $type,
                     'material_name' => $request->material_name[$index],
-                    'quantity'      => $request->quantity[$index],
-                    'unit'          => $request->unit[$index],
-                    'paint_id'      => $request->paint_id[$index],
+                    'quantity' => $request->quantity[$index],
+                    'unit' => $request->unit[$index],
+                    'paint_id' => $request->paint_id[$index],
                 ];
             }
 
             ClientMaterial::create([
                 'client_unique_id' => $uniqueId,
-                'client_name'      => $request->client_name,
-                'mobile'           => $request->mobile,
-                'email'            => $request->email,
+                'client_name' => $request->client_name,
+                'mobile' => $request->mobile,
+                'email' => $request->email,
                 'material_details' => $materials,
             ]);
 
@@ -273,14 +274,14 @@ class ViewerController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'client_name'   => 'required|string|max:255',
-                'mobile'        => 'nullable|string|max:15',
-                'email'         => 'nullable|email|max:255',
+                'client_name' => 'required|string|max:255',
+                'mobile' => 'nullable|string|max:15',
+                'email' => 'nullable|email|max:255',
                 'material_type' => 'required|array',
                 'material_name' => 'required|array',
-                'quantity'      => 'required|array',
-                'unit'          => 'required|array',
-                'paint_id'      => 'required|array',
+                'quantity' => 'required|array',
+                'unit' => 'required|array',
+                'paint_id' => 'required|array',
             ]);
 
             $materials = [];
@@ -288,21 +289,22 @@ class ViewerController extends Controller
                 if (
                     empty($request->material_name[$index]) &&
                     empty($request->quantity[$index])
-                ) continue;
+                )
+                    continue;
 
                 $materials[] = [
-                    'type'          => $type,
+                    'type' => $type,
                     'material_name' => $request->material_name[$index],
-                    'quantity'      => $request->quantity[$index],
-                    'unit'          => $request->unit[$index],
-                    'paint_id'      => $request->paint_id[$index],
+                    'quantity' => $request->quantity[$index],
+                    'unit' => $request->unit[$index],
+                    'paint_id' => $request->paint_id[$index],
                 ];
             }
 
             ClientMaterial::where('id', $id)->update([
-                'client_name'      => $request->client_name,
-                'mobile'           => $request->mobile,
-                'email'            => $request->email,
+                'client_name' => $request->client_name,
+                'mobile' => $request->mobile,
+                'email' => $request->email,
                 'material_details' => $materials,
             ]);
 
@@ -358,12 +360,12 @@ class ViewerController extends Controller
         try {
 
             $request->validate([
-                'client_id'     => 'required|exists:client_materials,id',
-                'order_number'  => 'required|string|max:255|unique:orders,order_number',
+                'client_id' => 'required|exists:client_materials,id',
+                'order_number' => 'required|string|max:255|unique:orders,order_number',
             ]);
 
             $order = Order::create([
-                'client_id'    => $request->client_id,
+                'client_id' => $request->client_id,
                 'order_number' => $request->order_number,
             ]);
 
@@ -383,14 +385,14 @@ class ViewerController extends Controller
     {
         try {
             $request->validate([
-                'client_id'     => 'required|exists:client_materials,id',
-                'order_number'  => 'required|string|max:255|unique:orders,order_number,' . $id,
+                'client_id' => 'required|exists:client_materials,id',
+                'order_number' => 'required|string|max:255|unique:orders,order_number,' . $id,
             ]);
 
             $order = Order::findOrFail($id);
 
             $order->update([
-                'client_id'    => $request->client_id,
+                'client_id' => $request->client_id,
                 'order_number' => $request->order_number,
             ]);
 
@@ -436,12 +438,12 @@ class ViewerController extends Controller
             $clientMaterials = collect($clientMaterials)->map(function ($mat) use ($paints) {
                 $paint = $paints->get($mat['paint_id']);
                 return [
-                    'type'          => $mat['type'] ?? '',
+                    'type' => $mat['type'] ?? '',
                     'material_name' => $mat['material_name'] ?? '',
-                    'quantity'      => $mat['quantity'] ?? '',
-                    'unit'          => $mat['unit'] ?? '',
-                    'paint_id'      => $mat['paint_id'] ?? '',
-                    'paint_code'    => $paint->ral_code ?? 'N/A',
+                    'quantity' => $mat['quantity'] ?? '',
+                    'unit' => $mat['unit'] ?? '',
+                    'paint_id' => $mat['paint_id'] ?? '',
+                    'paint_code' => $paint->ral_code ?? 'N/A',
                 ];
             })->toArray();
 
@@ -456,30 +458,30 @@ class ViewerController extends Controller
         try {
             $request->validate([
                 'jobcard_creation_date' => 'required|date',
-                'jobcard_number'        => 'required|string|max:255|unique:jobcards,jobcard_number',
-                'selected_material'     => 'required',
-                'material_type'         => 'required|string',
-                'material_name'         => 'required|string',
-                'material_quantity'     => 'required|numeric',
-                'material_unit'         => 'required|string',
-                'paint_id'              => 'required|exists:paints,id',
-                'ral_code'              => 'nullable|string',
+                'jobcard_number' => 'required|string|max:255|unique:jobcards,jobcard_number',
+                'selected_material' => 'required',
+                'material_type' => 'required|string',
+                'material_name' => 'required|string',
+                'material_quantity' => 'required|numeric',
+                'material_unit' => 'required|string',
+                'paint_id' => 'required|exists:paints,id',
+                'ral_code' => 'nullable|string',
             ]);
 
             $order = Order::with('client')->findOrFail($order_id);
 
             Jobcard::create([
-                'order_id'              => $order->id,
-                'client_id'             => $order->client->id,
+                'order_id' => $order->id,
+                'client_id' => $order->client->id,
                 'jobcard_creation_date' => $request->jobcard_creation_date,
-                'jobcard_number'        => $request->jobcard_number,
-                'material_type'         => $request->material_type,
-                'material_name'         => $request->material_name,
-                'material_quantity'     => $request->material_quantity,
-                'material_unit'         => $request->material_unit,
-                'paint_id'              => $request->paint_id,
-                'ral_code'              => $request->ral_code,
-                'jobcard_status'        => 'pending',
+                'jobcard_number' => $request->jobcard_number,
+                'material_type' => $request->material_type,
+                'material_name' => $request->material_name,
+                'material_quantity' => $request->material_quantity,
+                'material_unit' => $request->material_unit,
+                'paint_id' => $request->paint_id,
+                'ral_code' => $request->ral_code,
+                'jobcard_status' => 'pending',
             ]);
 
             return redirect()->route('viewer.view-created-jobcards', $order->id)->with('success', 'Jobcard created successfully!');
@@ -512,8 +514,8 @@ class ViewerController extends Controller
         // Step 1: Update jobcard fields
         $jobcard->update([
             'jobcard_number' => $request->jobcard_number,
-            'paint_used'     => $request->paint_used,
-            'paint_id'       => $request->paint_id,
+            'paint_used' => $request->paint_used,
+            'paint_id' => $request->paint_id,
         ]);
 
         // Step 2: Deduct paint quantity if paint_used is provided
@@ -678,6 +680,13 @@ class ViewerController extends Controller
         ])->setPaper('a4');
 
         return $pdf->download('JobCard_' . $jobcard->jobcard_number . '.pdf');
+    }
+
+    public function viewJobCard($id)
+    {
+        $jobcard = Jobcard::with('order.client')->findOrFail($id);
+
+        return view('pdf.jobcard', compact('jobcard'));
     }
 
     public function downloadJobcardTestResultsInPDF($id)
