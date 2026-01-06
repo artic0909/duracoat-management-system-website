@@ -234,6 +234,8 @@ class ManagerController extends Controller
                 'material_name' => 'required|array',
                 'quantity' => 'required|array',
                 'unit' => 'required|array',
+                'min_micron' => 'required|array',
+                'max_micron' => 'required|array',
                 'paint_id' => 'nullable|array',
             ]);
 
@@ -253,6 +255,8 @@ class ManagerController extends Controller
                     'material_name' => $request->material_name[$index],
                     'quantity' => $request->quantity[$index],
                     'unit' => $request->unit[$index],
+                    'min_micron' => $request->min_micron[$index],
+                    'max_micron' => $request->max_micron[$index],
                     'paint_id' => $request->paint_id[$index] ?? null,
                 ];
             }
@@ -283,6 +287,8 @@ class ManagerController extends Controller
                 'material_name' => 'required|array',
                 'quantity' => 'required|array',
                 'unit' => 'required|array',
+                'min_micron' => 'required|array',
+                'max_micron' => 'required|array',
                 'paint_id' => 'nullable|array',
             ]);
 
@@ -300,6 +306,8 @@ class ManagerController extends Controller
                     'material_name' => $request->material_name[$index],
                     'quantity' => $request->quantity[$index],
                     'unit' => $request->unit[$index],
+                    'min_micron' => $request->min_micron[$index],
+                    'max_micron' => $request->max_micron[$index],
                     'paint_id' => $request->paint_id[$index] ?? null,
                 ];
             }

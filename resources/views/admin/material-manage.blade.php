@@ -313,7 +313,7 @@
 
     <!-- Add Modal -->
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addClientModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addClientModalLabel">Add Client Details</h5>
@@ -358,11 +358,11 @@
                                         <option value="ALU">ALU</option>
                                     </select>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <input type="text" name="material_name[]" class="form-control"
                                         placeholder="Material Name" required>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-1">
                                     <input type="text" name="quantity[]" class="form-control"
                                         placeholder="Quantity" required>
                                 </div>
@@ -372,6 +372,10 @@
                                         <option value="KG">KG</option>
                                         <option value="Nos">Nos</option>
                                     </select>
+                                </div>
+                                <div class="col-md-1">
+                                    <input type="text" name="micron[]" class="form-control"
+                                        placeholder="Micron">
                                 </div>
                                 <div class="col-md-3">
                                     <select name="paint_id[]" class="form-select select2-paint">
@@ -436,6 +440,7 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Material Name</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Quantity</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Micron</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Paint Details</th>
                                 </tr>
                             </thead>
@@ -457,6 +462,7 @@
                                         <td class="text-sm">{{ $material['material_name'] ?? '-' }}</td>
                                         <td class="text-sm">{{ $material['quantity'] ?? '-' }}</td>
                                         <td class="text-sm">{{ $material['unit'] ?? '-' }}</td>
+                                        <td class="text-sm">{{ $material['micron'] ?? '-' }}</td>
                                         <td class="text-sm">
                                             @if ($paint)
                                                 <span class="fw-bold text-dark">{{ $paint->ral_code }}</span> <br>
@@ -469,7 +475,7 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="6" class="text-center text-muted">No materials found</td>
+                                        <td colspan="7" class="text-center text-muted">No materials found</td>
                                     </tr>
                                 @endif
                             </tbody>
@@ -698,10 +704,10 @@
                     <option value="ALU">ALU</option>
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <input type="text" name="material_name[]" class="form-control" placeholder="Material Name" required>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <input type="text" name="quantity[]" class="form-control" placeholder="Quantity" required>
             </div>
             <div class="col-md-1">
@@ -710,6 +716,9 @@
                     <option value="KG">KG</option>
                     <option value="Nos">Nos</option>
                 </select>
+            </div>
+            <div class="col-md-1">
+                <input type="text" name="micron[]" class="form-control" placeholder="Micron">
             </div>
             <div class="col-md-3">
                 <select name="paint_id[]" class="form-select select2-paint">
