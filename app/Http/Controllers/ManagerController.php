@@ -656,7 +656,7 @@ class ManagerController extends Controller
 
         if ($diffDays > 5) {
             // send alert email
-            Mail::to('arif@rconpl.in')->cc('rakibul@rconpl.in')->send(new DelayAleartMail($jobcard, $diffDays));
+            Mail::to('arif.rcpl2017@gmail.com')->cc('rakibul@rconpl.in')->send(new DelayAleartMail($jobcard, $diffDays));
 
             // don’t update date, show error
             return redirect()->back()->with('error', 'Powder Application delayed by more than 5 days! Alert sent to admin.');
@@ -685,7 +685,7 @@ class ManagerController extends Controller
     //         'delivered_at' => Carbon::today(),
     //     ];
 
-    //     Mail::to('arif@rconpl.in')
+    //     Mail::to('arif.rcpl2017@gmail.com')
     //         ->cc('rakibul@rconpl.in')
     //         ->send(new DeliveryMail($jobcard, $mailData));
 
@@ -719,7 +719,7 @@ class ManagerController extends Controller
         ];
         // send delivery mail to client + CC 2 fixed emails
         Mail::to($client->email)
-            ->cc(['arif@rconpl.in', 'rakibul@rconpl.in'])
+            ->cc(['arif.rcpl2017@gmail.com', 'rakibul@rconpl.in'])
             ->send(new DeliveryMail($jobcard, $mailData));
         return redirect()->back()->with('success', 'Jobcard delivered & notification sent to client!');
     }
@@ -754,7 +754,7 @@ class ManagerController extends Controller
 
         // send to client + CC to arif & rakibul
         Mail::to($client->email)
-            ->cc(['arif@rconpl.in', 'rakibul@rconpl.in'])
+            ->cc(['arif.rcpl2017@gmail.com', 'rakibul@rconpl.in'])
             ->send(new DeliveryMail($jobcard, $mailData));
 
         return redirect()->back()->with('success', 'Delivery statement updated and notification sent to client!');
