@@ -9,6 +9,10 @@
     .dashboard-container {
         padding: 1.5rem;
     }
+    
+    .text-left-force {
+        text-align: left !important;
+    }
 
     /* Hero Cards (Gradient) */
     .hero-card {
@@ -297,7 +301,7 @@
         <div class="col-md-6 mb-4">
             <div class="action-card pending position-relative">
                 <a href="{{ route('manager.total-pending-materials') }}" class="stretched-link"></a>
-                <div>
+                <div style="text-align: left !important;">
                     <h6 class="text-dark font-weight-bold mb-1">Total Pending Material</h6>
                     <span class="text-xs text-muted">Awaiting processing</span>
                     <h3 class="font-weight-bolder text-warning mt-2 mb-0">{{ $pendingCount }}</h3>
@@ -311,7 +315,7 @@
         <div class="col-md-6 mb-4">
             <div class="action-card pretreat position-relative">
                 <a href="{{ route('manager.total-pretreatment-done') }}" class="stretched-link"></a>
-                <div>
+                <div style="text-align: left !important;">
                     <h6 class="text-dark font-weight-bold mb-1">Pretreatment Done</h6>
                     <span class="text-xs text-muted">Ready for coating</span>
                     <h3 class="font-weight-bolder text-info mt-2 mb-0">{{ $pretreatmentCount }}</h3>
