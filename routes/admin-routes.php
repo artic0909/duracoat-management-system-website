@@ -56,6 +56,9 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/jobcard/view/{id}', [AdminController::class, 'viewJobCard'])->name('admin.jobcard.view');
 
     // All Jobcards Routes
+    // All Jobcards Routes
+    Route::get('/total-pending-materials', [AdminController::class, 'totalPendingMaterials'])->name('admin.total-pending-materials');
+    Route::get('/total-pretreatment-done', [AdminController::class, 'totalPretreatmentDone'])->name('admin.total-pretreatment-done');
     Route::get('/all-jobcards', [AdminController::class, 'allJobcardsView'])->name('admin.all-jobcards');
     Route::get('/rejected-jobcards', [AdminController::class, 'allRejectedJobcardsView'])->name('admin.rejected-jobcards');
 

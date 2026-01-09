@@ -67,7 +67,10 @@ class ManagerController extends Controller
 
         $totalTests = JobcardTest::count();
 
-        return view('manager.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests'));
+        $pendingCount = Jobcard::where('jobcard_status', 'pending')->count();
+        $pretreatmentCount = Jobcard::where('jobcard_status', 'pre-treatment')->count();
+
+        return view('manager.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests', 'pendingCount', 'pretreatmentCount'));
     }
 
     public function logout(Request $request)
@@ -919,6 +922,18 @@ class ManagerController extends Controller
 
 
     // All Jobcards Management Routes (Manager Guard) =============================================================================================================>
+    public function totalPendingMaterials()
+    {
+        $jobcards = Jobcard::where('jobcard_status', 'pending')->with('order.client')->orderBy('id', 'desc')->paginate(10);
+        return view('manager.total_pending_materials', compact('jobcards'));
+    }
+
+    public function totalPretreatmentDone()
+    {
+        $jobcards = Jobcard::where('jobcard_status', 'pre-treatment')->with('order.client')->orderBy('id', 'desc')->paginate(10);
+        return view('manager.total_pretreatment_done', compact('jobcards'));
+    }
+
     public function allJobcardsView(Request $request)
     {
         $query = Jobcard::with('order.client')->orderBy('id', 'desc');

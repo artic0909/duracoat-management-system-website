@@ -353,33 +353,38 @@
             </div>
         </div>
 
-        <!-- ACTION ROW: Pending & Pretreatment -->
-        <div class="row mt-2">
-            <div class="col-md-6 mb-4">
+    <!-- ACTION ROW: Pending & Pretreatment -->
+    <div class="row mt-2">
+        <div class="col-md-6 mb-4">
+            <a href="{{ route('admin.total-pending-materials') }}">
                 <div class="action-card pending">
                     <div>
                         <h6 class="text-dark font-weight-bold mb-1">Total Pending Material</h6>
                         <span class="text-xs text-muted">Awaiting processing</span>
-                        <h3 class="font-weight-bolder text-warning mt-2 mb-0">--</h3>
+                        <h3 class="font-weight-bolder text-warning mt-2 mb-0">{{ $pendingCount }}</h3>
                     </div>
                     <div class="action-icon bg-light-yellow">
                         <i class="fas fa-clock"></i>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 mb-4">
+            </a>
+        </div>
+        <div class="col-md-6 mb-4">
+            <a href="{{ route('admin.total-pretreatment-done') }}">
                 <div class="action-card pretreat">
                     <div>
                         <h6 class="text-dark font-weight-bold mb-1">Pretreatment Done</h6>
                         <span class="text-xs text-muted">Ready for coating</span>
-                        <h3 class="font-weight-bolder text-info mt-2 mb-0">--</h3>
+                        <h3 class="font-weight-bolder text-info mt-2 mb-0">{{ $pretreatmentCount }}</h3>
                     </div>
                     <div class="action-icon bg-light-info">
                         <i class="fas fa-check-double"></i>
                     </div>
                 </div>
-            </div>
+            </a>
         </div>
+    </div>
+
 
         <!-- OPERATIONS GRID -->
         <div class="row">
