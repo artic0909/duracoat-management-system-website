@@ -59,6 +59,8 @@ Route::middleware(['auth:manager'])->prefix('manager')->group(function () {
     // All Jobcards Routes
     Route::get('/total-pending-materials', [ManagerController::class, 'totalPendingMaterials'])->name('manager.total-pending-materials');
     Route::get('/total-pretreatment-done', [ManagerController::class, 'totalPretreatmentDone'])->name('manager.total-pretreatment-done');
+    Route::get('/total-pending-materials/export', [ManagerController::class, 'exportPendingMaterials'])->name('manager.total-pending-materials.export');
+    Route::get('/total-pretreatment-done/export', [ManagerController::class, 'exportPretreatmentDone'])->name('manager.total-pretreatment-done.export');
     Route::get('/all-jobcards', [ManagerController::class, 'allJobcardsView'])->name('manager.all-jobcards');
 
     // Material Out Routes

@@ -56,9 +56,11 @@ Route::middleware(['auth:viewer'])->prefix('viewer')->group(function () {
     Route::get('/jobcard/view/{id}', [ViewerController::class, 'viewJobCard'])->name('viewer.jobcard.view');
 
     // All Jobcards Routes
-    // All Jobcards Routes
+    // Total pending/pretreatment pages
     Route::get('/total-pending-materials', [ViewerController::class, 'totalPendingMaterials'])->name('viewer.total-pending-materials');
     Route::get('/total-pretreatment-done', [ViewerController::class, 'totalPretreatmentDone'])->name('viewer.total-pretreatment-done');
+    Route::get('/total-pending-materials/export', [ViewerController::class, 'exportPendingMaterials'])->name('viewer.total-pending-materials.export');
+    Route::get('/total-pretreatment-done/export', [ViewerController::class, 'exportPretreatmentDone'])->name('viewer.total-pretreatment-done.export');
     Route::get('/all-jobcards', [ViewerController::class, 'allJobcardsView'])->name('viewer.all-jobcards');
     Route::get('/rejected-jobcards', [ViewerController::class, 'allRejectedJobcardsView'])->name('viewer.rejected-jobcards');
 

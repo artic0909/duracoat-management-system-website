@@ -20,6 +20,8 @@ use App\Models\JobcardTest;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\GenericExport;
+use App\Exports\PendingMaterialsExport;
+use App\Exports\PretreatmentDoneExport;
 
 class ManagerController extends Controller
 {
@@ -928,10 +930,24 @@ class ManagerController extends Controller
         return view('manager.total_pending_materials', compact('jobcards'));
     }
 
-    public function totalPretreatmentDone()
+    public function totalPretreatmentDone(Request $request)
     {
-        $jobcards = Jobcard::where('jobcard_status', 'pre-treatment')->with('order.client')->orderBy('id', 'desc')->paginate(10);
+        $jobcards = Jobcard::with(['order.client', 'paint'])
+            ->where('jobcard_status', 'pre-treatment')
+            ->orderBy('id', 'desc')
+            ->paginate(15);
+
         return view('manager.total_pretreatment_done', compact('jobcards'));
+    }
+
+    public function exportPendingMaterials()
+    {
+        return Excel::download(new PendingMaterialsExport, 'pending_materials.xlsx');
+    }
+
+    public function exportPretreatmentDone()
+    {
+        return Excel::download(new PretreatmentDoneExport, 'pretreatment_done.xlsx');
     }
 
     public function allJobcardsView(Request $request)
