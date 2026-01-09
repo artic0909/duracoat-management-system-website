@@ -39,6 +39,8 @@
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Creation Date</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -75,7 +77,77 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ \Carbon\Carbon::parse($jobcard->jobcard_creation_date)->format('d-m-Y') }}</span>
+                                                class="text-secondary text-xs font-weight-bold">{{ \Carbon\Carbon::parse($jobcard->jobcard_creation_date)->format('d-m-Y') }}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal{{ $jobcard->id }}">
+                                                    View
+                                                </button>
+
+                                                <!-- View Modal -->
+                                                <div class="modal fade" id="viewModal{{ $jobcard->id }}" tabindex="-1" aria-labelledby="viewModalLabel{{ $jobcard->id }}" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header bg-light">
+                                                                <h5 class="modal-title" id="viewModalLabel{{ $jobcard->id }}">Jobcard Details: {{ $jobcard->jobcard_number }}</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body text-start">
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+                                                                        <h6 class="text-primary font-weight-bold border-bottom pb-2">Client & Order Details</h6>
+                                                                        <p class="mb-1"><strong>Client Name:</strong> {{ $jobcard->order->client->client_name ?? 'N/A' }}</p>
+                                                                        <p class="mb-1"><strong>Email:</strong> {{ $jobcard->order->client->email ?? 'N/A' }}</p>
+                                                                        <p class="mb-1"><strong>Phone:</strong> {{ $jobcard->order->client->phone ?? 'N/A' }}</p>
+                                                                        <p class="mb-2"><strong>Address:</strong> {{ $jobcard->order->client->address ?? 'N/A' }}</p>
+                                                                        <p class="mb-1 mt-3"><strong>Order Number:</strong> <span class="badge bg-secondary">{{ $jobcard->order->order_number ?? 'N/A' }}</span></p>
+                                                                        <p class="mb-1"><strong>Order Date:</strong> {{ $jobcard->order->created_at ? $jobcard->order->created_at->format('d-m-Y') : 'N/A' }}</p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <h6 class="text-primary font-weight-bold border-bottom pb-2">Jobcard Information</h6>
+                                                                        <p class="mb-1"><strong>Jobcard No:</strong> <span class="badge bg-primary">{{ $jobcard->jobcard_number }}</span></p>
+                                                                        <p class="mb-1"><strong>Status:</strong> <span class="badge bg-warning">{{ ucfirst($jobcard->jobcard_status) }}</span></p>
+                                                                        <p class="mb-1"><strong>Priority:</strong> {{ ucfirst($jobcard->priority ?? 'Normal') }}</p>
+                                                                        <p class="mb-1"><strong>Created Date:</strong> {{ \Carbon\Carbon::parse($jobcard->jobcard_creation_date)->format('d-m-Y') }}</p>
+                                                                    </div>
+                                                                </div>
+                                                                <hr class="my-4">
+                                                                <h6 class="text-primary font-weight-bold border-bottom pb-2">Material & Paint Details</h6>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-bordered table-sm mb-0">
+                                                                        <thead class="table-light">
+                                                                            <tr>
+                                                                                <th>Material</th>
+                                                                                <th>Quantity</th>
+                                                                                <th>Paint/RAL Code</th>
+                                                                                <th>Brand</th>
+                                                                                <th>Shade</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>{{ $jobcard->material_name }}</td>
+                                                                                <td>{{ $jobcard->material_quantity }} {{ $jobcard->material_unit }}</td>
+                                                                                <td>{{ $jobcard->ral_code ?? 'N/A' }}</td>
+                                                                                <td>{{ $jobcard->paint_brand ?? 'N/A' }}</td>
+                                                                                <td>{{ $jobcard->paint_shade ?? 'N/A' }}</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                @if($jobcard->description)
+                                                                <div class="mt-3">
+                                                                    <strong>Description/Notes:</strong>
+                                                                    <p class="text-sm text-muted border p-2 rounded bg-light">{{ $jobcard->description }}</p>
+                                                                </div>
+                                                                @endif
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
