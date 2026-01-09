@@ -126,12 +126,12 @@
                                                                         </thead>
                                                                         <tbody>
                                                                             <tr>
-                                                                                <td>{{ $jobcard->material_name }}</td>
-                                                                                <td>{{ $jobcard->material_quantity }} {{ $jobcard->material_unit }}</td>
-                                                                                <td>{{ $jobcard->paint->ral_code ?? 'N/A' }}</td>
-                                                                                <td>{{ $jobcard->paint->brand_name ?? 'N/A' }}</td>
-                                                                                <td>{{ $jobcard->paint->shade_name ?? 'N/A' }}</td>
-                                                                                <td>{{ $jobcard->paint->finish ?? 'N/A' }}</td>
+                                                                                <td class="align-middle">{{ $jobcard->material_name }}</td>
+                                                                                <td class="align-middle">{{ $jobcard->material_quantity }} {{ $jobcard->material_unit }}</td>
+                                                                                <td class="align-middle">{{ $jobcard->paint->ral_code ?? 'N/A' }}</td>
+                                                                                <td class="align-middle">{{ $jobcard->paint->brand_name ?? 'N/A' }}</td>
+                                                                                <td class="align-middle">{{ $jobcard->paint->shade_name ?? 'N/A' }}</td>
+                                                                                <td class="align-middle">{{ $jobcard->paint->finish ?? 'N/A' }}</td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>

@@ -98,7 +98,7 @@
                                                                         <h6 class="text-primary font-weight-bold border-bottom pb-2">Client & Order Details</h6>
                                                                         <p class="mb-1"><strong>Client Name:</strong> {{ $jobcard->order->client->client_name ?? 'N/A' }}</p>
                                                                         <p class="mb-1"><strong>Email:</strong> {{ $jobcard->order->client->email ?? 'N/A' }}</p>
-                                                                        <p class="mb-1"><strong>Phone:</strong> {{ $jobcard->order->client->phone ?? 'N/A' }}</p>
+                                                                        <p class="mb-1"><strong>Phone:</strong> {{ $jobcard->order->client->mobile ?? 'N/A' }}</p>
                                                                         <p class="mb-2"><strong>Address:</strong> {{ $jobcard->order->client->address ?? 'N/A' }}</p>
                                                                         <p class="mb-1 mt-3"><strong>Order Number:</strong> <span class="badge bg-secondary">{{ $jobcard->order->order_number ?? 'N/A' }}</span></p>
                                                                         <p class="mb-1"><strong>Order Date:</strong> {{ $jobcard->order->created_at ? $jobcard->order->created_at->format('d-m-Y') : 'N/A' }}</p>
@@ -107,7 +107,6 @@
                                                                         <h6 class="text-primary font-weight-bold border-bottom pb-2">Jobcard Information</h6>
                                                                         <p class="mb-1"><strong>Jobcard No:</strong> <span class="badge bg-primary">{{ $jobcard->jobcard_number }}</span></p>
                                                                         <p class="mb-1"><strong>Status:</strong> <span class="badge bg-warning">{{ ucfirst($jobcard->jobcard_status) }}</span></p>
-                                                                        <p class="mb-1"><strong>Priority:</strong> {{ ucfirst($jobcard->priority ?? 'Normal') }}</p>
                                                                         <p class="mb-1"><strong>Created Date:</strong> {{ \Carbon\Carbon::parse($jobcard->jobcard_creation_date)->format('d-m-Y') }}</p>
                                                                     </div>
                                                                 </div>
@@ -122,15 +121,17 @@
                                                                                 <th>Paint/RAL Code</th>
                                                                                 <th>Brand</th>
                                                                                 <th>Shade</th>
+                                                                                <th>Finish</th>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
                                                                             <tr>
-                                                                                <td>{{ $jobcard->material_name }}</td>
-                                                                                <td>{{ $jobcard->material_quantity }} {{ $jobcard->material_unit }}</td>
-                                                                                <td>{{ $jobcard->ral_code ?? 'N/A' }}</td>
-                                                                                <td>{{ $jobcard->paint_brand ?? 'N/A' }}</td>
-                                                                                <td>{{ $jobcard->paint_shade ?? 'N/A' }}</td>
+                                                                                <td class="align-middle">{{ $jobcard->material_name }}</td>
+                                                                                <td class="align-middle">{{ $jobcard->material_quantity }} {{ $jobcard->material_unit }}</td>
+                                                                                <td class="align-middle">{{ $jobcard->paint->ral_code ?? 'N/A' }}</td>
+                                                                                <td class="align-middle">{{ $jobcard->paint->brand_name ?? 'N/A' }}</td>
+                                                                                <td class="align-middle">{{ $jobcard->paint->shade_name ?? 'N/A' }}</td>
+                                                                                <td class="align-middle">{{ $jobcard->paint->finish ?? 'N/A' }}</td>
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
