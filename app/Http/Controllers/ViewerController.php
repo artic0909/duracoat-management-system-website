@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ClientMaterialsInExport;
+use App\Exports\PowderAppliedExport;
 use App\Models\ClientMaterial;
 use App\Models\Jobcard;
 use App\Models\Order;
@@ -70,8 +71,9 @@ class ViewerController extends Controller
 
         $pendingCount = Jobcard::where('jobcard_status', 'pending')->count();
         $pretreatmentCount = Jobcard::where('jobcard_status', 'pre-treatment')->count();
+        $powderAppliedCount = Jobcard::where('jobcard_status', 'powder-applied')->count();
 
-        return view('viewer.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests', 'pendingCount', 'pretreatmentCount'));
+        return view('viewer.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests', 'pendingCount', 'pretreatmentCount', 'powderAppliedCount'));
     }
 
     public function logout(Request $request)
@@ -740,6 +742,16 @@ class ViewerController extends Controller
         return view('viewer.total_pretreatment_done', compact('jobcards'));
     }
 
+    public function totalPowderApplied(Request $request)
+    {
+        $jobcards = Jobcard::with(['order.client', 'paint'])
+            ->where('jobcard_status', 'powder-applied')
+            ->orderBy('id', 'desc')
+            ->paginate(15);
+
+        return view('viewer.total_powder_applied', compact('jobcards'));
+    }
+
     public function exportPendingMaterials()
     {
         return Excel::download(new PendingMaterialsExport, 'pending_materials.xlsx');
@@ -748,6 +760,11 @@ class ViewerController extends Controller
     public function exportPretreatmentDone()
     {
         return Excel::download(new PretreatmentDoneExport, 'pretreatment_done.xlsx');
+    }
+
+    public function exportPowderApplied()
+    {
+        return Excel::download(new PowderAppliedExport, 'powder_applied.xlsx');
     }
 
     public function allJobcardsView(Request $request)

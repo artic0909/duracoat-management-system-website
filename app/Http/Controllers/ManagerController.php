@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ClientMaterialsInExport;
+use App\Exports\PowderAppliedExport;
 use App\Mail\DelayAleartMail;
 use App\Mail\DeliveryMail;
 use App\Models\ClientMaterial;
@@ -71,8 +72,9 @@ class ManagerController extends Controller
 
         $pendingCount = Jobcard::where('jobcard_status', 'pending')->count();
         $pretreatmentCount = Jobcard::where('jobcard_status', 'pre-treatment')->count();
+        $powderAppliedCount = Jobcard::where('jobcard_status', 'powder-applied')->count();
 
-        return view('manager.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests', 'pendingCount', 'pretreatmentCount'));
+        return view('manager.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests', 'pendingCount', 'pretreatmentCount', 'powderAppliedCount'));
     }
 
     public function logout(Request $request)
@@ -940,6 +942,16 @@ class ManagerController extends Controller
         return view('manager.total_pretreatment_done', compact('jobcards'));
     }
 
+    public function totalPowderApplied(Request $request)
+    {
+        $jobcards = Jobcard::with(['order.client', 'paint'])
+            ->where('jobcard_status', 'powder-applied')
+            ->orderBy('id', 'desc')
+            ->paginate(15);
+
+        return view('manager.total_powder_applied', compact('jobcards'));
+    }
+
     public function exportPendingMaterials()
     {
         return Excel::download(new PendingMaterialsExport, 'pending_materials.xlsx');
@@ -948,6 +960,11 @@ class ManagerController extends Controller
     public function exportPretreatmentDone()
     {
         return Excel::download(new PretreatmentDoneExport, 'pretreatment_done.xlsx');
+    }
+
+    public function exportPowderApplied()
+    {
+        return Excel::download(new PowderAppliedExport, 'powder_applied.xlsx');
     }
 
     public function allJobcardsView(Request $request)

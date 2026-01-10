@@ -107,6 +107,7 @@
 
     .action-card.pending { border-color: #ffc107; }
     .action-card.pretreat { border-color: #0dcaf0; }
+    .action-card.powder-applied { border-color: #0eca07ff; }
 
     .action-icon {
         width: 50px;
@@ -298,7 +299,7 @@
 
     <!-- ACTION ROW: Pending & Pretreatment -->
     <div class="row mt-2">
-        <div class="col-md-6 mb-4">
+        <div class="col-md-4 mb-4">
             <div class="action-card pending position-relative">
                 <div style="text-align: left !important;">
                     <a href="{{ route('manager.total-pending-materials') }}" class="stretched-link"></a>
@@ -312,7 +313,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mb-4">
+        <div class="col-md-4 mb-4">
             <div class="action-card pretreat position-relative">
                 <div style="text-align: left !important;">
                     <a href="{{ route('manager.total-pretreatment-done') }}" class="stretched-link"></a>
@@ -323,6 +324,21 @@
                 </div>
                 <div class="action-icon bg-light-info">
                     <i class="fas fa-check-double"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="action-card powder-applied position-relative">
+                <div style="text-align: left !important;">
+                    <a href="{{ route('manager.total-powder-applied') }}" class="stretched-link"></a>
+                    <h6 class="text-dark font-weight-bold mb-1">Powder Applied</h6>
+                    <span class="text-xs text-muted">Ready for Delivery</span>
+                    <h3 class="font-weight-bolder text-success mt-2 mb-0">{{ $powderAppliedCount }}</h3>
+                    <a href="{{ route('manager.total-powder-applied.export') }}" class="btn btn-sm btn-outline-success mt-2 mb-0 position-relative" style="z-index: 2;">Export</a>
+                </div>
+                <div class="action-icon bg-success">
+                    <i class="fas fa-paint-roller text-white"></i>
                 </div>
             </div>
         </div>
