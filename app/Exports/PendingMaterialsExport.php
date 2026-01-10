@@ -25,6 +25,7 @@ class PendingMaterialsExport implements FromCollection, WithHeadings, WithStyles
         foreach ($jobcards as $jobcard) {
             $rows->push([
                 'SL' => $serial++,
+                'Creation Date' => $jobcard->jobcard_creation_date ? $jobcard->jobcard_creation_date->format('d-m-Y') : '',
                 'Jobcard No' => $jobcard->jobcard_number,
                 'Client Name' => $jobcard->order->client->client_name ?? '',
                 'Email' => $jobcard->order->client->email ?? '',
@@ -40,7 +41,6 @@ class PendingMaterialsExport implements FromCollection, WithHeadings, WithStyles
                 'RAL Code' => $jobcard->paint->ral_code ?? '',
                 'Finish' => $jobcard->paint->finish ?? '',
                 'Status' => ucfirst($jobcard->jobcard_status),
-                'Creation Date' => $jobcard->jobcard_creation_date ? $jobcard->jobcard_creation_date->format('d-m-Y') : '',
                 'Description' => $jobcard->description ?? '',
             ]);
         }
@@ -52,6 +52,7 @@ class PendingMaterialsExport implements FromCollection, WithHeadings, WithStyles
     {
         return [
             'SL',
+            'Creation Date',
             'Jobcard No',
             'Client Name',
             'Email',
@@ -67,7 +68,6 @@ class PendingMaterialsExport implements FromCollection, WithHeadings, WithStyles
             'RAL Code',
             'Finish',
             'Status',
-            'Creation Date',
             'Description'
         ];
     }

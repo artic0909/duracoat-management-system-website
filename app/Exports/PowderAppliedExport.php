@@ -25,6 +25,7 @@ class PowderAppliedExport implements FromCollection, WithHeadings, WithStyles, W
         foreach ($jobcards as $jobcard) {
             $rows->push([
                 'SL' => $serial++,
+                'Creation Date' => $jobcard->jobcard_creation_date ? $jobcard->jobcard_creation_date->format('d-m-Y') : '',
                 'Jobcard No' => $jobcard->jobcard_number,
                 'Client Name' => $jobcard->order->client->client_name ?? '',
                 'Email' => $jobcard->order->client->email ?? '',
@@ -41,8 +42,7 @@ class PowderAppliedExport implements FromCollection, WithHeadings, WithStyles, W
                 'Finish' => $jobcard->paint->finish ?? '',
                 'Status' => ucfirst($jobcard->jobcard_status),
                 'Pre-treatment Date' => $jobcard->pre_treatment_date ? $jobcard->pre_treatment_date->format('d-m-Y') : '',
-                'Powder Applied Date' => $jobcard->powder_applied_date ? $jobcard->powder_applied_date->format('d-m-Y') : '',
-                'Creation Date' => $jobcard->jobcard_creation_date ? $jobcard->jobcard_creation_date->format('d-m-Y') : '',
+                'Powder Applied Date' => $jobcard->powder_apply_date ? $jobcard->powder_apply_date->format('d-m-Y') : '',
                 'Description' => $jobcard->description ?? '',
             ]);
         }
@@ -54,6 +54,7 @@ class PowderAppliedExport implements FromCollection, WithHeadings, WithStyles, W
     {
         return [
             'SL',
+            'Creation Date',
             'Jobcard No',
             'Client Name',
             'Email',
@@ -71,7 +72,6 @@ class PowderAppliedExport implements FromCollection, WithHeadings, WithStyles, W
             'Status',
             'Pre-treatment Date',
             'Powder Applied Date',
-            'Creation Date',
             'Description'
         ];
     }

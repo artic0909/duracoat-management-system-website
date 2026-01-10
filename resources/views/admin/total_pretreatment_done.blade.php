@@ -23,6 +23,9 @@
                                             Jobcard No</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Creation Date</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Client Name</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -36,9 +39,6 @@
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Pre-treatment Date</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Actions</th>
                                     </tr>
@@ -57,6 +57,9 @@
                                                 <p class="text-xs font-weight-bold mb-0">{{ $jobcard->jobcard_number }}</p>
                                             </td>
                                             <td>
+                                                <p class="text-xs font-weight-bold mb-0">{{ \Carbon\Carbon::parse($jobcard->jobcard_creation_date)->format('d-m-Y') }}</p>
+                                            </td>
+                                            <td>
                                                 <p class="text-xs font-weight-bold mb-0">
                                                     {{ $jobcard->order->client->client_name ?? 'N/A' }}</p>
                                             </td>
@@ -73,12 +76,11 @@
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <span
-                                                    class="badge badge-sm bg-gradient-info">{{ ucfirst($jobcard->jobcard_status) }}</span>
-                                            </td>
-                                            <td class="align-middle text-center">
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">{{ $jobcard->pre_treatment_date ? \Carbon\Carbon::parse($jobcard->pre_treatment_date)->format('d-m-Y') : 'N/A' }}</span>
+                                                    class="badge badge-sm bg-gradient-info">{{ ucfirst($jobcard->jobcard_status) }}</span>
+                                                <p class="text-xs font-weight-bold mb-0 mt-1">{{ $jobcard->pre_treatment_date ? \Carbon\Carbon::parse($jobcard->pre_treatment_date)->format('d-m-Y') : 'N/A' }}</p>
                                             </td>
+
                                             <td class="align-middle text-center">
                                                 <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal{{ $jobcard->id }}">
                                                     View

@@ -25,6 +25,7 @@ class PretreatmentDoneExport implements FromCollection, WithHeadings, WithStyles
         foreach ($jobcards as $jobcard) {
             $rows->push([
                 'SL' => $serial++,
+                'Creation Date' => $jobcard->jobcard_creation_date ? $jobcard->jobcard_creation_date->format('d-m-Y') : '',
                 'Jobcard No' => $jobcard->jobcard_number,
                 'Client Name' => $jobcard->order->client->client_name ?? '',
                 'Email' => $jobcard->order->client->email ?? '',
@@ -41,7 +42,6 @@ class PretreatmentDoneExport implements FromCollection, WithHeadings, WithStyles
                 'Finish' => $jobcard->paint->finish ?? '',
                 'Status' => ucfirst($jobcard->jobcard_status),
                 'Pre-treatment Date' => $jobcard->pre_treatment_date ? $jobcard->pre_treatment_date->format('d-m-Y') : '',
-                'Creation Date' => $jobcard->jobcard_creation_date ? $jobcard->jobcard_creation_date->format('d-m-Y') : '',
                 'Description' => $jobcard->description ?? '',
             ]);
         }
@@ -53,6 +53,7 @@ class PretreatmentDoneExport implements FromCollection, WithHeadings, WithStyles
     {
         return [
             'SL',
+            'Creation Date',
             'Jobcard No',
             'Client Name',
             'Email',
@@ -69,7 +70,6 @@ class PretreatmentDoneExport implements FromCollection, WithHeadings, WithStyles
             'Finish',
             'Status',
             'Pre-treatment Date',
-            'Creation Date',
             'Description'
         ];
     }
