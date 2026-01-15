@@ -134,7 +134,7 @@
                                     </th>
 
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Actions
                                     </th>
                                 </tr>
@@ -168,7 +168,7 @@
 
                                     <!-- Nested Material Table -->
                                     <td colspan="4" class="text-xs font-weight-bold p-0">
-                                        <table class="table table-bordered table-sm m-0 text-center align-middle">
+                                        <table class="table table-bordered table-sm m-0 text-start align-middle">
                                             <thead class="table-light">
                                                 <tr>
                                                     <th>Product / Material</th>
@@ -195,7 +195,7 @@
                                         </table>
                                     </td>
 
-                                    <td class="text-center text-xs font-weight-bold">
+                                    <td class="text-start text-xs font-weight-bold">
                                         {{-- PRE-TREATMENT COLUMN --}}
                                         @if ($jobcard->pre_treatment_date)
                                         {{ \Carbon\Carbon::parse($jobcard->pre_treatment_date)->format('d/m/Y') }}
@@ -204,7 +204,7 @@
                                         @endif
                                     </td>
 
-                                    <td class="text-center text-xs font-weight-bold">
+                                    <td class="text-start text-xs font-weight-bold">
                                         {{-- POWDER APPLY COLUMN --}}
                                         @if (!$jobcard->pre_treatment_date)
                                         {{-- Pre-treatment not done yet → show "-" --}}
@@ -217,7 +217,7 @@
                                         @endif
                                     </td>
 
-                                    <td class="text-center text-xs font-weight-bold">
+                                    <td class="text-start text-xs font-weight-bold">
                                         <!-- {{-- DELIVERY COLUMN --}} -->
                                         @if (!$jobcard->pre_treatment_date)
                                         <!-- {{-- No pre-treatment → disable everything --}} -->
@@ -301,7 +301,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="12" class="text-center text-muted py-4">
+                                    <td colspan="12" class="text-start text-muted py-4">
                                         No jobcards created yet for this order.
                                     </td>
                                 </tr>

@@ -129,31 +129,31 @@
                                         Order NO
                                     </th>
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Client Name
                                     </th>
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Email
                                     </th>
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Mobile
                                     </th>
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Total Jobcards
                                     </th>
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Amount
                                     </th>
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Jobcard Details
                                     </th>
                                     <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Actions
                                     </th>
                                 </tr>
@@ -179,25 +179,25 @@
                                     <td>
                                         <p class="text-xs font-weight-bold mb-0">{{ $order->order_number }}</p>
                                     </td>
-                                    <td class="align-middle text-center">
+                                    <td class="align-middle text-start">
                                         <span class="text-secondary text-xs font-weight-bold">{{ $order->client->client_name }}</span>
                                     </td>
-                                    <td class="align-middle text-center">
+                                    <td class="align-middle text-start">
                                         <span
                                             class="text-secondary text-xs font-weight-bold">{{ $order->client->email }}</span>
                                     </td>
-                                    <td class="align-middle text-center">
+                                    <td class="align-middle text-start">
                                         <span
                                             class="text-secondary text-xs font-weight-bold">{{ $order->client->mobile }}</span>
                                     </td>
-                                    <td class="align-middle text-center">
+                                    <td class="align-middle text-start">
                                         <span
                                             class="text-white badge badge-sm bg-gradient-info text-xs font-weight-bold">{{ $order->jobcards->count() }}</span>
                                     </td>
-                                    <td class="align-middle text-center">
+                                    <td class="align-middle text-start">
                                         <span class="text-secondary text-xs font-weight-bold">{{ $order->amount ?? '—' }}</span>
                                     </td>
-                                    <td class="align-middle text-center text-sm">
+                                    <td class="align-middle text-start text-sm">
                                         <div class="d-flex gap-2 justify-content-center">
                                             <a href="{{ route('manager.add-jobcards', ['order_id' => $order->id] )}}"
                                                 class="btn btn-primary px-3 py-2 rounded m-0">
@@ -210,7 +210,7 @@
                                             </a>
                                         </div>
                                     </td>
-                                    <td class="align-middle text-center text-sm">
+                                    <td class="align-middle text-start text-sm">
                                         <div class="d-flex gap-2 justify-content-center">
                                             <button type="button" class="btn btn-info px-3 py-2 rounded m-0"
                                                 data-bs-toggle="modal" data-bs-target="#editModal{{$order->id}}">
@@ -230,7 +230,7 @@
                             <!-- pagination -->
                             <tfoot>
                                 <tr>
-                                    <td colspan="9" class="text-center">
+                                    <td colspan="9" class="text-start">
                                         <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
                                             @if ($orders->onFirstPage())
                                             <span class="text-muted">Prev</span>

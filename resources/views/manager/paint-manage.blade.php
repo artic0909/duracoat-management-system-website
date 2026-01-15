@@ -122,7 +122,7 @@
                                             SL
                                         </th>
                                         <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Date</th>
                                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Paint Details
@@ -132,27 +132,27 @@
                                             Brand Name
                                         </th>
                                         <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             RAL
                                         </th>
                                         <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Shade Name
                                         </th>
                                         <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Finish
                                         </th>
                                         <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Purchase Quantity
                                         </th>
                                         <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status
                                         </th>
                                         <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Actions
                                         </th>
                                     </tr>
@@ -182,22 +182,22 @@
                                             <td>
                                                 <p class="text-xs font-weight-bold mb-0">{{$paint->brand_name}}</p>
                                             </td>
-                                            <td class="align-middle text-center text-sm">
+                                            <td class="align-middle text-start text-sm">
                                                 <span class="badge badge-sm bg-gradient-success">{{$paint->ral_code}}</span>
                                             </td>
-                                            <td class="align-middle text-center">
+                                            <td class="align-middle text-start">
                                                 <span class="text-secondary text-xs font-weight-bold"
                                                     style="text-transform: capitalize;">{{$paint->shade_name}}</span>
                                             </td>
-                                            <td class="align-middle text-center">
+                                            <td class="align-middle text-start">
                                                 <span class="text-secondary text-xs font-weight-bold"
                                                     style="text-transform: capitalize;">{{$paint->finish}}</span>
                                             </td>
-                                            <td class="align-middle text-center">
+                                            <td class="align-middle text-start">
                                                 <span class="text-secondary text-xs font-weight-bold">{{$paint->quantity}}
                                                     KG</span>
                                             </td>
-                                            <td class="align-middle text-center text-sm">
+                                            <td class="align-middle text-start text-sm">
                                                 @if($paint->quantity <= 0)
                                                     <span class="badge bg-danger">Out of Stock</span>
                                                 @elseif($paint->quantity <= 5)
@@ -207,7 +207,7 @@
                                                 @endif
                                             </td>
 
-                                            <td class="align-middle text-center text-sm">
+                                            <td class="align-middle text-start text-sm">
                                                 <div class="d-flex gap-2 justify-content-center">
                                                     <button type="button" class="btn btn-info px-3 py-2 rounded m-0"
                                                         data-bs-toggle="modal" data-bs-target="#editModal{{$paint->id}}">
@@ -227,7 +227,7 @@
                                 <!-- Pagination -->
                                 <tfoot>
                                     <tr>
-                                        <td colspan="9" class="text-center">
+                                        <td colspan="9" class="text-start">
                                             <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
                                                 @if ($paints->onFirstPage())
                                                     <span class="text-muted">Prev</span>

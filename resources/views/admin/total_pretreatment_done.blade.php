@@ -37,9 +37,9 @@
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Quantity</th>
                                         <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        <th class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Actions</th>
                                     </tr>
                                 </thead>
@@ -74,14 +74,14 @@
                                                 <p class="text-xs font-weight-bold mb-0">{{ $jobcard->material_quantity }}
                                                     {{ $jobcard->material_unit }}</p>
                                             </td>
-                                            <td class="align-middle text-center text-sm">
+                                            <td class="align-middle text-start text-sm">
                                                 <span
                                                 <span
                                                     class="badge badge-sm bg-gradient-info">{{ ucfirst($jobcard->jobcard_status) }}</span>
                                                 <p class="text-xs font-weight-bold mb-0 mt-1">{{ $jobcard->pre_treatment_date ? \Carbon\Carbon::parse($jobcard->pre_treatment_date)->format('d-m-Y') : 'N/A' }}</p>
                                             </td>
 
-                                            <td class="align-middle text-center">
+                                            <td class="align-middle text-start">
                                                 <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#viewModal{{ $jobcard->id }}">
                                                     View
                                                 </button>

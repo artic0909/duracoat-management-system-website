@@ -95,37 +95,37 @@
                             <thead>
                                 <tr>
                                     <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         SL
                                     </th>
 
                                     <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Status
                                     </th>
 
                                     <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Creation Date
                                     </th>
 
                                     <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Jobcard No
                                     </th>
 
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                                    <th class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
                                         colspan="4">
                                         Product/ Material Description & Paints
                                     </th>
 
                                     <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Pre-treatment Date
                                     </th>
 
                                     <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Powder Apply Date
                                     </th>
                                 </tr>
@@ -168,12 +168,12 @@
                                     <!-- nested table -->
                                     <td colspan="4" class="p-0">
                                         <table
-                                            class="table table-bordered table-sm m-0 text-center align-middle">
+                                            class="table table-bordered table-sm m-0 text-start align-middle">
                                             <thead class="table-light">
                                                 <tr>
-                                                    <th class="text-xs">Product / Material Description</th>
-                                                    <th class="text-xs">Paint Code (RAL)</th>
-                                                    <th class="text-xs">Paint Used (Qty)</th>
+                                                    <th class="text-start text-xs">Product / Material Description</th>
+                                                    <th class="text-start text-xs">Paint Code (RAL)</th>
+                                                    <th class="text-start text-xs">Paint Used (Qty)</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -203,7 +203,7 @@
                                     </td>
                                     <!-- nested table -->
 
-                                    <td class="align-middle text-center">
+                                    <td class="align-middle text-start">
                                         <span class="text-secondary text-xs font-weight-bold">{{ \Carbon\Carbon::parse($jobcard->pre_treatment_date)->format('d/m/Y') }}</span>
 
                                     </td>

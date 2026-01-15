@@ -168,7 +168,7 @@
                                     <!-- nested table -->
                                     <td colspan="4" class="p-0">
                                         <table
-                                            class="table table-bordered table-sm m-0 text-center align-middle">
+                                            class="table table-bordered table-sm m-0 text-start align-middle">
                                             <thead class="table-light">
                                                 <tr>
                                                     <th class="text-xs">Product / Material Description</th>
@@ -203,11 +203,11 @@
                                     </td>
                                     <!-- nested table -->
 
-                                    <td class="align-middle text-center">
+                                    <td class="align-middle text-start">
                                         <span class="text-secondary text-xs font-weight-bold">{{ \Carbon\Carbon::parse($jobcard->pre_treatment_date)->format('d/m/Y') }}</span>
 
                                     </td>
-                                    <td class="align-middle text-center">
+                                    <td class="align-middle text-start">
                                         <span class="text-secondary text-xs font-weight-bold">{{ \Carbon\Carbon::parse($jobcard->powder_apply_date)->format('d/m/Y') }}</span>
 
                                     </td>

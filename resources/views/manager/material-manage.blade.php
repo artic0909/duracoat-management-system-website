@@ -161,13 +161,13 @@
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 Mobile</th>
                                             <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Email</th>
                                             <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Material Details</th>
                                             <th
-                                                class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                                class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 Actions</th>
                                         </tr>
                                     </thead>
@@ -200,13 +200,13 @@
                                                 </td>
 
                                                 <!-- Email -->
-                                                <td class="align-middle text-center">
+                                                <td class="align-middle text-start">
                                                     <span
                                                         class="text-secondary text-xs font-weight-bold">{{ $client->email ?? '-' }}</span>
                                                 </td>
 
                                                 <!-- Material Details -->
-                                                <td class="align-middle text-center">
+                                                <td class="align-middle text-start">
                                                     @if (!empty($client->material_details) && is_array($client->material_details))
                                                         <table class="table table-sm table-bordered mb-0">
                                                             <thead class="bg-light">
@@ -257,7 +257,7 @@
                                                 </td>
 
                                                 <!-- Actions -->
-                                                <td class="align-middle text-center text-sm">
+                                                <td class="align-middle text-start text-sm">
                                                     <div class="d-flex gap-2 justify-content-center">
                                                         <button type="button" class="btn btn-warning px-3 py-2 rounded m-0"
                                                             data-bs-toggle="modal" data-bs-target="#viewModal{{ $client->id }}">
@@ -277,7 +277,7 @@
                                             </tr>
                                         @empty
                                             <tr>
-                                                <td colspan="5" class="text-center text-muted">No clients found</td>
+                                                <td colspan="5" class="text-start text-muted">No clients found</td>
                                             </tr>
                                         @endforelse
                                     </tbody>
@@ -285,7 +285,7 @@
                                     <!-- pagination -->
                                     <tfoot>
                                         <tr>
-                                            <td colspan="6" class="text-center">
+                                            <td colspan="6" class="text-start">
                                                 <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
                                                     @if ($clients->onFirstPage())
                                                         <span class="text-muted">Prev</span>
@@ -504,7 +504,7 @@
                                             @endforeach
                                         @else
                                             <tr>
-                                                <td colspan="7" class="text-center text-muted">No materials found</td>
+                                                <td colspan="7" class="text-start text-muted">No materials found</td>
                                             </tr>
                                         @endif
                                     </tbody>

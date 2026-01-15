@@ -232,7 +232,7 @@
                                 <!-- pagination -->
                                 <tfoot>
                                     <tr>
-                                        <td colspan="9" class="text-center">
+                                        <td colspan="9" class="text-start">
                                             <div class="d-flex justify-content-center align-items-center gap-3 mt-3">
                                                 @if ($jobcards->onFirstPage())
                                                     <span class="text-muted">Prev</span>
@@ -275,7 +275,7 @@
                     </div>
                     <div class="modal-body">
                         <h5 class="fw-bolder">Client's Details</h5>
-                        <table class="table table-bordered table-sm m-0 text-center align-middle">
+                        <table class="table table-bordered table-sm m-0 text-start align-middle">
                             <thead class="table-light">
                                 <tr>
                                     <th class="text-xs">Client Name</th>
@@ -303,7 +303,7 @@
                         <br>
 
                         <h5 class="fw-bolder">Material Details</h5>
-                        <table class="table table-bordered table-sm m-0 text-center align-middle">
+                        <table class="table table-bordered table-sm m-0 text-start align-middle">
                             <thead class="table-light">
                                 <tr>
                                     <th class="text-xs">Product / Material Description</th>
