@@ -146,6 +146,10 @@
                                     </th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Amount
+                                    </th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Jobcard Details
                                     </th>
                                     <!-- <th
@@ -185,6 +189,9 @@
                                     <td class="align-middle text-center">
                                         <span
                                             class="text-secondary text-xs font-weight-bold">{{ $order->client->mobile }}</span>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <span class="text-secondary text-xs font-weight-bold">{{ $order->amount ?? '—' }}</span>
                                     </td>
                                     <td class="align-middle text-center">
                                         <span
