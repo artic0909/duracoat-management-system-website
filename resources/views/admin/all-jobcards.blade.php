@@ -567,7 +567,7 @@
                                 </td>
                             </tr>
                             @endforeach
-                            @empty
+                            @else
                             <tr>
                                 <td colspan="4" class="text-center text-muted">
                                     No test results for this jobcard.
