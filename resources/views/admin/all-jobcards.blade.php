@@ -329,7 +329,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @empty
+                                @else
                                 <tr>
                                     <td colspan="12" class="text-center text-muted py-4">
                                         No jobcards created yet for this order.
