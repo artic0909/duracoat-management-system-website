@@ -73,7 +73,11 @@ class AdminController extends Controller
         $pretreatmentCount = Jobcard::where('jobcard_status', 'pre-treatment')->count();
         $powderAppliedCount = Jobcard::where('jobcard_status', 'powder-applied')->count();
 
-        return view('admin.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests', 'pendingCount', 'pretreatmentCount', 'powderAppliedCount'));
+        $pendingAmount = Order::whereHas('jobcards', function ($query) {
+            $query->where('jobcard_status', '!=', 'delivered');
+        })->sum('amount');
+
+        return view('admin.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests', 'pendingCount', 'pretreatmentCount', 'powderAppliedCount', 'pendingAmount'));
     }
 
     public function logout(Request $request)

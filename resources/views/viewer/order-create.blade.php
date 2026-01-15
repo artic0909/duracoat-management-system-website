@@ -308,9 +308,15 @@
                     </div>
 
                     <!-- Order Number -->
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label class="form-label">Enter Order Number</label>
                         <input type="text" name="order_number" class="form-control" required placeholder="Enter Order Number">
+                    </div>
+
+                    <!-- Amount -->
+                    <div class="col-md-6">
+                        <label class="form-label">Amount</label>
+                        <input type="text" name="amount" class="form-control" placeholder="Enter Amount">
                     </div>
                 </div>
             </div>
@@ -373,10 +379,17 @@
                     </div>
 
                     <!-- Order Number -->
-                    <div class="col-md-12 mt-3">
+                    <div class="col-md-6 mt-3">
                         <label class="form-label">Enter Order Number</label>
                         <input type="text" name="order_number" class="form-control"
                             value="{{ $order->order_number }}" required>
+                    </div>
+
+                    <!-- Amount -->
+                    <div class="col-md-6 mt-3">
+                        <label class="form-label">Amount</label>
+                        <input type="text" name="amount" class="form-control"
+                            value="{{ $order->amount }}" placeholder="Enter Amount">
                     </div>
                 </div>
             </div>

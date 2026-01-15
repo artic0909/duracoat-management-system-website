@@ -73,7 +73,11 @@ class ViewerController extends Controller
         $pretreatmentCount = Jobcard::where('jobcard_status', 'pre-treatment')->count();
         $powderAppliedCount = Jobcard::where('jobcard_status', 'powder-applied')->count();
 
-        return view('viewer.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests', 'pendingCount', 'pretreatmentCount', 'powderAppliedCount'));
+        $pendingAmount = Order::whereHas('jobcards', function ($query) {
+            $query->where('jobcard_status', '!=', 'delivered');
+        })->sum('amount');
+
+        return view('viewer.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests', 'pendingCount', 'pretreatmentCount', 'powderAppliedCount', 'pendingAmount'));
     }
 
     public function logout(Request $request)
@@ -369,11 +373,13 @@ class ViewerController extends Controller
             $request->validate([
                 'client_id' => 'required|exists:client_materials,id',
                 'order_number' => 'required|string|max:255|unique:orders,order_number',
+                'amount' => 'nullable|string|max:255',
             ]);
 
             $order = Order::create([
                 'client_id' => $request->client_id,
                 'order_number' => $request->order_number,
+                'amount' => $request->amount,
             ]);
 
             if ($order) {
@@ -394,6 +400,7 @@ class ViewerController extends Controller
             $request->validate([
                 'client_id' => 'required|exists:client_materials,id',
                 'order_number' => 'required|string|max:255|unique:orders,order_number,' . $id,
+                'amount' => 'nullable|string|max:255',
             ]);
 
             $order = Order::findOrFail($id);
@@ -401,6 +408,7 @@ class ViewerController extends Controller
             $order->update([
                 'client_id' => $request->client_id,
                 'order_number' => $request->order_number,
+                'amount' => $request->amount,
             ]);
 
             return redirect()->back()->with('success', 'Order updated successfully!');

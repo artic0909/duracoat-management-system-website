@@ -142,7 +142,9 @@
             border-color: #0dcaf0;
         }
 
-        .action-card.powder-applied { border-color: #0eca07ff; }
+        .action-card.powder-applied {
+            border-color: #0eca07ff;
+        }
 
         .action-icon {
             width: 50px;
@@ -322,7 +324,7 @@
             </div>
 
             <!-- Total Paint -->
-            <div class="col-lg-4 col-md-6 mb-4">
+            <div class="col-lg-3 col-md-6 mb-4">
                 <div class="hero-card bg-main-stats">
                     <div class="bg-overlay"></div>
                     <div class="hero-card-content">
@@ -335,7 +337,7 @@
             </div>
 
             <!-- Low Stock -->
-            <div class="col-lg-4 col-md-6 mb-4">
+            <div class="col-lg-3 col-md-6 mb-4">
                 <div class="hero-card bg-warn-stats">
                     <div class="bg-overlay"></div>
                     <div class="hero-card-content">
@@ -347,7 +349,7 @@
             </div>
 
             <!-- Out of Stock -->
-            <div class="col-lg-4 col-md-6 mb-4">
+            <div class="col-lg-3 col-md-6 mb-4">
                 <div class="hero-card bg-danger-stats">
                     <div class="bg-overlay"></div>
                     <div class="hero-card-content">
@@ -357,54 +359,72 @@
                     <i class="fas fa-times-circle hero-icon"></i>
                 </div>
             </div>
-        </div>
 
-    <!-- ACTION ROW: Pending & Pretreatment -->
-    <div class="row mt-2">
-        <div class="col-md-4 mb-4">
-            <div class="action-card pending position-relative">
-                <div style="text-align: left !important;">
-                    <a href="{{ route('viewer.total-pending-materials') }}" class="stretched-link"></a>
-                    <h6 class="text-dark font-weight-bold mb-1">Total Pending Material</h6>
-                    <span class="text-xs text-muted">Awaiting processing</span>
-                    <h3 class="font-weight-bolder text-warning mt-2 mb-0">{{ $pendingCount }}</h3>
-                    <a href="{{ route('viewer.total-pending-materials.export') }}" class="btn btn-sm btn-outline-warning mt-2 mb-0 position-relative" style="z-index: 2;">Export</a>
-                </div>
-                <div class="action-icon bg-light-yellow">
-                    <i class="fas fa-clock"></i>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4 mb-4">
-            <div class="action-card pretreat position-relative">
-                <div style="text-align: left !important;">
-                    <a href="{{ route('viewer.total-pretreatment-done') }}" class="stretched-link"></a>
-                    <h6 class="text-dark font-weight-bold mb-1">Pretreatment Done</h6>
-                    <span class="text-xs text-muted">Ready for coating</span>
-                    <h3 class="font-weight-bolder text-info mt-2 mb-0">{{ $pretreatmentCount }}</h3>
-                    <a href="{{ route('viewer.total-pretreatment-done.export') }}" class="btn btn-sm btn-outline-info mt-2 mb-0 position-relative" style="z-index: 2;">Export</a>
-                </div>
-                <div class="action-icon bg-light-info">
-                    <i class="fas fa-check-double"></i>
+            <!-- Pending Amount -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="hero-card gradient-royal">
+                    <div class="bg-overlay"></div>
+                    <div class="hero-card-content">
+                        <div class="hero-title">Pending Amount</div>
+                        <div class="hero-value"><span
+                                style="font-size: 1.5rem;">₹</span>{{ number_format($pendingAmount, 2) }}</div>
+                    </div>
+                    <i class="fas fa-hand-holding-usd hero-icon"></i>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="action-card powder-applied position-relative">
-                <div style="text-align: left !important;">
-                    <a href="{{ route('viewer.total-powder-applied') }}" class="stretched-link"></a>
-                    <h6 class="text-dark font-weight-bold mb-1">Powder Applied</h6>
-                    <span class="text-xs text-muted">Ready for Delivery</span>
-                    <h3 class="font-weight-bolder text-success mt-2 mb-0">{{ $powderAppliedCount }}</h3>
-                    <a href="{{ route('viewer.total-powder-applied.export') }}" class="btn btn-sm btn-outline-success mt-2 mb-0 position-relative" style="z-index: 2;">Export</a>
+        <!-- ACTION ROW: Pending & Pretreatment -->
+        <div class="row mt-2">
+            <div class="col-md-4 mb-4">
+                <div class="action-card pending position-relative">
+                    <div style="text-align: left !important;">
+                        <a href="{{ route('viewer.total-pending-materials') }}" class="stretched-link"></a>
+                        <h6 class="text-dark font-weight-bold mb-1">Total Pending Material</h6>
+                        <span class="text-xs text-muted">Awaiting processing</span>
+                        <h3 class="font-weight-bolder text-warning mt-2 mb-0">{{ $pendingCount }}</h3>
+                        <a href="{{ route('viewer.total-pending-materials.export') }}"
+                            class="btn btn-sm btn-outline-warning mt-2 mb-0 position-relative"
+                            style="z-index: 2;">Export</a>
+                    </div>
+                    <div class="action-icon bg-light-yellow">
+                        <i class="fas fa-clock"></i>
+                    </div>
                 </div>
-                <div class="action-icon bg-success">
-                    <i class="fas fa-paint-roller text-white"></i>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="action-card pretreat position-relative">
+                    <div style="text-align: left !important;">
+                        <a href="{{ route('viewer.total-pretreatment-done') }}" class="stretched-link"></a>
+                        <h6 class="text-dark font-weight-bold mb-1">Pretreatment Done</h6>
+                        <span class="text-xs text-muted">Ready for coating</span>
+                        <h3 class="font-weight-bolder text-info mt-2 mb-0">{{ $pretreatmentCount }}</h3>
+                        <a href="{{ route('viewer.total-pretreatment-done.export') }}"
+                            class="btn btn-sm btn-outline-info mt-2 mb-0 position-relative" style="z-index: 2;">Export</a>
+                    </div>
+                    <div class="action-icon bg-light-info">
+                        <i class="fas fa-check-double"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="action-card powder-applied position-relative">
+                    <div style="text-align: left !important;">
+                        <a href="{{ route('viewer.total-powder-applied') }}" class="stretched-link"></a>
+                        <h6 class="text-dark font-weight-bold mb-1">Powder Applied</h6>
+                        <span class="text-xs text-muted">Ready for Delivery</span>
+                        <h3 class="font-weight-bolder text-success mt-2 mb-0">{{ $powderAppliedCount }}</h3>
+                        <a href="{{ route('viewer.total-powder-applied.export') }}"
+                            class="btn btn-sm btn-outline-success mt-2 mb-0 position-relative"
+                            style="z-index: 2;">Export</a>
+                    </div>
+                    <div class="action-icon bg-success">
+                        <i class="fas fa-paint-roller text-white"></i>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
         <!-- OPERATIONS GRID -->
