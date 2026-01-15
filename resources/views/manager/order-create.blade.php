@@ -146,6 +146,10 @@
                                     </th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Amount
+                                    </th>
+                                    <th
+                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Jobcard Details
                                     </th>
                                     <th
@@ -189,6 +193,9 @@
                                     <td class="align-middle text-center">
                                         <span
                                             class="text-white badge badge-sm bg-gradient-info text-xs font-weight-bold">{{ $order->jobcards->count() }}</span>
+                                    </td>
+                                    <td class="align-middle text-center">
+                                        <span class="text-secondary text-xs font-weight-bold">{{ $order->amount ?? '—' }}</span>
                                     </td>
                                     <td class="align-middle text-center text-sm">
                                         <div class="d-flex gap-2 justify-content-center">
@@ -316,9 +323,15 @@
                     </div>
 
                     <!-- Order Number -->
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label class="form-label">Enter Order Number</label>
                         <input type="text" name="order_number" class="form-control" required placeholder="Enter Order Number">
+                    </div>
+
+                    <!-- Amount -->
+                    <div class="col-md-6">
+                        <label class="form-label">Amount</label>
+                        <input type="text" name="amount" class="form-control" placeholder="Enter Amount">
                     </div>
                 </div>
             </div>
@@ -381,10 +394,17 @@
                     </div>
 
                     <!-- Order Number -->
-                    <div class="col-md-12 mt-3">
+                    <div class="col-md-6 mt-3">
                         <label class="form-label">Enter Order Number</label>
                         <input type="text" name="order_number" class="form-control"
                             value="{{ $order->order_number }}" required>
+                    </div>
+
+                    <!-- Amount -->
+                    <div class="col-md-6 mt-3">
+                        <label class="form-label">Amount</label>
+                        <input type="text" name="amount" class="form-control"
+                            value="{{ $order->amount }}" placeholder="Enter Amount">
                     </div>
                 </div>
             </div>

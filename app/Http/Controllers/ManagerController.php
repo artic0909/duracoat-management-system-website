@@ -386,11 +386,13 @@ class ManagerController extends Controller
             $request->validate([
                 'client_id' => 'required|exists:client_materials,id',
                 'order_number' => 'required|string|max:255|unique:orders,order_number',
+                'amount' => 'nullable|string|max:255',
             ]);
 
             $order = Order::create([
                 'client_id' => $request->client_id,
                 'order_number' => $request->order_number,
+                'amount' => $request->amount,
             ]);
 
             if ($order) {
@@ -411,6 +413,7 @@ class ManagerController extends Controller
             $request->validate([
                 'client_id' => 'required|exists:client_materials,id',
                 'order_number' => 'required|string|max:255|unique:orders,order_number,' . $id,
+                'amount' => 'nullable|string|max:255',
             ]);
 
             $order = Order::findOrFail($id);
@@ -418,6 +421,7 @@ class ManagerController extends Controller
             $order->update([
                 'client_id' => $request->client_id,
                 'order_number' => $request->order_number,
+                'amount' => $request->amount,
             ]);
 
             return redirect()->back()->with('success', 'Order updated successfully!');

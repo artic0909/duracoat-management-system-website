@@ -9,6 +9,7 @@ class Order extends Model
     protected $fillable = [
         'client_id',
         'order_number',
+        'amount',
     ];
 
     public function client()
