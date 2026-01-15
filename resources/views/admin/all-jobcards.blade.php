@@ -282,7 +282,6 @@
 
                                     <td class="text-center text-xs font-weight-bold">
                                         <div class="d-flex gap-2 flex-column">
-                                            <!-- @if ($jobcard->tests->isNotEmpty())
                                             @if ($jobcard->tests->isNotEmpty())
                                             <a href="{{ route('admin.jobcard-test', $jobcard->id) }}"
                                                 class="btn btn-outline-secondary px-3 py-2 rounded m-0">
@@ -329,7 +328,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                                @else
+                                @empty
                                 <tr>
                                     <td colspan="12" class="text-center text-muted py-4">
                                         No jobcards created yet for this order.
