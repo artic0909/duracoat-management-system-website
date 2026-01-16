@@ -743,7 +743,7 @@ class ManagerController extends Controller
     {
         $request->validate([
             'delivery_statement' => 'required|string',
-            'invoice' => 'required|string|max:255',
+            // 'invoice' => 'required|string|max:255',
         ]);
 
         $jobcard = Jobcard::findOrFail($id);
@@ -759,7 +759,7 @@ class ManagerController extends Controller
         $jobcard->update([
             'delivery_statement' => $request->delivery_statement,
             'jobcard_status' => 'delivered',
-            'invoice' => $request->invoice,
+            // 'invoice' => $request->invoice,
         ]);
 
         $mailData = [
