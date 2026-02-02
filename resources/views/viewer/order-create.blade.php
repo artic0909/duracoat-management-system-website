@@ -150,6 +150,10 @@
                                     </th>
                                     <th
                                         class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Billing Amount
+                                    </th>
+                                    <th
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Jobcard Details
                                     </th>
                                     <!-- <th
@@ -191,7 +195,10 @@
                                             class="text-secondary text-xs font-weight-bold">{{ $order->client->mobile }}</span>
                                     </td>
                                     <td class="align-middle text-start">
-                                        <span class="text-secondary text-xs font-weight-bold">{{ $order->amount ?? '—' }}</span>
+                                        <span class="text-secondary text-xs font-weight-bold">{{ $order->amount ?? '0' }}</span>
+                                    </td>
+                                    <td class="align-middle text-start">
+                                        <span class="text-secondary text-xs font-weight-bold">{{ $order->billing_amount ?? '0' }}</span>
                                     </td>
                                     <td class="align-middle text-start">
                                         <span

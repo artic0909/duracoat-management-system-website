@@ -73,9 +73,27 @@ class ViewerController extends Controller
         $pretreatmentCount = Jobcard::where('jobcard_status', 'pre-treatment')->count();
         $powderAppliedCount = Jobcard::where('jobcard_status', 'powder-applied')->count();
 
-        $pendingAmount = Order::whereHas('jobcards', function ($query) {
-            $query->where('jobcard_status', '!=', 'delivered');
-        })->sum('amount');
+        $pendingAmount = Order::where(function ($query) {
+            // Exclude orders where ALL jobcards are 'delivered'
+            $query->whereHas('jobcards', function ($q) {
+                $q->where('jobcard_status', '!=', 'delivered');
+            });
+        })
+            ->get()
+            ->sum(function ($order) {
+                // Check if this order has any jobcard with status 'delivery-statement'
+                $hasDeliveryStatement = $order->jobcards()
+                    ->where('jobcard_status', 'delivery-statement')
+                    ->exists();
+
+                if ($hasDeliveryStatement) {
+                    // For delivery-statement orders: amount - billing_amount
+                    return $order->amount - ($order->billing_amount ?? 0);
+                } else {
+                    // For other pending orders: full amount
+                    return $order->amount;
+                }
+            });
 
         return view('viewer.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests', 'pendingCount', 'pretreatmentCount', 'powderAppliedCount', 'pendingAmount'));
     }

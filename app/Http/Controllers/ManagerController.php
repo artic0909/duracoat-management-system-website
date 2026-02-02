@@ -75,9 +75,27 @@ class ManagerController extends Controller
         $pretreatmentCount = Jobcard::where('jobcard_status', 'pre-treatment')->count();
         $powderAppliedCount = Jobcard::where('jobcard_status', 'powder-applied')->count();
 
-        $pendingAmount = Order::whereHas('jobcards', function ($query) {
-            $query->where('jobcard_status', '!=', 'delivered');
-        })->sum('amount');
+        $pendingAmount = Order::where(function ($query) {
+            // Exclude orders where ALL jobcards are 'delivered'
+            $query->whereHas('jobcards', function ($q) {
+                $q->where('jobcard_status', '!=', 'delivered');
+            });
+        })
+            ->get()
+            ->sum(function ($order) {
+                // Check if this order has any jobcard with status 'delivery-statement'
+                $hasDeliveryStatement = $order->jobcards()
+                    ->where('jobcard_status', 'delivery-statement')
+                    ->exists();
+
+                if ($hasDeliveryStatement) {
+                    // For delivery-statement orders: amount - billing_amount
+                    return $order->amount - ($order->billing_amount ?? 0);
+                } else {
+                    // For other pending orders: full amount
+                    return $order->amount;
+                }
+            });
 
         return view('manager.dashboard', compact('sumofquantity', 'lowstock', 'restock', 'totalClients', 'totalOrders', 'totalJobcards', 'totalDeliveries', 'totalTests', 'pendingCount', 'pretreatmentCount', 'powderAppliedCount', 'pendingAmount'));
     }
@@ -638,7 +656,7 @@ class ManagerController extends Controller
         $order = Order::with('client')->findOrFail($order_id);
         // $jobcards = Jobcard::where('order_id', $order_id)->orderBy('id', 'desc')->get();
 
-        $jobcards = Jobcard::with('tests')
+        $jobcards = Jobcard::with(['tests', 'deliveryStatements'])
             ->where('order_id', $order_id)
             ->orderBy('id', 'desc')
             ->paginate(10);
@@ -773,35 +791,57 @@ class ManagerController extends Controller
 
     public function updateDeliveryStatement(Request $request, $id)
     {
-        $request->validate([
-            'delivery_statement' => 'required|date',
-            'qty' => 'required|numeric',
-            'invoice_no' => 'required|string',
-            'billing_amount' => 'required|numeric|min:0',
-        ]);
+        try {
+            $request->validate([
+                'date' => 'required|date',
+                'qty' => 'required|string',
+                'invoice_no' => 'required|string',
+                'billing_amount' => 'required|numeric|min:0',
+            ]);
 
-        $jobcard = Jobcard::findOrFail($id);
+            $jobcard = Jobcard::findOrFail($id);
 
-        $orderId = $jobcard->order_id;
+            $orderId = $jobcard->order_id;
 
-        DeliveryStatement::create([
-            'order_id' => $orderId,
-            'jobcard_id' => $jobcard->id,
-            'date' => $request->delivery_statement,
-            'qty' => $request->qty,
-            'invoice_no' => $request->invoice_no,
-            'billing_amount' => $request->billing_amount,
-        ]);
+            DeliveryStatement::create([
+                'order_id' => $orderId,
+                'jobcard_id' => $jobcard->id,
+                'date' => $request->date,
+                'qty' => $request->qty,
+                'invoice_no' => $request->invoice_no,
+                'billing_amount' => $request->billing_amount,
+            ]);
 
-        Order::where('id', $orderId)->update([
-            'billing_amount' => $request->billing_amount,
-        ]);
+            $order = Order::findOrFail($orderId);
 
-        $jobcard->update([
-            'status' => 'delivery-statement',
-        ]);
+            $order->update([
+                'billing_amount' => $order->billing_amount + $request->billing_amount,
+            ]);
 
-        return redirect()->back()->with('success', 'Delivery statement updated successfully!');
+            $jobcard->update([
+                'jobcard_status' => 'delivery-statement',
+            ]);
+
+            $client = $jobcard->order->client;
+
+            $mailData = [
+                'date' => $request->date,
+                'qty' => $request->qty,
+                'invoice_no' => $request->invoice_no,
+                'billing_amount' => $request->billing_amount,
+                'total_billing_amount' => $order->billing_amount,
+            ];
+
+            Mail::to($client->email)
+                ->cc(['arif.rcpl2017@gmail.com', 'rakibul@rconpl.in'])
+                // ->cc(['info.saklin@gmail.com'])
+                ->send(new DeliveryMail($jobcard, $mailData));
+
+            return redirect()->back()->with('success', 'Delivery statement updated successfully!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to update delivery statement: ' . $e->getMessage());
+        }
     }
 
 
