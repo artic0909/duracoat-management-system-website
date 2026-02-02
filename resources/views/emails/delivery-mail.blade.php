@@ -57,10 +57,12 @@
                         </td>
                     </tr>
 
+                    @if($jobcard->jobcard_status === 'delivered')
                     <tr>
                         <td><strong>Tax Invoice:</strong></td>
                         <td style="text-transform: capitalize;">{{ $jobcard->invoice_no ?? 'N/A' }}</td>
                     </tr>
+                    @endif
 
                     <tr>
                         <td><strong>Current Status:</strong></td>
@@ -73,6 +75,10 @@
                             <td colspan="2" style="background-color: #f8f9fa; padding: 10px; font-weight: bold; color: #17a2b8;">
                                 🚚 Delivery Statement Details
                             </td>
+                        </tr>
+                        <tr>
+                            <td><strong>Order Quantity Amount:</strong></td>
+                            <td>{{ $jobcard->order->amount ?? 'N/A' }}</td>
                         </tr>
                         <tr>
                             <td><strong>Delivery Date:</strong></td>
