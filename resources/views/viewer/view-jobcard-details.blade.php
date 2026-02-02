@@ -155,6 +155,9 @@
                                         @case('powder-applied')
                                         <span class="badge bg-primary text-white">Powder Applied</span>
                                         @break
+                                        @case('delivery-statement')
+                                        <span class="badge bg-success text-white">Delivery Statement</span>
+                                        @break
                                         @case('delivered')
                                         <span class="badge bg-success text-white">Delivered</span>
                                         @break

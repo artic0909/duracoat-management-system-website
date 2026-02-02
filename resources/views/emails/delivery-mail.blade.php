@@ -67,37 +67,50 @@
                         <td style="text-transform: capitalize;">{{ $jobcard->jobcard_status ?? 'N/A' }}</td>
                     </tr>
 
-                    {{-- Delivery specific block --}}
-                    @if(!empty($mailData['type']) && $mailData['type'] === 'delivered')
+                    {{-- Delivery Statement Details --}}
+                    @if(isset($mailData['billing_amount']) && isset($mailData['qty']))
+                        <tr>
+                            <td colspan="2" style="background-color: #f8f9fa; padding: 10px; font-weight: bold; color: #17a2b8;">
+                                🚚 Delivery Statement Details
+                            </td>
+                        </tr>
                         <tr>
                             <td><strong>Delivery Date:</strong></td>
-                            <td>{{ \Carbon\Carbon::parse($mailData['delivered_at'] ?? $jobcard->delivery_date)->format('d-m-Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($mailData['date'])->format('d-m-Y') }}</td>
                         </tr>
                         <tr>
-                            <td><strong>Delivered By:</strong></td>
-                            <td>{{ $mailData['delivered_by'] ?? 'System/Manager' }}</td>
+                            <td><strong>Quantity Delivered:</strong></td>
+                            <td>{{ $mailData['qty'] }} {{ $jobcard->material_unit ?? '' }}</td>
                         </tr>
-                    @elseif(!empty($mailData['type']) && $mailData['type'] === 'statement')
+                        <tr>
+                            <td><strong>Invoice No:</strong></td>
+                            <td>{{ $mailData['invoice_no'] }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Billing Amount:</strong></td>
+                            <td>{{ number_format($mailData['billing_amount'], 2) }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total Billing Amount (Order):</strong></td>
+                            <td><strong>{{ number_format($mailData['total_billing_amount'] ?? 0, 2) }}</strong></td>
+                        </tr>
+                    @else
+                        {{-- Fallback logic for basic delivery notification if any --}}
+                        @if(!empty($jobcard->delivery_date))
+                            <tr>
+                                <td><strong>Delivery Date:</strong></td>
+                                <td>{{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d-m-Y') }}</td>
+                            </tr>
+                        @endif
+                        
+                        @if(!empty($jobcard->delivery_statement))
                         <tr>
                             <td><strong>Delivery Statement:</strong></td>
                             <td style="white-space: pre-line;">
-                                {!! nl2br(e($mailData['delivery_statement'] ?? $jobcard->delivery_statement ?? '')) !!}
+                                {!! nl2br(e($jobcard->delivery_statement)) !!}
                             </td>
                         </tr>
-                    @else
-                        {{-- fallback to show any saved delivery_statement or date --}}
-                        <tr>
-                            <td><strong>Material Delivery Info:</strong></td>
-                            <td style="white-space: pre-line;">
-                                @if(!empty($jobcard->delivery_statement))
-                                    {!! nl2br(e($jobcard->delivery_statement)) !!}
-                                @elseif(!empty($jobcard->delivery_date))
-                                    {{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d-m-Y') }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                        </tr>
+                        @endif
                     @endif
                 </table>
 
