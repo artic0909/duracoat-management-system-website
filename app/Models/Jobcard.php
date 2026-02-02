@@ -64,4 +64,9 @@ class Jobcard extends Model
     {
         return $this->hasMany(JobcardTest::class, 'jobcard_id');
     }
+
+    public function deliveryStatements()
+    {
+        return $this->hasMany(DeliveryStatement::class, 'jobcard_id');
+    }
 }

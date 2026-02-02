@@ -7,6 +7,7 @@ use App\Exports\PowderAppliedExport;
 use App\Mail\DelayAleartMail;
 use App\Mail\DeliveryMail;
 use App\Models\ClientMaterial;
+use App\Models\DeliveryStatement;
 use App\Models\Jobcard;
 use App\Models\Order;
 use App\Models\Paint;
@@ -739,40 +740,68 @@ class ManagerController extends Controller
         return redirect()->back()->with('success', 'Jobcard delivered & notification sent to client!');
     }
 
+    // public function updateDeliveryStatement(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'delivery_statement' => 'required|string',
+    //     ]);
+
+    //     $jobcard = Jobcard::findOrFail($id);
+
+    //     $client = ClientMaterial::find($jobcard->client_id);
+
+    //     if (!$client) {
+    //         return redirect()->back()->with('error', 'Client not found for this jobcard.');
+    //     }
+
+    //     $jobcard->update([
+    //         'delivery_statement' => $request->delivery_statement,
+    //         'jobcard_status' => 'delivered',
+    //     ]);
+
+    //     $mailData = [
+    //         'type' => 'statement',
+    //         'delivery_statement' => $request->delivery_statement,
+    //     ];
+
+    //     Mail::to($client->email)
+    //         ->cc(['arif.rcpl2017@gmail.com', 'rakibul@rconpl.in'])
+    //         ->send(new DeliveryMail($jobcard, $mailData));
+
+    //     return redirect()->back()->with('success', 'Delivery statement updated and notification sent to client!');
+    // }
+
     public function updateDeliveryStatement(Request $request, $id)
     {
         $request->validate([
-            'delivery_statement' => 'required|string',
-            // 'invoice' => 'required|string|max:255',
+            'delivery_statement' => 'required|date',
+            'qty' => 'required|numeric',
+            'invoice_no' => 'required|string',
+            'billing_amount' => 'required|numeric|min:0',
         ]);
 
         $jobcard = Jobcard::findOrFail($id);
 
-        // fetch client email using client_id
-        $client = ClientMaterial::find($jobcard->client_id);
+        $orderId = $jobcard->order_id;
 
-        if (!$client) {
-            return redirect()->back()->with('error', 'Client not found for this jobcard.');
-        }
-
-        // update statement & status
-        $jobcard->update([
-            'delivery_statement' => $request->delivery_statement,
-            'jobcard_status' => 'delivered',
-            // 'invoice' => $request->invoice,
+        DeliveryStatement::create([
+            'order_id' => $orderId,
+            'jobcard_id' => $jobcard->id,
+            'date' => $request->delivery_statement,
+            'qty' => $request->qty,
+            'invoice_no' => $request->invoice_no,
+            'billing_amount' => $request->billing_amount,
         ]);
 
-        $mailData = [
-            'type' => 'statement',
-            'delivery_statement' => $request->delivery_statement,
-        ];
+        Order::where('id', $orderId)->update([
+            'billing_amount' => $request->billing_amount,
+        ]);
 
-        // send to client + CC to arif & rakibul
-        Mail::to($client->email)
-            ->cc(['arif.rcpl2017@gmail.com', 'rakibul@rconpl.in'])
-            ->send(new DeliveryMail($jobcard, $mailData));
+        $jobcard->update([
+            'status' => 'delivery-statement',
+        ]);
 
-        return redirect()->back()->with('success', 'Delivery statement updated and notification sent to client!');
+        return redirect()->back()->with('success', 'Delivery statement updated successfully!');
     }
 
 

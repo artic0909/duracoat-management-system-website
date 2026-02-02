@@ -13,6 +13,18 @@ return new class extends Migration
     {
         Schema::create('delivery_statements', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('order_id');
+            $table->unsignedBigInteger('jobcard_id');
+
+            // Delivery statement details
+            $table->date('date');
+            $table->string('qty');
+            $table->string('invoice_no');
+            $table->string('billing_amount');
+
+            // Foreign key constraints
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreign('jobcard_id')->references('id')->on('jobcards')->onDelete('cascade');
             $table->timestamps();
         });
     }

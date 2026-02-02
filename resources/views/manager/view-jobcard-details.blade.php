@@ -432,7 +432,7 @@
 
                             <!-- Delivery Statement Modal -->
                             <div class="modal fade" id="deliveryStatementModal{{ $jobcard->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deliveryStatementLabel{{ $jobcard->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-lg">
                                     <form action="{{ route('manager.update.delivered-statement', $jobcard->id) }}" method="POST">
                                         @csrf
                                         <div class="modal-content">
@@ -441,8 +441,46 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                             </div>
                                             <div class="modal-body">
-                                                <label for="delivery_statement_{{ $jobcard->id }}" class="form-label fw-semibold">Write your delivery statement with TAX INVOICE:</label>
-                                                <textarea name="delivery_statement" id="delivery_statement_{{ $jobcard->id }}" rows="4" class="form-control" placeholder="Write your delivery note or reason...">{{$jobcard->delivery_statement}}</textarea>
+                                                <!-- Here show previous delivery statement in table -->
+                                                @if($jobcard->delivery_statement)
+                                                    <div class="mb-3">
+                                                        <strong>Previous Delivery Statement:</strong>
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Date</th>
+                                                                    <th>Quantity</th>
+                                                                    <th>Invoice No</th>
+                                                                    <th>Billing Amount</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>{{ $jobcard->delivery_statement }}</td>
+                                                                    <td>{{ $jobcard->qty }}</td>
+                                                                    <td>{{ $jobcard->invoice_no }}</td>
+                                                                    <td>{{ $jobcard->billing_amount }}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                @endif
+                                                <div class="form-group">
+                                                    <label for="delivery_statement_{{ $jobcard->id }}" class="form-label fw-semibold">Date:</label>
+                                                    <input type="date" name="delivery_statement" id="delivery_statement_{{ $jobcard->id }}" class="form-control" placeholder="Date" value="{{$jobcard->delivery_statement}}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="qty_{{ $jobcard->id }}" class="form-label fw-semibold">Quantity:</label>
+                                                    <input type="text" name="qty" id="qty_{{ $jobcard->id }}" class="form-control" placeholder="Quantity" value="{{$jobcard->qty}}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="invoice_{{ $jobcard->id }}" class="form-label fw-semibold">Invoice:</label>
+                                                    <input type="text" name="invoice_no" id="invoice_{{ $jobcard->id }}" class="form-control" placeholder="Invoice" value="{{$jobcard->invoice_no}}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="billing_amount_{{ $jobcard->id }}" class="form-label fw-semibold">Billing Amount:</label>
+                                                    <input type="text" name="billing_amount" id="billing_amount_{{ $jobcard->id }}" class="form-control" placeholder="Billing Amount" value="{{$jobcard->billing_amount}}">
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button"

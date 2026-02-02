@@ -59,7 +59,7 @@
 
                     <tr>
                         <td><strong>Tax Invoice:</strong></td>
-                        <td style="text-transform: capitalize;">{{ $jobcard->invoice ?? 'N/A' }}</td>
+                        <td style="text-transform: capitalize;">{{ $jobcard->invoice_no ?? 'N/A' }}</td>
                     </tr>
 
                     <tr>

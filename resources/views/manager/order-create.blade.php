@@ -202,7 +202,7 @@
                                         <span class="text-secondary text-xs font-weight-bold">{{ $order->amount ?? '0' }}</span>
                                     </td>
                                     <td class="align-middle text-start">
-                                        <span class="text-secondary text-xs font-weight-bold">{{ $order->amount ?? '0' }}</span>
+                                        <span class="text-secondary text-xs font-weight-bold">{{ $order->billing_amount ?? '0' }}</span>
                                     </td>
                                     <td class="align-middle text-start text-sm">
                                         <div class="d-flex gap-2 justify-content-center">
