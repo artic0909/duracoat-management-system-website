@@ -150,6 +150,10 @@
                                     </th>
                                     <th
                                         class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Billing Amount
+                                    </th>
+                                    <th
+                                        class="text-start text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Jobcard Details
                                     </th>
                                     <th
@@ -171,7 +175,7 @@
                                     <td>
                                         <div class="d-flex px-2 py-1">
                                             <div class="d-flex flex-column justify-content-center">
-                                                <h6 class="mb-0 text-sm">{{ $order->created_at->format('d-m-Y h:i A') }}</h6>
+                                                <h6 class="mb-0 text-sm">{{ $order->created_at->format('d-m-Y') }}</h6>
 
                                             </div>
                                         </div>
@@ -195,7 +199,10 @@
                                             class="text-white badge badge-sm bg-gradient-info text-xs font-weight-bold">{{ $order->jobcards->count() }}</span>
                                     </td>
                                     <td class="align-middle text-start">
-                                        <span class="text-secondary text-xs font-weight-bold">{{ $order->amount ?? '—' }}</span>
+                                        <span class="text-secondary text-xs font-weight-bold">{{ $order->amount ?? '0' }}</span>
+                                    </td>
+                                    <td class="align-middle text-start">
+                                        <span class="text-secondary text-xs font-weight-bold">{{ $order->amount ?? '0' }}</span>
                                     </td>
                                     <td class="align-middle text-start text-sm">
                                         <div class="d-flex gap-2 justify-content-center">
