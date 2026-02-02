@@ -192,6 +192,9 @@
                                         @case('powder-applied')
                                         <span class="badge bg-primary text-white">Powder Applied</span>
                                         @break
+                                        @case('delivery-statement')
+                                        <span class="badge bg-success text-white">Delivery Statement</span>
+                                        @break
                                         @case('delivered')
                                         <span class="badge bg-success text-white">Delivered</span>
                                         @break
@@ -260,7 +263,7 @@
                                         @endif
                                     </td>
 
-                                    <td class="text-start text-xs font-weight-bold">
+                                    <td class="text-center text-xs font-weight-bold">
                                         <!-- {{-- DELIVERY COLUMN --}} -->
                                         @if (!$jobcard->pre_treatment_date)
                                         <!-- {{-- No pre-treatment → disable everything --}} -->
@@ -270,7 +273,7 @@
                                         —
                                         @elseif ($jobcard->delivery_date)
                                         {{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d/m/Y') }}
-                                        @elseif ($jobcard->delivery_statement)
+                                        @elseif ($jobcard->deliveryStatements->isNotEmpty())
                                         <button type="button" class="btn btn-info"
                                             data-bs-target="#deliveryStatementModal{{ $jobcard->id }}"
                                             data-bs-toggle="modal"
@@ -350,6 +353,7 @@
                                 </tr>
                                 @endforelse
                             </tbody>
+                        </table>
 
                             <!-- Modals -->
                             <!-- Pre-Treatment Modal -->
@@ -400,74 +404,99 @@
                             </div>
                             @endforeach
 
-                            <!-- Delivered Modal -->
-                            @foreach ($jobcards as $jobcard)
-                            <!-- Delivered Confirmation Modal -->
-                            <div class="modal fade" id="deliveredModal{{ $jobcard->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deliveredLabel{{ $jobcard->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <form action="{{ route('manager.update.delivered', $jobcard->id) }}" method="POST">
-                                        @csrf
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Confirm Delivery</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>
-                                                    Are you sure this
-                                                    <strong class="text-danger">
-                                                        material quantity ({{ $jobcard->material_quantity }} {{ $jobcard->material_unit }})
-                                                    </strong> has been delivered today?
-                                                </p>
-
-                                                <!-- Trigger for 2nd Modal -->
-                                                <button type="button" class="btn btn-primary"
-                                                    data-bs-target="#deliveryStatementModal{{ $jobcard->id }}"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-dismiss="modal">
-                                                    Or give a delivery statement ?
-                                                </button>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                <button type="submit" class="btn btn-success">Yes, Confirm</button>
-                                            </div>
+                        <!-- Delivered Modal -->
+                        @foreach ($jobcards as $jobcard)
+                        <!-- Delivered Confirmation Modal -->
+                        <div class="modal fade" id="deliveredModal{{ $jobcard->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deliveredLabel{{ $jobcard->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <form>
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Confirm Delivery</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
-                                    </form>
-                                </div>
-                            </div>
+                                        <div class="modal-body">
+                                            <p>
+                                                Are you sure this
+                                                <strong class="text-danger">
+                                                    material quantity ({{ $jobcard->material_quantity }} {{ $jobcard->material_unit }})
+                                                </strong> has been delivered today?
+                                            </p>
 
-                            <!-- Delivery Statement Modal -->
-                            <div class="modal fade" id="deliveryStatementModal{{ $jobcard->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deliveryStatementLabel{{ $jobcard->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <form action="{{ route('manager.update.delivered-statement', $jobcard->id) }}" method="POST">
-                                        @csrf
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Delivery Statement</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <label for="delivery_statement_{{ $jobcard->id }}" class="form-label fw-semibold">Write your delivery statement:</label>
-                                                <textarea name="delivery_statement" id="delivery_statement_{{ $jobcard->id }}" rows="4" class="form-control" placeholder="Write your delivery note or reason...">{{$jobcard->delivery_statement}}</textarea>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button"
-                                                    class="btn btn-secondary"
-                                                    data-bs-target="#deliveredModal{{ $jobcard->id }}"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-dismiss="modal">
-                                                    ← Back
-                                                </button>
-                                                <button type="submit" class="btn btn-primary">Submit Statement</button>
-                                            </div>
+                                            <label for="invoice">TAX Invoice<span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control mb-3" name="invoice" placeholder="Tax Invoice" required>
+
+                                            <!-- Trigger for 2nd Modal -->
+                                            <button type="button" class="btn btn-primary"
+                                                data-bs-target="#deliveryStatementModal{{ $jobcard->id }}"
+                                                data-bs-toggle="modal"
+                                                data-bs-dismiss="modal">
+                                                Or give a delivery statement ?
+                                            </button>
                                         </div>
-                                    </form>
-                                </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                            @endforeach
+                        </div>
 
-                        </table>
+                        <!-- Delivery Statement Modal -->
+                        <div class="modal fade" id="deliveryStatementModal{{ $jobcard->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deliveryStatementLabel{{ $jobcard->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <form>
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Delivery Statement</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- Here show previous delivery statement in table -->
+                                            @if($jobcard->deliveryStatements->isNotEmpty())
+                                                <div class="mb-3">
+                                                    <strong>Previous Delivery Statements:</strong>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered table-striped text-center">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th>Date</th>
+                                                                    <th>Quantity</th>
+                                                                    <th>Invoice No</th>
+                                                                    <th>Billing Amount</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach($jobcard->deliveryStatements as $statement)
+                                                                <tr>
+                                                                    <td>{{ \Carbon\Carbon::parse($statement->date)->format('d/m/Y') }}</td>
+                                                                    <td>{{ $statement->qty }}</td>
+                                                                    <td>{{ $statement->invoice_no }}</td>
+                                                                    <td>{{ $statement->billing_amount }}</td>
+                                                                </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button"
+                                                class="btn btn-secondary"
+                                                data-bs-target="#deliveredModal{{ $jobcard->id }}"
+                                                data-bs-toggle="modal"
+                                                data-bs-dismiss="modal">
+                                                ← Back
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        @endforeach
+
                     </div>
                 </div>
             </div>

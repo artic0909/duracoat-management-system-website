@@ -249,7 +249,7 @@
                                         @endif
                                     </td>
 
-                                    <td class="text-start text-xs font-weight-bold">
+                                    <td class="text-center text-xs font-weight-bold">
                                         <!-- {{-- DELIVERY COLUMN --}} -->
                                         @if (!$jobcard->pre_treatment_date)
                                         <!-- {{-- No pre-treatment → disable everything --}} -->
@@ -259,7 +259,7 @@
                                         —
                                         @elseif ($jobcard->delivery_date)
                                         {{ \Carbon\Carbon::parse($jobcard->delivery_date)->format('d/m/Y') }}
-                                        @elseif ($jobcard->delivery_statement)
+                                        @elseif ($jobcard->deliveryStatements->isNotEmpty())
                                         <button type="button" class="btn btn-info"
                                             data-bs-target="#deliveryStatementModal{{ $jobcard->id }}"
                                             data-bs-toggle="modal"
@@ -281,6 +281,7 @@
                                         <span class="text-danger">Pending Test</span>
                                         @endif
                                     </td>
+
 
 
 
@@ -366,6 +367,7 @@
                                     </td>
                                 </tr>
                             </tfoot>
+                        </table>
 
                             <!-- Modals -->
                             <!-- Pre-Treatment Modal -->
