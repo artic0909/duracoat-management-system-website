@@ -1068,7 +1068,7 @@ class ManagerController extends Controller
     // Material Out Management Routes (Manager Guard) =============================================================================================================>
     public function materialOutView(Request $request)
     {
-        $query = Jobcard::with('order.client')->where('jobcard_status', 'delivered')->orderBy('id', 'desc');
+        $query = Jobcard::with('order.client')->whereIn('jobcard_status', ['delivered', 'delivery-statement'])->orderBy('id', 'desc');
 
         if ($request->filled('order_number')) {
             $search = $request->order_number;
@@ -1287,7 +1287,7 @@ class ManagerController extends Controller
     {
         $orders = DB::table('orders')
             ->join('client_materials', 'orders.client_id', '=', 'client_materials.id')
-            ->select('orders.order_number', 'client_materials.client_name', 'client_materials.email', 'client_materials.mobile', 'orders.created_at')
+            ->select('orders.order_number', 'client_materials.client_name', 'client_materials.email', 'client_materials.mobile', 'orders.created_at', 'orders.amount')
             ->orderBy('orders.id', 'desc')
             ->get();
 
@@ -1297,11 +1297,12 @@ class ManagerController extends Controller
                 'Client Name' => $item->client_name,
                 'Email' => $item->email,
                 'Mobile' => $item->mobile,
+                'Amount' => $item->amount,
                 'Created At' => $item->created_at,
             ];
         });
 
-        $headings = ['Order Number', 'Client Name', 'Email', 'Mobile', 'Created At'];
+        $headings = ['Order Number', 'Client Name', 'Email', 'Mobile', 'Amount', 'Created At'];
 
         return Excel::download(new GenericExport($data, $headings), 'orders_export.xlsx');
     }

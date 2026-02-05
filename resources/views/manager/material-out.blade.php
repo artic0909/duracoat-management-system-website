@@ -174,11 +174,13 @@
 
                                             <td>
                                                 <p class="text-xs fw-bolder mb-0 bg-primary text-white m-0 p-1">
-                                                    {{ $jobcard->order->order_number }}</p>
+                                                    {{ $jobcard->order->order_number }}
+                                                </p>
                                             </td>
 
                                             <td>
-                                                <p class="text-xs fw-bolder mb-0 bg-secondary text-white m-0 p-1">{{ $jobcard->invoice ?? '—' }}</p>
+                                                <p class="text-xs fw-bolder mb-0 bg-secondary text-white m-0 p-1">
+                                                    {{ $jobcard->invoice ?? '—' }}</p>
                                             </td>
 
                                             <td>
@@ -270,7 +272,8 @@
                 <form class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title fw-bolder" id="exampleModalLabel">Order No: {{ $jobcard->order->order_number }}
-                            || Jobcard No: {{ $jobcard->jobcard_number }}</h5>
+                            || Jobcard No: {{ $jobcard->jobcard_number }} || <span class="text-success">Total Order Amount:
+                                {{ $jobcard->order->amount }}</span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -287,7 +290,8 @@
                                 <tr>
                                     <td>
                                         <p class="m-0 text-secondary text-xs font-weight-bold">
-                                            {{ $jobcard->client->client_name }}</p>
+                                            {{ $jobcard->client->client_name }}
+                                        </p>
                                     </td>
                                     <td>
                                         <p class="m-0 text-secondary text-xs font-weight-bold">{{ $jobcard->client->email }}</p>
@@ -331,6 +335,40 @@
                                 </tr>
                             </tbody>
                         </table>
+
+                        <br>
+
+                        <h5 class="fw-bolder">Delivery Statement</h5>
+                        @if($jobcard->invoice)
+                        <h6>Invoice No: {{ $jobcard->invoice }}</h6>
+                        @endif
+                        @if($jobcard->deliveryStatements->isNotEmpty())
+                            <div class="mb-3">
+                                <strong>Previous Delivery Statements:</strong>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped text-center">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Quantity</th>
+                                                <th>Invoice No</th>
+                                                <th>Billing Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($jobcard->deliveryStatements as $statement)
+                                                <tr>
+                                                    <td>{{ \Carbon\Carbon::parse($statement->date)->format('d/m/Y') }}</td>
+                                                    <td>{{ $statement->qty }}</td>
+                                                    <td>{{ $statement->invoice_no }}</td>
+                                                    <td>{{ $statement->billing_amount }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endif
 
                         <br>
 

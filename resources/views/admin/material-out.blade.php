@@ -335,6 +335,40 @@
 
                         <br>
 
+                        <h5 class="fw-bolder">Delivery Statement</h5>
+                        @if($jobcard->invoice)
+                        <h6>Invoice No: {{ $jobcard->invoice }}</h6>
+                        @endif
+                        @if($jobcard->deliveryStatements->isNotEmpty())
+                            <div class="mb-3">
+                                <strong>Previous Delivery Statements:</strong>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped text-center">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Quantity</th>
+                                                <th>Invoice No</th>
+                                                <th>Billing Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($jobcard->deliveryStatements as $statement)
+                                                <tr>
+                                                    <td>{{ \Carbon\Carbon::parse($statement->date)->format('d/m/Y') }}</td>
+                                                    <td>{{ $statement->qty }}</td>
+                                                    <td>{{ $statement->invoice_no }}</td>
+                                                    <td>{{ $statement->billing_amount }}</td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endif
+
+                        <br>
+
                         <h5 class="fw-bolder">Test Results</h5>
                         <table class="table table-bordered align-middle mb-0">
                             <thead class="table-light">

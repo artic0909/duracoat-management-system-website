@@ -912,7 +912,7 @@ class AdminController extends Controller
     // Material Out Management Routes (Manager Guard) =============================================================================================================>
     public function materialOutView(Request $request)
     {
-        $query = Jobcard::with('order.client')->where('jobcard_status', 'delivered')->orderBy('id', 'desc');
+        $query = Jobcard::with('order.client')->whereIn('jobcard_status', ['delivered', 'delivery-statement'])->orderBy('id', 'desc');
 
         if ($request->filled('order_number')) {
             $search = $request->order_number;
