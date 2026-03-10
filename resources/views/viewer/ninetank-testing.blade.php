@@ -866,7 +866,7 @@
                                         5 — S-101</th>
                                     <th colspan="3" class="tank-group-hd text-center"><i class="fas fa-flask me-1"></i>Tank
                                         6 — Act-505</th>
-                                    <th colspan="3" class="tank-group-hd text-center"><i class="fas fa-flask me-1"></i>Tank
+                                    <th colspan="4" class="tank-group-hd text-center"><i class="fas fa-flask me-1"></i>Tank
                                         7 — Aphox-ZC</th>
                                     <th colspan="3" class="tank-group-hd text-center"><i class="fas fa-flask me-1"></i>Tank
                                         8 — Water</th>
@@ -903,6 +903,7 @@
                                     <th class="border-tank">Need Attn</th>
                                     {{-- T7 --}}
                                     <th>Value (ml)</th>
+                                    <th>Need Level</th>
                                     <th>Result</th>
                                     <th class="border-tank">Need (kg)</th>
                                     {{-- T8 --}}
@@ -979,6 +980,8 @@
                                         </td>
                                         {{-- Tank 7 --}}
                                         <td><span class="tank-val">{{ $rec->t7_testing_value ?? '—' }} ml</span></td>
+                                        <td><span class="tank-val" style="color:#5e6e9a;">{{ $rec->t7_need_level ?? '—' }}
+                                                ml</span></td>
                                         <td><span class="{{ $rc($rec->t7_result) }}">{{ $rec->t7_result ?? '—' }}</span></td>
                                         <td class="tank-cell-border"><span
                                                 class="{{ $nc($rec->t7_need_chemical) }}">{{ $rec->t7_need_chemical ?? '—' }}</span>
@@ -1021,6 +1024,7 @@
                                                     data-t6-res="{{ $rec->t6_result }}"
                                                     data-t6-need="{{ $rec->t6_need_attention }}"
                                                     data-t7-val="{{ $rec->t7_testing_value }} ml"
+                                                    data-t7-level="{{ $rec->t7_need_level }}"
                                                     data-t7-res="{{ $rec->t7_result }}"
                                                     data-t7-need="{{ $rec->t7_need_chemical }}"
                                                     data-t8-val="{{ $rec->t8_testing_value }} ph"
@@ -1034,8 +1038,8 @@
                                                 </button>
 
                                                 {{-- Print Report --}}
-                                                <a href="{{ route('viewer.ninetank-testing.print', $rec->id) }}"
-                                                    target="_blank" class="btn btn-print-report">
+                                                <a href="{{ route('viewer.ninetank-testing.print', $rec->id) }}" target="_blank"
+                                                    class="btn btn-print-report">
                                                     <i class="fas fa-print me-1"></i> Print Report
                                                 </a>
 
@@ -1231,7 +1235,7 @@
                     { label: 'Tank 4 — Water', v: 't4Val', r: 't4Res', n: 't4Need' },
                     { label: 'Tank 5 — S-101', v: 't5Val', r: 't5Res', n: 't5Need' },
                     { label: 'Tank 6 — Act-505', v: 't6Val', r: 't6Res', n: 't6Need' },
-                    { label: 'Tank 7 — Aphox-ZC', v: 't7Val', r: 't7Res', n: 't7Need' },
+                    { label: 'Tank 7 — Aphox-ZC', v: 't7Val', r: 't7Res', n: 't7Need', level: 't7Level' },
                     { label: 'Tank 8 — Water', v: 't8Val', r: 't8Res', n: 't8Need' },
                     { label: 'Tank 9 — Passeal-1', v: 't9Val', r: 't9Res', n: 't9Need' },
                 ];
@@ -1256,11 +1260,12 @@
                         var val = d[t.v] || '—';
                         var res = d[t.r] || '—';
                         var need = d[t.n] || '—';
+                        var level = t.level ? (d[t.level] || '') : '';
                         rows +=
                             '<tr>' +
                             '<td style="font-weight:700;color:#3a5bd9;white-space:nowrap;">' + t.label + '</td>' +
                             '<td style="color:#5e6e9a;">' + t.label.split('—')[1].trim() + '</td>' +
-                            '<td style="font-weight:700;color:#232b4e;">' + val + '</td>' +
+                            '<td style="font-weight:700;color:#232b4e;">' + val + (level ? ' &nbsp;<small style="color:#8896bb;font-weight:500;">| Need: ' + level + ' ml</small>' : '') + '</td>' +
                             '<td><span class="' + rc(res) + '">' + res + '</span></td>' +
                             '<td><span class="' + nc(need) + '">' + need + '</span></td>' +
                             '</tr>';

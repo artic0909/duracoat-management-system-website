@@ -56,6 +56,7 @@ return new class extends Migration {
             // Tank 7 — Aphox-ZC (Phosphating)
             $table->string('t7_chemical_name')->default('Aphox-ZC');
             $table->string('t7_testing_value')->nullable();
+            $table->string('t7_need_level')->nullable();
             $table->string('t7_result')->nullable();
             $table->string('t7_need_chemical')->nullable();   // need chemical (kg)
 

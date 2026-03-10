@@ -193,7 +193,7 @@
                     ['label' => 'Tank 4', 'chem' => 'Water', 'val' => $record->t4_testing_value . ' ph', 'res' => $record->t4_result, 'need' => $record->t4_need_attention],
                     ['label' => 'Tank 5', 'chem' => 'S-101', 'val' => $record->t5_testing_value . ' ph', 'res' => $record->t5_result, 'need' => $record->t5_need_attention],
                     ['label' => 'Tank 6', 'chem' => 'Act-505', 'val' => $record->t6_testing_value . ' ph', 'res' => $record->t6_result, 'need' => $record->t6_need_attention],
-                    ['label' => 'Tank 7', 'chem' => 'Aphox-ZC', 'val' => $record->t7_testing_value . ' ml', 'res' => $record->t7_result, 'need' => $record->t7_need_chemical],
+                    ['label' => 'Tank 7', 'chem' => 'Aphox-ZC', 'val' => $record->t7_testing_value . ' ml' . ($record->t7_need_level ? ' | Need: ' . $record->t7_need_level . ' ml' : ''), 'res' => $record->t7_result, 'need' => $record->t7_need_chemical],
                     ['label' => 'Tank 8', 'chem' => 'Water', 'val' => $record->t8_testing_value . ' ph', 'res' => $record->t8_result, 'need' => $record->t8_need_attention],
                     ['label' => 'Tank 9', 'chem' => 'Passeal-1', 'val' => $record->t9_testing_value . ' ph', 'res' => $record->t9_result, 'need' => $record->t9_need_attention],
                 ];

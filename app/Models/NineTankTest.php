@@ -50,6 +50,7 @@ class NineTankTest extends Model
         // Tank 7 — Aphox-ZC
         't7_chemical_name',
         't7_testing_value',
+        't7_need_level',
         't7_result',
         't7_need_chemical',
 

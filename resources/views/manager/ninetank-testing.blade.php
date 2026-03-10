@@ -868,7 +868,7 @@
                                         5 — S-101</th>
                                     <th colspan="3" class="tank-group-hd text-center"><i class="fas fa-flask me-1"></i>Tank
                                         6 — Act-505</th>
-                                    <th colspan="3" class="tank-group-hd text-center"><i class="fas fa-flask me-1"></i>Tank
+                                    <th colspan="4" class="tank-group-hd text-center"><i class="fas fa-flask me-1"></i>Tank
                                         7 — Aphox-ZC</th>
                                     <th colspan="3" class="tank-group-hd text-center"><i class="fas fa-flask me-1"></i>Tank
                                         8 — Water</th>
@@ -905,6 +905,7 @@
                                     <th class="border-tank">Need Attn</th>
                                     {{-- T7 --}}
                                     <th>Value (ml)</th>
+                                    <th>Need Level</th>
                                     <th>Result</th>
                                     <th class="border-tank">Need (kg)</th>
                                     {{-- T8 --}}
@@ -981,6 +982,8 @@
                                         </td>
                                         {{-- Tank 7 --}}
                                         <td><span class="tank-val">{{ $rec->t7_testing_value ?? '—' }} ml</span></td>
+                                        <td><span class="tank-val" style="color:#5e6e9a;">{{ $rec->t7_need_level ?? '—' }}
+                                                ml</span></td>
                                         <td><span class="{{ $rc($rec->t7_result) }}">{{ $rec->t7_result ?? '—' }}</span></td>
                                         <td class="tank-cell-border"><span
                                                 class="{{ $nc($rec->t7_need_chemical) }}">{{ $rec->t7_need_chemical ?? '—' }}</span>
@@ -1023,6 +1026,7 @@
                                                     data-t6-res="{{ $rec->t6_result }}"
                                                     data-t6-need="{{ $rec->t6_need_attention }}"
                                                     data-t7-val="{{ $rec->t7_testing_value }} ml"
+                                                    data-t7-level="{{ $rec->t7_need_level }}"
                                                     data-t7-res="{{ $rec->t7_result }}"
                                                     data-t7-need="{{ $rec->t7_need_chemical }}"
                                                     data-t8-val="{{ $rec->t8_testing_value }} ph"
@@ -1243,7 +1247,7 @@
                     { label: 'Tank 4 — Water', v: 't4Val', r: 't4Res', n: 't4Need' },
                     { label: 'Tank 5 — S-101', v: 't5Val', r: 't5Res', n: 't5Need' },
                     { label: 'Tank 6 — Act-505', v: 't6Val', r: 't6Res', n: 't6Need' },
-                    { label: 'Tank 7 — Aphox-ZC', v: 't7Val', r: 't7Res', n: 't7Need' },
+                    { label: 'Tank 7 — Aphox-ZC', v: 't7Val', r: 't7Res', n: 't7Need', level: 't7Level' },
                     { label: 'Tank 8 — Water', v: 't8Val', r: 't8Res', n: 't8Need' },
                     { label: 'Tank 9 — Passeal-1', v: 't9Val', r: 't9Res', n: 't9Need' },
                 ];
@@ -1268,11 +1272,12 @@
                         var val = d[t.v] || '—';
                         var res = d[t.r] || '—';
                         var need = d[t.n] || '—';
+                        var level = t.level ? (d[t.level] || '') : '';
                         rows +=
                             '<tr>' +
                             '<td style="font-weight:700;color:#3a5bd9;white-space:nowrap;">' + t.label + '</td>' +
                             '<td style="color:#5e6e9a;">' + t.label.split('—')[1].trim() + '</td>' +
-                            '<td style="font-weight:700;color:#232b4e;">' + val + '</td>' +
+                            '<td style="font-weight:700;color:#232b4e;">' + val + (level ? ' &nbsp;<small style="color:#8896bb;font-weight:500;">| Need: ' + level + ' ml</small>' : '') + '</td>' +
                             '<td><span class="' + rc(res) + '">' + res + '</span></td>' +
                             '<td><span class="' + nc(need) + '">' + need + '</span></td>' +
                             '</tr>';
@@ -1595,7 +1600,7 @@
                                             readonly>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <label>Testing Value (ml)</label>
                                     <div class="field-icon">
                                         <i class="fas fa-tint fi"></i>
@@ -1603,7 +1608,15 @@
                                             class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
+                                    <label>Need Level (ml)</label>
+                                    <div class="field-icon">
+                                        <i class="fas fa-tint fi"></i>
+                                        <input type="text" name="t7_need_level" placeholder="Enter value"
+                                            class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
                                     <label>Result</label>
                                     <div class="field-icon">
                                         <i class="fas fa-check-circle fi"></i>
@@ -1747,6 +1760,10 @@
                         inputEl.style.color = '#991b1b';
                         inputEl.style.background = '#fee2e2';
                         inputEl.style.fontWeight = '700';
+                    } else if (value === 'High') {
+                        inputEl.style.color = '#92400e';
+                        inputEl.style.background = '#fef3c7';
+                        inputEl.style.fontWeight = '700';
                     } else {
                         inputEl.style.color = '';
                         inputEl.style.background = '';
@@ -1856,9 +1873,37 @@
                     wire('t6_testing_value', 't6_result', 't6_need_attention',
                         function (v) { return calcPH(v, 7.5, 8); });
 
-                    // ── Tank 7 — Aphox-ZC  |  ML  |  MIN=28 MAX=32 × 66 ─────────────────
-                    wire('t7_testing_value', 't7_result', 't7_need_chemical',
-                        function (v) { return calcML(v, 28, 32); });
+                    // ── Tank 7 — Aphox-ZC  |  ML  |  MIN=28 MAX=32 × 11 ─────────────────
+                    // Rule: >32 → High(not Failed), <28 → Failed + (needLevel−val)×11 kg, 28–32 → Pass
+                    (function () {
+                        var valEl = document.querySelector('[name="t7_testing_value"]');
+                        var levelEl = document.querySelector('[name="t7_need_level"]');
+                        var resultEl = document.querySelector('[name="t7_result"]');
+                        var needEl = document.querySelector('[name="t7_need_chemical"]');
+                        if (!valEl || !levelEl || !resultEl || !needEl) return;
+
+                        function recalcT7() {
+                            var raw = valEl.value.trim();
+                            var val = parseFloat(raw);
+                            if (!raw || isNaN(val)) {
+                                setResult(resultEl, ''); setNeed(needEl, ''); return;
+                            }
+                            if (val > 32) {
+                                setResult(resultEl, 'High');
+                                setNeed(needEl, 'High');
+                            } else if (val < 28) {
+                                var lvl = parseFloat(levelEl.value.trim());
+                                var needVal = isNaN(lvl) ? '—' : ((lvl - val) * 11).toFixed(2) + ' kg';
+                                setResult(resultEl, 'Failed');
+                                setNeed(needEl, needVal);
+                            } else {
+                                setResult(resultEl, 'Pass');
+                                setNeed(needEl, 'Pass');
+                            }
+                        }
+                        valEl.addEventListener('input', recalcT7);
+                        levelEl.addEventListener('input', recalcT7);
+                    })();
 
                     // ── Tank 8 — Water     |  Water  |  >4 ph ────────────────────────────
                     wire('t8_testing_value', 't8_result', 't8_need_attention',

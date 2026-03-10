@@ -1452,6 +1452,7 @@ class ManagerController extends Controller
                 // Tank 7
                 't7_chemical_name' => 'nullable|string|max:100',
                 't7_testing_value' => 'nullable|string|max:100',
+                't7_need_level' => 'nullable|string|max:100',
                 't7_result' => 'nullable|string|max:100',
                 't7_need_chemical' => 'nullable|string|max:100',
 
@@ -1511,6 +1512,7 @@ class ManagerController extends Controller
                 // Tank 7
                 't7_chemical_name' => $request->t7_chemical_name,
                 't7_testing_value' => $request->t7_testing_value,
+                't7_need_level' => $request->t7_need_level,
                 't7_result' => $request->t7_result,
                 't7_need_chemical' => $request->t7_need_chemical,
 
