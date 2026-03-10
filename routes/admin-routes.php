@@ -83,4 +83,13 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/export/orders', [AdminController::class, 'exportOrdersToExcel'])->name('admin.export.orders');
     Route::get('/export/client-materials/in', [AdminController::class, 'exportClientAndMaterialsInToExcel'])->name('admin.export.client.in');
     Route::get('/export/client-materials/out', [AdminController::class, 'exportClientAndMaterialsOutToExcel'])->name('admin.export.client.out');
+
+
+
+    // Inhouse Testings Routes =============================================================================================>
+    // 9 Tank Testings Routes ======================================>
+    Route::get('/ninetank-testing', [AdminController::class, 'nineTankTestingView'])->name('admin.ninetank-testing');
+    Route::get('/ninetank-testing/{id}/print', [AdminController::class, 'nineTankTestingPrint'])->name('admin.ninetank-testing.print');
+    // 3 Tank Testings Routes ======================================>
+    Route::get('/threetank-testing', [AdminController::class, 'threeTankTestingView'])->name('admin.threetank-testing');
 });

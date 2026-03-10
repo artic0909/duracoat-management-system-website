@@ -19,6 +19,7 @@ use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Mail;
 use App\Models\JobcardTest;
+use App\Models\NineTankTest;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\GenericExport;
@@ -1387,11 +1388,174 @@ class ManagerController extends Controller
 
     // Inhouse Testings =============================================================================================>
     // 9 Tank Testings ======================================>
-    public function nineTankTestingView()
+    public function nineTankTestingView(Request $request)
     {
-        return view('manager.ninetank-testing');
+        $query = NineTankTest::orderBy('id', 'desc');
+
+        // Date filter
+        if ($request->filled('from_date')) {
+            $query->whereDate('testing_date', '>=', $request->from_date);
+        }
+        if ($request->filled('to_date')) {
+            $query->whereDate('testing_date', '<=', $request->to_date);
+        }
+
+        $records = $query->paginate(4)->appends($request->only(['from_date', 'to_date']));
+
+        return view('manager.ninetank-testing', compact('records'));
     }
-    
+
+    public function nineTankTestingStore(Request $request)
+    {
+        try {
+            $request->validate([
+                'testing_date' => 'required|date',
+                'jobcard_no' => 'nullable|string|max:100',
+
+                // Tank 1
+                't1_chemical_name' => 'nullable|string|max:100',
+                't1_testing_value' => 'nullable|string|max:100',
+                't1_result' => 'nullable|string|max:100',
+                't1_need_chemical' => 'nullable|string|max:100',
+
+                // Tank 2
+                't2_chemical_name' => 'nullable|string|max:100',
+                't2_testing_value' => 'nullable|string|max:100',
+                't2_result' => 'nullable|string|max:100',
+                't2_need_attention' => 'nullable|string|max:100',
+
+                // Tank 3
+                't3_chemical_name' => 'nullable|string|max:100',
+                't3_testing_value' => 'nullable|string|max:100',
+                't3_result' => 'nullable|string|max:100',
+                't3_need_chemical' => 'nullable|string|max:100',
+
+                // Tank 4
+                't4_chemical_name' => 'nullable|string|max:100',
+                't4_testing_value' => 'nullable|string|max:100',
+                't4_result' => 'nullable|string|max:100',
+                't4_need_attention' => 'nullable|string|max:100',
+
+                // Tank 5
+                't5_chemical_name' => 'nullable|string|max:100',
+                't5_testing_value' => 'nullable|string|max:100',
+                't5_result' => 'nullable|string|max:100',
+                't5_need_attention' => 'nullable|string|max:100',
+
+                // Tank 6
+                't6_chemical_name' => 'nullable|string|max:100',
+                't6_testing_value' => 'nullable|string|max:100',
+                't6_result' => 'nullable|string|max:100',
+                't6_need_attention' => 'nullable|string|max:100',
+
+                // Tank 7
+                't7_chemical_name' => 'nullable|string|max:100',
+                't7_testing_value' => 'nullable|string|max:100',
+                't7_result' => 'nullable|string|max:100',
+                't7_need_chemical' => 'nullable|string|max:100',
+
+                // Tank 8
+                't8_chemical_name' => 'nullable|string|max:100',
+                't8_testing_value' => 'nullable|string|max:100',
+                't8_result' => 'nullable|string|max:100',
+                't8_need_attention' => 'nullable|string|max:100',
+
+                // Tank 9
+                't9_chemical_name' => 'nullable|string|max:100',
+                't9_testing_value' => 'nullable|string|max:100',
+                't9_result' => 'nullable|string|max:100',
+                't9_need_attention' => 'nullable|string|max:100',
+            ]);
+
+            NineTankTest::create([
+                'testing_date' => $request->testing_date,
+                'jobcard_no' => $request->jobcard_no,
+
+                // Tank 1
+                't1_chemical_name' => $request->t1_chemical_name,
+                't1_testing_value' => $request->t1_testing_value,
+                't1_result' => $request->t1_result,
+                't1_need_chemical' => $request->t1_need_chemical,
+
+                // Tank 2
+                't2_chemical_name' => $request->t2_chemical_name,
+                't2_testing_value' => $request->t2_testing_value,
+                't2_result' => $request->t2_result,
+                't2_need_attention' => $request->t2_need_attention,
+
+                // Tank 3
+                't3_chemical_name' => $request->t3_chemical_name,
+                't3_testing_value' => $request->t3_testing_value,
+                't3_result' => $request->t3_result,
+                't3_need_chemical' => $request->t3_need_chemical,
+
+                // Tank 4
+                't4_chemical_name' => $request->t4_chemical_name,
+                't4_testing_value' => $request->t4_testing_value,
+                't4_result' => $request->t4_result,
+                't4_need_attention' => $request->t4_need_attention,
+
+                // Tank 5
+                't5_chemical_name' => $request->t5_chemical_name,
+                't5_testing_value' => $request->t5_testing_value,
+                't5_result' => $request->t5_result,
+                't5_need_attention' => $request->t5_need_attention,
+
+                // Tank 6
+                't6_chemical_name' => $request->t6_chemical_name,
+                't6_testing_value' => $request->t6_testing_value,
+                't6_result' => $request->t6_result,
+                't6_need_attention' => $request->t6_need_attention,
+
+                // Tank 7
+                't7_chemical_name' => $request->t7_chemical_name,
+                't7_testing_value' => $request->t7_testing_value,
+                't7_result' => $request->t7_result,
+                't7_need_chemical' => $request->t7_need_chemical,
+
+                // Tank 8
+                't8_chemical_name' => $request->t8_chemical_name,
+                't8_testing_value' => $request->t8_testing_value,
+                't8_result' => $request->t8_result,
+                't8_need_attention' => $request->t8_need_attention,
+
+                // Tank 9
+                't9_chemical_name' => $request->t9_chemical_name,
+                't9_testing_value' => $request->t9_testing_value,
+                't9_result' => $request->t9_result,
+                't9_need_attention' => $request->t9_need_attention,
+            ]);
+
+            return redirect()->route('manager.ninetank-testing')
+                ->with('success', '9-Tank Pre-Treatment Testing record saved successfully!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Failed to save record: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+
+    public function nineTankTestingDelete($id)
+    {
+        try {
+            $record = NineTankTest::findOrFail($id);
+            $record->delete();
+            return redirect()->route('manager.ninetank-testing')
+                ->with('success', 'Test record deleted successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Failed to delete record: ' . $e->getMessage());
+        }
+    }
+
+    public function nineTankTestingPrint($id)
+    {
+        $record = NineTankTest::findOrFail($id);
+        return view('manager.ninetank-testing-print', compact('record'));
+    }
+
     // 3 Tank Testings ======================================>
     public function threeTankTestingView()
     {

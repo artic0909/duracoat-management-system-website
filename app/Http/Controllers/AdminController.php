@@ -6,6 +6,7 @@ use App\Exports\ClientMaterialsInExport;
 use App\Exports\PowderAppliedExport;
 use App\Models\ClientMaterial;
 use App\Models\Jobcard;
+use App\Models\NineTankTest;
 use App\Models\Order;
 use App\Models\Paint;
 use Illuminate\Support\Str;
@@ -1221,5 +1222,41 @@ class AdminController extends Controller
 
         // Download Excel
         return Excel::download(new GenericExport($data, $headings), 'client_materials_out.xlsx');
+    }
+
+
+
+
+
+
+    // Inhouse Testings =============================================================================================>
+    // 9 Tank Testings ======================================>
+    public function nineTankTestingView(Request $request)
+    {
+        $query = NineTankTest::orderBy('id', 'desc');
+
+        // Date filter
+        if ($request->filled('from_date')) {
+            $query->whereDate('testing_date', '>=', $request->from_date);
+        }
+        if ($request->filled('to_date')) {
+            $query->whereDate('testing_date', '<=', $request->to_date);
+        }
+
+        $records = $query->paginate(4)->appends($request->only(['from_date', 'to_date']));
+
+        return view('admin.ninetank-testing', compact('records'));
+    }
+
+    public function nineTankTestingPrint($id)
+    {
+        $record = NineTankTest::findOrFail($id);
+        return view('admin.ninetank-testing-print', compact('record'));
+    }
+
+    // 3 Tank Testings ======================================>
+    public function threeTankTestingView()
+    {
+        return view('admin.threetank-testing');
     }
 }

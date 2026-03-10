@@ -1,4 +1,4 @@
-@extends('manager.layouts.app')
+@extends('viewer.layouts.app')
 
 @section('title', '3 Tank Testing')
 

@@ -83,4 +83,12 @@ Route::middleware(['auth:viewer'])->prefix('viewer')->group(function () {
     Route::get('/export/orders', [ViewerController::class, 'exportOrdersToExcel'])->name('viewer.export.orders');
     Route::get('/export/client-materials/in', [ViewerController::class, 'exportClientAndMaterialsInToExcel'])->name('viewer.export.client.in');
     Route::get('/export/client-materials/out', [ViewerController::class, 'exportClientAndMaterialsOutToExcel'])->name('viewer.export.client.out');
+
+
+    // Inhouse Testings Routes =============================================================================================>
+    // 9 Tank Testings Routes ======================================>
+    Route::get('/ninetank-testing', [ViewerController::class, 'nineTankTestingView'])->name('viewer.ninetank-testing');
+    Route::get('/ninetank-testing/{id}/print', [ViewerController::class, 'nineTankTestingPrint'])->name('viewer.ninetank-testing.print');
+    // 3 Tank Testings Routes ======================================>
+    Route::get('/threetank-testing', [ViewerController::class, 'threeTankTestingView'])->name('viewer.threetank-testing');
 });

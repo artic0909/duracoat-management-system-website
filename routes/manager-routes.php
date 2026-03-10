@@ -86,6 +86,9 @@ Route::middleware(['auth:manager'])->prefix('manager')->group(function () {
     // Inhouse Testings Routes =============================================================================================>
     // 9 Tank Testings Routes ======================================>
     Route::get('/ninetank-testing', [ManagerController::class, 'nineTankTestingView'])->name('manager.ninetank-testing');
+    Route::post('/ninetank-testing', [ManagerController::class, 'nineTankTestingStore'])->name('manager.ninetank-testing.store');
+    Route::delete('/ninetank-testing/{id}', [ManagerController::class, 'nineTankTestingDelete'])->name('manager.ninetank-testing.delete');
+    Route::get('/ninetank-testing/{id}/print', [ManagerController::class, 'nineTankTestingPrint'])->name('manager.ninetank-testing.print');
     // 3 Tank Testings Routes ======================================>
     Route::get('/threetank-testing', [ManagerController::class, 'threeTankTestingView'])->name('manager.threetank-testing');
 });

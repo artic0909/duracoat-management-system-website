@@ -264,6 +264,62 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link  {{ Request::routeIs('admin.ninetank-testing') ? 'active' : '' }}"
+                    href="{{ route('admin.ninetank-testing') }}">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <svg width="12px" height="12px" viewBox="0 0 48 48" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <title>9tank-testing</title>
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                    <g transform="translate(1716.000000, 291.000000)">
+                                        <g transform="translate(304.000000, 151.000000)">
+                                            <path class="color-background opacity-6"
+                                                d="M40,10 L28,10 L28,4 L20,4 L20,10 L8,10 C5.79,10 4,11.79 4,14 L4,18 L44,18 L44,14 C44,11.79 42.21,10 40,10 Z">
+                                            </path>
+                                            <path class="color-background"
+                                                d="M4,22 L4,40 C4,42.21 5.79,44 8,44 L40,44 C42.21,44 44,42.21 44,40 L44,22 L4,22 Z M30,32 L26,32 L26,36 L22,36 L22,32 L18,32 L24,26 L30,32 Z">
+                                            </path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>  
+                    <span class="nav-link-text ms-1">9 Tank Testing</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link  {{ Request::routeIs('admin.threetank-testing') ? 'active' : '' }}"
+                    href="{{ route('admin.threetank-testing') }}">
+                    <div
+                        class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <svg width="12px" height="12px" viewBox="0 0 48 48" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <title>3tank-testing</title>
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <g transform="translate(-2020.000000, -442.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                                    <g transform="translate(1716.000000, 291.000000)">
+                                        <g transform="translate(304.000000, 151.000000)">
+                                            <path class="color-background opacity-6"
+                                                d="M40,10 L28,10 L28,4 L20,4 L20,10 L8,10 C5.79,10 4,11.79 4,14 L4,18 L44,18 L44,14 C44,11.79 42.21,10 40,10 Z">
+                                            </path>
+                                            <path class="color-background"
+                                                d="M4,22 L4,40 C4,42.21 5.79,44 8,44 L40,44 C42.21,44 44,42.21 44,40 L44,22 L4,22 Z M30,32 L26,32 L26,36 L22,36 L22,32 L18,32 L24,26 L30,32 Z">
+                                            </path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    <span class="nav-link-text ms-1">3 Tank Testing</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link  {{ Request::routeIs('admin.profile') ? 'active' : '' }}"
                     href="{{ route('admin.profile') }}">
                     <div
