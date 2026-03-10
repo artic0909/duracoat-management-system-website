@@ -52,7 +52,7 @@
 
                         <!-- Search Input + Button -->
                         <div style="display: flex; align-items: center; justify-content: center; gap: 5px;">
-                            <input type="text" name="search" placeholder="Search by Email"
+                            <input type="text" name="search" placeholder="Email or Client ID"
                                 value="{{ request('search') }}"
                                 style="padding: 8px 12px; border: 1px solid #ccc; border-radius: 6px; width: 220px;">
                             <button type="submit"

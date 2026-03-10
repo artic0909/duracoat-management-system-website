@@ -18,7 +18,9 @@
             </ol>
             <h6 class="font-weight-bolder mb-0">Here you can find all the jobcards of this <span
                     class="text-primary">{{ $order->client->client_name }} - {{ $order->client->email }}</span></h6>
-            <h6 class="font-weight-bolder mb-0">Order NO: <span class="text-primary"> {{ $order->order_number }}</span></h6>
+
+            <h6 class="font-weight-bolder mb-0">Client ID: <span class="text-primary">{{ $order->client->client_unique_id }}</span></h6>
+            <h6 class="font-weight-bolder mb-0">Order NO: <span class="text-primary">{{ $order->order_number }}</span></h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
             <div class="ms-md-auto pe-md-3 d-flex align-items-center">

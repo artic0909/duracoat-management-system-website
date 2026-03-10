@@ -185,6 +185,8 @@
                                     </td>
                                     <td class="align-middle text-start">
                                         <span class="text-secondary text-xs font-weight-bold">{{ $order->client->client_name }}</span>
+                                        <br>
+                                        <span class="text-secondary text-xs font-weight-bold">{{ $order->client->client_unique_id  }}</span>
                                     </td>
                                     <td class="align-middle text-start">
                                         <span

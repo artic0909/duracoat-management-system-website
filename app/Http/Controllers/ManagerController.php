@@ -237,6 +237,7 @@ class ManagerController extends Controller
         $clients = ClientMaterial::query()
             ->when($search, function ($query, $search) {
                 $query->where('email', 'like', "%{$search}%")
+                    ->orWhere('client_unique_id', 'like', "%{$search}%")
                     ->orWhere('material_details', 'like', "%{$search}%");
             })
             ->when($type, function ($query, $type) {
