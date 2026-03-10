@@ -1378,4 +1378,23 @@ class ManagerController extends Controller
         // Download Excel
         return Excel::download(new GenericExport($data, $headings), 'client_materials_out.xlsx');
     }
+
+
+
+
+
+
+
+    // Inhouse Testings =============================================================================================>
+    // 9 Tank Testings ======================================>
+    public function nineTankTestingView()
+    {
+        return view('manager.ninetank-testing');
+    }
+    
+    // 3 Tank Testings ======================================>
+    public function threeTankTestingView()
+    {
+        return view('manager.threetank-testing');
+    }
 }

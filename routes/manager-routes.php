@@ -82,4 +82,10 @@ Route::middleware(['auth:manager'])->prefix('manager')->group(function () {
     Route::get('/export/orders', [ManagerController::class, 'exportOrdersToExcel'])->name('manager.export.orders');
     Route::get('/export/client-materials/in', [ManagerController::class, 'exportClientAndMaterialsInToExcel'])->name('manager.export.client.in');
     Route::get('/export/client-materials/out', [ManagerController::class, 'exportClientAndMaterialsOutToExcel'])->name('manager.export.client.out');
+
+    // Inhouse Testings Routes =============================================================================================>
+    // 9 Tank Testings Routes ======================================>
+    Route::get('/ninetank-testing', [ManagerController::class, 'nineTankTestingView'])->name('manager.ninetank-testing');
+    // 3 Tank Testings Routes ======================================>
+    Route::get('/threetank-testing', [ManagerController::class, 'threeTankTestingView'])->name('manager.threetank-testing');
 });
