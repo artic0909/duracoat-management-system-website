@@ -674,7 +674,43 @@ class ManagerController extends Controller
             'jobcard_status' => 'pre-treatment',
         ]);
 
-        return redirect()->back()->with('success', 'Pre-Treatment marked for today!');
+        $mobile     = '91' . ltrim($jobcard->order->client->mobile, '0');
+        $name       = $jobcard->order->client->client_name;
+        $jobNo      = $jobcard->jobcard_number;
+        $date       = Carbon::today()->format('d/m/Y');
+        $orderNo    = $jobcard->order->order_number;
+
+        // Material details
+        $matName    = $jobcard->material_name;
+        $matQty     = $jobcard->material_quantity;
+        $matUnit    = $jobcard->material_unit;
+        $matType    = $jobcard->material_type;
+
+        // Paint details
+        $paintBrand = $jobcard->paint->brand_name  ?? 'N/A';
+        $paintRal   = $jobcard->paint->ral_code    ?? $jobcard->ral_code ?? 'N/A';
+        $paintShade = $jobcard->paint->shade_name  ?? 'N/A';
+        $paintFinish = $jobcard->paint->finish      ?? 'N/A';
+
+        $message = urlencode(
+            "Hello *{$name}*, your material has completed *Pre-Treatment* process.\n\n"
+                . "Order No: *{$orderNo}*\n"
+                . "Jobcard No: *{$jobNo}*\n"
+                . "Date: *{$date}*\n"
+                . "Material: *{$matName}*\n"
+                . "Quantity: *{$matQty} {$matUnit}*\n"
+                . "Type: *{$matType}*\n"
+                . "Brand: *{$paintBrand}*\n"
+                . "RAL Code: *{$paintRal}*\n"
+                . "Shade: *{$paintShade}*\n"
+                . "Finish: *{$paintFinish}*\n\n"
+                . "Thank you for choosing us!\n"
+                . "*Duracoat Powder Coating*"
+        );
+
+        return redirect()->back()
+            ->with('success', 'Pre-Treatment marked!')
+            ->with('whatsapp_url', "https://wa.me/{$mobile}?text={$message}");
     }
 
     public function updatePowderApplied($id)
@@ -704,29 +740,44 @@ class ManagerController extends Controller
             'jobcard_status' => 'powder-applied',
         ]);
 
-        return redirect()->back()->with('success', 'Powder Application marked for today!');
+        $mobile     = '91' . ltrim($jobcard->order->client->mobile, '0');
+        $name       = $jobcard->order->client->client_name;
+        $jobNo      = $jobcard->jobcard_number;
+        $date       = Carbon::today()->format('d/m/Y');
+        $orderNo    = $jobcard->order->order_number;
+
+        // Material details
+        $matName    = $jobcard->material_name;
+        $matQty     = $jobcard->material_quantity;
+        $matUnit    = $jobcard->material_unit;
+        $matType    = $jobcard->material_type;
+
+        // Paint details
+        $paintBrand = $jobcard->paint->brand_name  ?? 'N/A';
+        $paintRal   = $jobcard->paint->ral_code    ?? $jobcard->ral_code ?? 'N/A';
+        $paintShade = $jobcard->paint->shade_name  ?? 'N/A';
+        $paintFinish = $jobcard->paint->finish      ?? 'N/A';
+
+        $message = urlencode(
+            "Hello *{$name}*, your material has completed *Powder Application* process.\n\n"
+                . "Order No: *{$orderNo}*\n"
+                . "Jobcard No: *{$jobNo}*\n"
+                . "Date: *{$date}*\n"
+                . "Material: *{$matName}*\n"
+                . "Quantity: *{$matQty} {$matUnit}*\n"
+                . "Type: *{$matType}*\n"
+                . "Brand: *{$paintBrand}*\n"
+                . "RAL Code: *{$paintRal}*\n"
+                . "Shade: *{$paintShade}*\n"
+                . "Finish: *{$paintFinish}*\n\n"
+                . "Thank you for choosing us!\n"
+                . "*Duracoat Powder Coating*"
+        );
+
+        return redirect()->back()
+            ->with('success', 'Powder Application marked!')
+            ->with('whatsapp_url', "https://wa.me/{$mobile}?text={$message}");
     }
-
-    // public function updateDelivered($id)
-    // {
-    //     $jobcard = Jobcard::findOrFail($id);
-
-    //     $jobcard->update([
-    //         'delivery_date' => Carbon::today(),
-    //         'jobcard_status' => 'delivered',
-    //     ]);
-
-    //     $mailData = [
-    //         'type' => 'delivered',
-    //         'delivered_at' => Carbon::today(),
-    //     ];
-
-    //     Mail::to('arif.rcpl2017@gmail.com')
-    //         ->cc('rakibul@rconpl.in')
-    //         ->send(new DeliveryMail($jobcard, $mailData));
-
-    //     return redirect()->back()->with('success', 'Jobcard marked as delivered today and notification sent!');
-    // }
 
     public function updateDelivered(Request $request, $id)
     {
@@ -749,6 +800,43 @@ class ManagerController extends Controller
             'invoice' => $request->invoice,
         ]);
 
+
+        $mobile     = '91' . ltrim($jobcard->order->client->mobile, '0');
+        $name       = $jobcard->order->client->client_name;
+        $jobNo      = $jobcard->jobcard_number;
+        $date       = Carbon::today()->format('d/m/Y');
+        $orderNo    = $jobcard->order->order_number;
+
+        // Material details
+        $matName    = $jobcard->material_name;
+        $matQty     = $jobcard->material_quantity;
+        $matUnit    = $jobcard->material_unit;
+        $matType    = $jobcard->material_type;
+
+        // Paint details
+        $paintBrand = $jobcard->paint->brand_name  ?? 'N/A';
+        $paintRal   = $jobcard->paint->ral_code    ?? $jobcard->ral_code ?? 'N/A';
+        $paintShade = $jobcard->paint->shade_name  ?? 'N/A';
+        $paintFinish = $jobcard->paint->finish      ?? 'N/A';
+        $invoice    = $request->invoice;
+
+        $message = urlencode(
+            "Hello *{$name}*, your material has been successfully delivered!\n\n"
+                . "Order No: *{$orderNo}*\n"
+                . "Jobcard No: *{$jobNo}*\n"
+                . "Invoice No: *{$invoice}*\n"
+                . "Delivery Date: *{$date}*\n"
+                . "Material: *{$matName}*\n"
+                . "Quantity: *{$matQty} {$matUnit}*\n"
+                . "Type: *{$matType}*\n"
+                . "Brand: *{$paintBrand}*\n"
+                . "RAL Code: *{$paintRal}*\n"
+                . "Shade: *{$paintShade}*\n"
+                . "Finish: *{$paintFinish}*\n\n"
+                . "Thank you for choosing us!\n"
+                . "*Duracoat Powder Coating*"
+        );
+
         $mailData = [
             'type' => 'delivered',
             'delivered_at' => Carbon::today(),
@@ -757,39 +845,11 @@ class ManagerController extends Controller
         Mail::to($client->email)
             ->cc(['arif.rcpl2017@gmail.com', 'rakibul@rconpl.in'])
             ->send(new DeliveryMail($jobcard, $mailData));
-        return redirect()->back()->with('success', 'Jobcard delivered & notification sent to client!');
+
+        return redirect()->back()
+            ->with('success', 'Jobcard delivered & notification sent to client!')
+            ->with('whatsapp_url', "https://wa.me/{$mobile}?text={$message}");
     }
-
-    // public function updateDeliveryStatement(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'delivery_statement' => 'required|string',
-    //     ]);
-
-    //     $jobcard = Jobcard::findOrFail($id);
-
-    //     $client = ClientMaterial::find($jobcard->client_id);
-
-    //     if (!$client) {
-    //         return redirect()->back()->with('error', 'Client not found for this jobcard.');
-    //     }
-
-    //     $jobcard->update([
-    //         'delivery_statement' => $request->delivery_statement,
-    //         'jobcard_status' => 'delivered',
-    //     ]);
-
-    //     $mailData = [
-    //         'type' => 'statement',
-    //         'delivery_statement' => $request->delivery_statement,
-    //     ];
-
-    //     Mail::to($client->email)
-    //         ->cc(['arif.rcpl2017@gmail.com', 'rakibul@rconpl.in'])
-    //         ->send(new DeliveryMail($jobcard, $mailData));
-
-    //     return redirect()->back()->with('success', 'Delivery statement updated and notification sent to client!');
-    // }
 
     public function updateDeliveryStatement(Request $request, $id)
     {
@@ -839,8 +899,46 @@ class ManagerController extends Controller
                 // ->cc(['info.saklin@gmail.com'])
                 ->send(new DeliveryMail($jobcard, $mailData));
 
-            return redirect()->back()->with('success', 'Delivery statement updated successfully!');
+            // WhatsApp message
+            $mobile      = '91' . ltrim($client->mobile, '0');
+            $name        = $client->client_name;
+            $orderNo     = $jobcard->order->order_number;
+            $jobNo       = $jobcard->jobcard_number;
+            $date        = Carbon::parse($request->date)->format('d/m/Y');
+            $qty         = $request->qty;
+            $invoiceNo   = $request->invoice_no;
+            $billing     = number_format($request->billing_amount, 2);
+            $totalBilling = number_format($order->billing_amount, 2);
+            $matName     = $jobcard->material_name;
+            $matUnit     = $jobcard->material_unit;
+            $matType     = $jobcard->material_type;
+            $paintBrand  = $jobcard->paint->brand_name ?? 'N/A';
+            $paintRal    = $jobcard->paint->ral_code ?? $jobcard->ral_code ?? 'N/A';
+            $paintShade  = $jobcard->paint->shade_name ?? 'N/A';
+            $paintFinish = $jobcard->paint->finish ?? 'N/A';
 
+            $message = urlencode(
+                "Hello *{$name}*, a delivery statement has been issued for your material!\n\n"
+                    . "Order No: *{$orderNo}*\n"
+                    . "Jobcard No: *{$jobNo}*\n"
+                    . "Invoice No: *{$invoiceNo}*\n"
+                    . "Date: *{$date}*\n"
+                    . "Delivered Qty: *{$qty} {$matUnit}*\n"
+                    . "Material: *{$matName}*\n"
+                    . "Type: *{$matType}*\n"
+                    . "Brand: *{$paintBrand}*\n"
+                    . "RAL Code: *{$paintRal}*\n"
+                    . "Shade: *{$paintShade}*\n"
+                    . "Finish: *{$paintFinish}*\n"
+                    . "Billing Amount: *₹{$billing}*\n"
+                    . "Total Billed So Far: *₹{$totalBilling}*\n\n"
+                    . "Thank you for choosing us!\n"
+                    . "*Duracoat Powder Coating*"
+            );
+
+            return redirect()->back()
+                ->with('success', 'Delivery statement updated successfully!')
+                ->with('whatsapp_url', "https://wa.me/{$mobile}?text={$message}");
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to update delivery statement: ' . $e->getMessage());
         }
@@ -1531,7 +1629,6 @@ class ManagerController extends Controller
 
             return redirect()->route('manager.ninetank-testing')
                 ->with('success', '9-Tank Pre-Treatment Testing record saved successfully!');
-
         } catch (\Exception $e) {
             return redirect()->back()
                 ->with('error', 'Failed to save record: ' . $e->getMessage())
