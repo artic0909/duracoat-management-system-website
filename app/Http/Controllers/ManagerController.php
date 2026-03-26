@@ -687,10 +687,7 @@ class ManagerController extends Controller
         $matType    = $jobcard->material_type;
 
         // Paint details
-        $paintBrand = $jobcard->paint->brand_name  ?? 'N/A';
         $paintRal   = $jobcard->paint->ral_code    ?? $jobcard->ral_code ?? 'N/A';
-        $paintShade = $jobcard->paint->shade_name  ?? 'N/A';
-        $paintFinish = $jobcard->paint->finish      ?? 'N/A';
 
         $message = urlencode(
             "Hello *{$name}*, your material has completed *Pre-Treatment* process.\n\n"
@@ -700,10 +697,7 @@ class ManagerController extends Controller
                 . "Material: *{$matName}*\n"
                 . "Quantity: *{$matQty} {$matUnit}*\n"
                 . "Type: *{$matType}*\n"
-                . "Brand: *{$paintBrand}*\n"
                 . "RAL Code: *{$paintRal}*\n"
-                . "Shade: *{$paintShade}*\n"
-                . "Finish: *{$paintFinish}*\n\n"
                 . "Thank you for choosing us!\n"
                 . "*Duracoat Powder Coating*"
         );
@@ -753,10 +747,7 @@ class ManagerController extends Controller
         $matType    = $jobcard->material_type;
 
         // Paint details
-        $paintBrand = $jobcard->paint->brand_name  ?? 'N/A';
         $paintRal   = $jobcard->paint->ral_code    ?? $jobcard->ral_code ?? 'N/A';
-        $paintShade = $jobcard->paint->shade_name  ?? 'N/A';
-        $paintFinish = $jobcard->paint->finish      ?? 'N/A';
 
         $message = urlencode(
             "Hello *{$name}*, your material has completed *Powder Application* process.\n\n"
@@ -766,10 +757,7 @@ class ManagerController extends Controller
                 . "Material: *{$matName}*\n"
                 . "Quantity: *{$matQty} {$matUnit}*\n"
                 . "Type: *{$matType}*\n"
-                . "Brand: *{$paintBrand}*\n"
                 . "RAL Code: *{$paintRal}*\n"
-                . "Shade: *{$paintShade}*\n"
-                . "Finish: *{$paintFinish}*\n\n"
                 . "Thank you for choosing us!\n"
                 . "*Duracoat Powder Coating*"
         );
@@ -814,10 +802,7 @@ class ManagerController extends Controller
         $matType    = $jobcard->material_type;
 
         // Paint details
-        $paintBrand = $jobcard->paint->brand_name  ?? 'N/A';
         $paintRal   = $jobcard->paint->ral_code    ?? $jobcard->ral_code ?? 'N/A';
-        $paintShade = $jobcard->paint->shade_name  ?? 'N/A';
-        $paintFinish = $jobcard->paint->finish      ?? 'N/A';
         $invoice    = $request->invoice;
 
         $message = urlencode(
@@ -829,10 +814,7 @@ class ManagerController extends Controller
                 . "Material: *{$matName}*\n"
                 . "Quantity: *{$matQty} {$matUnit}*\n"
                 . "Type: *{$matType}*\n"
-                . "Brand: *{$paintBrand}*\n"
                 . "RAL Code: *{$paintRal}*\n"
-                . "Shade: *{$paintShade}*\n"
-                . "Finish: *{$paintFinish}*\n\n"
                 . "Thank you for choosing us!\n"
                 . "*Duracoat Powder Coating*"
         );
@@ -912,10 +894,7 @@ class ManagerController extends Controller
             $matName     = $jobcard->material_name;
             $matUnit     = $jobcard->material_unit;
             $matType     = $jobcard->material_type;
-            $paintBrand  = $jobcard->paint->brand_name ?? 'N/A';
             $paintRal    = $jobcard->paint->ral_code ?? $jobcard->ral_code ?? 'N/A';
-            $paintShade  = $jobcard->paint->shade_name ?? 'N/A';
-            $paintFinish = $jobcard->paint->finish ?? 'N/A';
 
             $message = urlencode(
                 "Hello *{$name}*, a delivery statement has been issued for your material!\n\n"
@@ -926,10 +905,7 @@ class ManagerController extends Controller
                     . "Delivered Qty: *{$qty} {$matUnit}*\n"
                     . "Material: *{$matName}*\n"
                     . "Type: *{$matType}*\n"
-                    . "Brand: *{$paintBrand}*\n"
                     . "RAL Code: *{$paintRal}*\n"
-                    . "Shade: *{$paintShade}*\n"
-                    . "Finish: *{$paintFinish}*\n"
                     . "Billing Amount: *₹{$billing}*\n"
                     . "Total Billed So Far: *₹{$totalBilling}*\n\n"
                     . "Thank you for choosing us!\n"
