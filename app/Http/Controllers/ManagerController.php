@@ -156,7 +156,7 @@ class ManagerController extends Controller
                 'ral_code' => 'nullable|string|max:255',
                 'brand_name' => 'nullable|string|max:255',
                 'shade_name' => 'nullable|string|max:255',
-                'finish' => 'nullable|in:plain,texture,structure',
+                'finish' => 'nullable|in:plain,texture,structure,matt',
                 'quantity' => 'nullable|numeric|min:0',
             ]);
 
@@ -176,7 +176,7 @@ class ManagerController extends Controller
                 'ral_code' => 'nullable|string|max:255',
                 'brand_name' => 'nullable|string|max:255',
                 'shade_name' => 'nullable|string|max:255',
-                'finish' => 'nullable|in:plain,texture,structure',
+                'finish' => 'nullable|in:plain,texture,structure,matt',
                 'quantity' => 'nullable|numeric|min:0',
             ]);
 

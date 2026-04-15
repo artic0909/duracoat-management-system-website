@@ -301,6 +301,7 @@
                                 <select name="finish" id="finish" class="form-control">
                                     <option value="">Choose Finishing</option>
                                     <option value="plain">Plain</option>
+                                    <option value="matt">Matt</option>
                                     <option value="texture">Texture</option>
                                     <option value="structure">Structure</option>
                                 </select>
@@ -371,6 +372,7 @@
                                         <option value="{{$paint->finish}}" selected>{{$paint->finish}}</option>
                                         <hr>
                                         <option value="plain">Plain</option>
+                                        <option value="matt">Matt</option>
                                         <option value="texture">Texture</option>
                                         <option value="structure">Structure</option>
                                     </select>
