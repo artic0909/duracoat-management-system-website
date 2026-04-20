@@ -284,6 +284,10 @@
                                             </button>
                                             @endif
 
+                                            <button type="button" class="btn btn-warning px-3 py-2 rounded m-0"
+                                                data-bs-toggle="modal" data-bs-target="#addUsedPaintModal{{ $jobcard->id }}">
+                                                Add Paint Qty
+                                            </button>
 
                                             <a href="{{ route('manager.jobcard.view', $jobcard->id) }}" target="_blank"
                                                 class="btn btn-info px-3 py-2 rounded m-0">
@@ -618,6 +622,72 @@
                 <a href="{{ route('manager.jobcard-test.download', $jobcard->id) }}" class="btn btn-warning">
                     <i class="fa fa-download me-1"></i>Download
                 </a>
+            </div>
+        </form>
+    </div>
+</div>
+@endforeach
+
+<!-- Add Used Paint Qty Modal -->
+@foreach ($jobcards as $jobcard)
+<div class="modal fade" id="addUsedPaintModal{{ $jobcard->id }}" tabindex="-1" aria-labelledby="addUsedPaintLabel{{ $jobcard->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <form action="{{ route('manager.edit-jobcards.update', $jobcard->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+
+            {{-- Hidden fields to preserve existing data --}}
+            <input type="hidden" name="jobcard_number" value="{{ $jobcard->jobcard_number }}">
+            <input type="hidden" name="material_type" value="{{ $jobcard->material_type }}">
+            <input type="hidden" name="material_name" value="{{ $jobcard->material_name }}">
+            <input type="hidden" name="material_quantity" value="{{ $jobcard->material_quantity }}">
+            <input type="hidden" name="material_unit" value="{{ $jobcard->material_unit }}">
+            <input type="hidden" name="ral_code" value="{{ $jobcard->paint->ral_code ?? $jobcard->ral_code }}">
+            <input type="hidden" name="paint_id" value="{{ $jobcard->paint_id }}">
+            <input type="hidden" name="min_micron" value="{{ $jobcard->min_micron }}">
+            <input type="hidden" name="max_micron" value="{{ $jobcard->max_micron }}">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addUsedPaintLabel{{ $jobcard->id }}">Add Used Paint Qty</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Paint Details -->
+                    <div class="mb-3 p-3 bg-light rounded">
+                        <h6 class="font-weight-bolder mb-2">Paint Details:</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <small class="text-muted d-block">Brand</small>
+                                <span class="font-weight-bold">{{ $jobcard->paint->brand_name ?? 'N/A' }}</span>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted d-block">RAL Code</small>
+                                <span class="font-weight-bold">{{ $jobcard->paint->ral_code ?? $jobcard->ral_code }}</span>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-6">
+                                <small class="text-muted d-block">Shade</small>
+                                <span class="font-weight-bold">{{ $jobcard->paint->shade_name ?? 'N/A' }}</span>
+                            </div>
+                            <div class="col-6">
+                                <small class="text-muted d-block">Finish</small>
+                                <span class="font-weight-bold text-capitalize">{{ $jobcard->paint->finish ?? 'N/A' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Paint Used (Qty)</label>
+                        <input type="text" class="form-control" name="paint_used"
+                            placeholder="Used Quantity KG" value="{{ $jobcard->paint_used }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-info text-white">Update Quantity</button>
+                </div>
             </div>
         </form>
     </div>
