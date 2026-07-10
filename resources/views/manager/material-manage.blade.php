@@ -67,6 +67,7 @@
                             <option value="">Filter by Type</option>
                             <option value="MS" {{ request('type') == 'MS' ? 'selected' : '' }}>MS</option>
                             <option value="ALU" {{ request('type') == 'ALU' ? 'selected' : '' }}>ALU</option>
+                            <option value="SS" {{ request('type') == 'SS' ? 'selected' : '' }}>SS</option>
                         </select>
 
                         <!-- Reset Button -->
@@ -373,6 +374,7 @@
                                         <option value="">Type</option>
                                         <option value="MS">MS</option>
                                         <option value="ALU">ALU</option>
+                                        <option value="SS">SS</option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
@@ -583,6 +585,8 @@
                                         <option value="MS" {{ $material['type'] == 'MS' ? 'selected' : '' }}>MS</option>
                                         <option value="ALU" {{ $material['type'] == 'ALU' ? 'selected' : '' }}>ALU
                                         </option>
+                                        <option value="SS" {{ $material['type'] == 'SS' ? 'selected' : '' }}>SS
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="col-md-2">
@@ -652,6 +656,7 @@
                                         <option value="">Type</option>
                                         <option value="MS">MS</option>
                                         <option value="ALU">ALU</option>
+                                        <option value="SS">SS</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
@@ -777,6 +782,7 @@
                         <option value="">Type</option>
                         <option value="MS">MS</option>
                         <option value="ALU">ALU</option>
+                        <option value="SS">SS</option>
                     </select>
                 </div>
                 <div class="col-md-2">
