@@ -194,7 +194,7 @@
                 <tr>
                     <td class="sl-no">1</td>
                     <td>Substrate</td>
-                    <td>Aluminium Profile/M S Profile</td>
+                    <td>Aluminium /MS /SS Profile</td>
                     <td>{{ $testing[0]['test_value'] ?? '-' }}</td>
                     <td>{{ $testing[0]['test_result'] ?? '-' }}</td>
                 </tr>

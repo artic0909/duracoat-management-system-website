@@ -236,6 +236,7 @@
                                             <option value="">Select Substrate</option>
                                             <option value="Aluminium Profile" {{ ($existingTest->testing[0]['test_value'] ?? '') == 'Aluminium Profile' ? 'selected' : '' }}>Aluminium Profile</option>
                                             <option value="M S Profile" {{ ($existingTest->testing[0]['test_value'] ?? '') == 'M S Profile' ? 'selected' : '' }}>M S Profile</option>
+                                            <option value="SS Profile" {{ ($existingTest->testing[0]['test_value'] ?? '') == 'SS Profile' ? 'selected' : '' }}>SS Profile</option>
                                         </select>
                                     </div>
                                     <div class="col-md-8">
